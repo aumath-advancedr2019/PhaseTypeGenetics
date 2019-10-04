@@ -1,5 +1,5 @@
 
-mean.phasetype <- function(initDist, Tmat){
+mean.cphasetype <- function(initDist, Tmat){
   
   return(LaplacePhaseType(initDist, Tmat, i=1))
   
@@ -15,7 +15,7 @@ var.default <- function(x,...){
   var(x,...)
 }
 
-var.phasetype <- function(){
+var.cphasetype <- function(){
   
   return(LaplacePhaseType(initDist = q, Tmat = TmatMRCA, i=2)-
     LaplacePhaseType(initDist = q, Tmat = TmatMRCA, i=1)^2)

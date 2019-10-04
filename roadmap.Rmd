@@ -1,0 +1,20 @@
+---
+title: "Roadmap"
+author: "Jette Steinbach and Peter Krarup"
+date: "4 10 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Roadmap
+
+* By 11.10.19 : 
+* By 18.10.19 : ?
+* By 25.10.19 :
+* By 01.11.19 : 
+* By 08.11.19 : Finish the production (Part 2)
+* By 15.11.19 :
+* By 22.11.19 : Finish review and finalizing (Part 3)

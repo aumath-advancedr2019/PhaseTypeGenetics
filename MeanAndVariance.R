@@ -5,18 +5,34 @@
 ## Purpose: Computing the mean of a continuous phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
-## cptd = the continuous phase-type distribution object which
-## is a list with two entries
-## cptd$T.mat = the subintensity matrix from the
+## initDist = the initial distribution
+## T.mat = the subintensity matrix from the
 ##        continuous phase type distribution
-## cptd$initDist = the initial distribution
+## Output: 
+## The mean E[tau] 
+##----------------------------------------------------
+
+mean_contphasetype <- function(initDist, T.mat){
+  
+  return(sum(initDist%*%solve(-T.mat)))
+  
+}
+
+##----------------------------------------------------
+## The mean of a continuous phase-type distribution
+##----------------------------------------------------
+## Name: mean.contphasetype
+## Purpose: Computing the mean of a continuous phase-
+##          type distribution (Corollary 1.2.64 in [BN])
+## Input:
+## cptd = the continuous phase-type distribution object 
 ## Output: 
 ## The mean E[tau] 
 ##----------------------------------------------------
 
 mean.contphasetype <- function(cptd){
   
-  return(sum(cptd$initDist%*%solve(-cptd$T.mat)))
+  mean_contphasetype(initDist = cptd$initDist, T.mat= cptd$T.mat)
   
 }
 
@@ -27,19 +43,33 @@ mean.contphasetype <- function(cptd){
 ## Purpose: Computing the mean of a discrete phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
-## dptd = the discrete phase-type distribution object which
-## is a list with two entries
-## dptd$T.mat = the subtransition matrix from the
+## T.mat = the subtransition matrix from the
 ##        discrete phase type distribution
-## dptd$initDist = the initial distribution
+## initDist = the initial distribution
+## Output: 
+## The mean E[tau] 
+##----------------------------------------------------
+
+mean_discphasetype <- function(dptd){
+  
+  return(sum(initDist%*%solve(diag(x=1, nrow = nrow(T.mat))-T.mat)) + 1 - sum(initDist))
+  
+}
+
+##----------------------------------------------------
+## The mean of a discrete phase-type distribution
+##----------------------------------------------------
+## Name: mean.discphasetype
+## Purpose: Computing the mean of a discrete phase-
+##          type distribution (Corollary 1.2.64 in [BN])
+## Input:
+## dptd = the discrete phase-type distribution object 
 ## Output: 
 ## The mean E[tau] 
 ##----------------------------------------------------
 
 mean.discphasetype <- function(dptd){
-  
-  return(sum(dptd$initDist%*%solve(diag(x=1, nrow = nrow(dptd$T.mat))-T.mat)) + 1 - sum(dptd$initDist))
-  
+  mean_discphasetype(initDist = dptd$initDist, T.mat=dptd$T.mat)
 }
 
 ## Defining a generic var() function

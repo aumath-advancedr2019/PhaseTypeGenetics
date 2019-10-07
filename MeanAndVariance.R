@@ -1,7 +1,7 @@
 ##----------------------------------------------------
 ## The mean of a continuous phase-type distribution
 ##----------------------------------------------------
-## Name: mean.contphasetype
+## Name: mean_contphasetype
 ## Purpose: Computing the mean of a continuous phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
@@ -39,7 +39,7 @@ mean.contphasetype <- function(cptd){
 ##----------------------------------------------------
 ## The mean of a discrete phase-type distribution
 ##----------------------------------------------------
-## Name: mean.discphasetype
+## Name: mean_discphasetype
 ## Purpose: Computing the mean of a discrete phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
@@ -89,7 +89,7 @@ var.default <- function(x,...){
 ##----------------------------------------------------
 ## The variance of a discrete phase-type distribution
 ##----------------------------------------------------
-## Name: var.dphasetype
+## Name: var.discphasetype
 ## Purpose: Computing the variance of a discrete phase-
 ##          type distribution 
 ##          (using Theorem 1.2.69 in [BN])
@@ -112,7 +112,7 @@ var.discphasetype <- function(dptd){
 ##----------------------------------------------------
 ## The variance of a continuous phase-type distribution
 ##----------------------------------------------------
-## Name: var.cphasetype
+## Name: var.contphasetype
 ## Purpose: Computing the variance of a continuous 
 ##          phase-type distribution 
 ##          (using Theorem 1.2.69 in [BN])

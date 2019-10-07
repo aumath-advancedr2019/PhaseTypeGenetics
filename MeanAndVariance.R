@@ -1,42 +1,44 @@
 ##----------------------------------------------------
 ## The mean of a continuous phase-type distribution
 ##----------------------------------------------------
-## Name: mean.cphasetype
+## Name: mean.contphasetype
 ## Purpose: Computing the mean of a continuous phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
-## T.mat = the subintensity matrix from the
+## cptd = the continuous phase-type distribution object which
+## is a list with two entries
+## cptd$T.mat = the subintensity matrix from the
 ##        continuous phase type distribution
-## initDist = the initial distribution
+## cptd$initDist = the initial distribution
 ## Output: 
 ## The mean E[tau] 
 ##----------------------------------------------------
 
-mean.cphasetype <- function(initDist, T.mat){
+mean.contphasetype <- function(cptd){
   
-  e.vec <- replicate(n=ncol(T.mat),1)
-  return(initDist%*%solve(-T.mat)%*%e.vec)
+  return(sum(cptd$initDist%*%solve(-cptd$T.mat)))
   
 }
 
 ##----------------------------------------------------
 ## The mean of a discrete phase-type distribution
 ##----------------------------------------------------
-## Name: mean.dphasetype
+## Name: mean.discphasetype
 ## Purpose: Computing the mean of a discrete phase-
 ##          type distribution (Corollary 1.2.64 in [BN])
 ## Input:
-## T.mat = the subintensity matrix from the
+## dptd = the discrete phase-type distribution object which
+## is a list with two entries
+## dptd$T.mat = the subtransition matrix from the
 ##        discrete phase type distribution
-## pi.vec = the initial distribution
+## dptd$initDist = the initial distribution
 ## Output: 
 ## The mean E[tau] 
 ##----------------------------------------------------
 
-mean.dphasetype <- function(T.mat, pi.vec){
+mean.discphasetype <- function(dptd){
   
-  e.vec <- replicate(n=ncol(T.mat),1)
-  return(pi.vec%*%solve(diag(x=1, nrow = nrow(T.mat))-T.mat)%*%e.vec)
+  return(sum(dptd$initDist%*%solve(diag(x=1, nrow = nrow(dptd$T.mat))-T.mat)) + 1 - sum(dptd$initDist))
   
 }
 
@@ -62,18 +64,19 @@ var.default <- function(x,...){
 ##          type distribution 
 ##          (using Theorem 1.2.69 in [BN])
 ## Input:
-## T.mat = the subintensity matrix from the
+## dptd = the discrete phase-type distribution object which
+## is a list with two entries
+## dptd$T.mat = the subtransition matrix from the
 ##        discrete phase type distribution
-## pi.vec = the initial distribution
+## dptd$initDist = the initial distribution
 ## Output: 
 ## The variance Var[tau] 
 ##----------------------------------------------------
-var.dphasetype <- function(T.mat,pi.vec){
-  
-  e.vec <- replicate(n=ncol(T.mat),1)
-  secondMoment <- 2*pi.vec%*%T.mat%*%solve((diag(x=1, nrow = nrow(T.mat))-T.mat)%^%2)%*%e.vec
-  firstmoment <- pi.vec%*%solve(diag(x=1, nrow = nrow(T.mat))-T.mat)%*%e.vec
-  return(secondMoment +firstmoment - firstmoment^2)
+var.discphasetype <- function(dptd){
+  defect <- 1 - sum(dptd$initDist)
+  secondMoment <- 2*sum(dptd$initDist%*%dptd$T.mat%*%solve((diag(x=1, nrow = nrow(dptd$T.mat))-dptd$T.mat)%^%2))
+  firstmoment <- sum(dptd$initDist%*%solve(diag(x=1, nrow = nrow(dptd$T.mat))-dptd$T.mat)) + defect
+  return(secondMoment + firstmoment - firstmoment^2)
 }
 
 ##----------------------------------------------------
@@ -84,15 +87,17 @@ var.dphasetype <- function(T.mat,pi.vec){
 ##          phase-type distribution 
 ##          (using Theorem 1.2.69 in [BN])
 ## Input:
-## T.mat = the subintensity matrix from the
-##        discrete phase type distribution
-## initDist = the initial distribution
+## cptd = the continuous phase-type distribution object which
+## is a list with two entries
+## cptd$T.mat = the subintensity matrix from the
+##        continuous phase type distribution
+## cptd$initDist = the initial distribution
 ## Output: 
 ## The variance Var[tau] 
 ##----------------------------------------------------
-var.cphasetype <- function(T.mat, initDist){
+var.contphasetype <- function(cptd){
   
-  return(LaplacePhaseType(initDist = initDist, Tmat = T.mat, i=2)-
-    LaplacePhaseType(initDist = initDist, Tmat = T.mat, i=1)^2)
+  return(LaplacePhaseType(initDist = cptd$initDist, Tmat = cptd$T.mat, i=2)-
+    LaplacePhaseType(initDist = cptd$initDist, Tmat = cptd$T.mat, i=1)^2)
 }
 

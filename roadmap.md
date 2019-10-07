@@ -5,10 +5,6 @@ date: "4 10 2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Roadmap
 
 * By 11.10.19 : Create two constructors for the two classes and implement the basic properties for both classes (density function, distribution function, simulation, quantiles, mean and variance) and documentation.

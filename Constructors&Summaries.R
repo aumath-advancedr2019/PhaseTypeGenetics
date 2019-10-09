@@ -1,5 +1,6 @@
 # Constructor for continuous phase-type distribution
 contphasetype <- function(initDist, T.mat){
+  T.mat <- as.matrix(T.mat)
   if((sum(initDist) > 1) | (sum(initDist < 0) > 0)) stop("Not a valid initial distribution")
   if(det(T.mat)==0) stop("Not a valid subintensity matrix")
   if(length(initDist) != nrow(T.mat)) stop("The dimensions of the input should be the same")
@@ -10,8 +11,9 @@ contphasetype <- function(initDist, T.mat){
 
 # Constructor for discrete phase-type distribution
 discphasetype <- function(initDist, T.mat){
+  T.mat <- as.matrix(T.mat)
   if((sum(initDist) > 1) | (sum(initDist < 0) > 0)) stop("Not a valid initial distribution")
-  if((det(T.mat) == 0) | (sum(T.mat < 0) == 0) | (sum(rowSums(T.mat) > 1) > 0)) {
+  if((det(T.mat) == 0) | (sum(T.mat < 0) != 0) | (sum(rowSums(T.mat) > 1) > 0)) {
     stop("Not a valid subtransition matrix") 
   }
   if(length(initDist) != nrow(T.mat)) stop("The dimensions of the input should be the same")

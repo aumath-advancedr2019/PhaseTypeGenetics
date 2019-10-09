@@ -55,7 +55,7 @@ dphasetype <- function(...){
 ##          (using Theorem 3.1.7 in [BN])
 ## Input:
 ## cptd = The continuous phase-type distribution object
-## x = the number at which the density is evaluated
+## x = the integer at which the density is evaluated
 ##
 ## Output:
 ## The density function at x, f_tau(x)
@@ -75,7 +75,7 @@ dphasetype.contphasetype <- function(cptd, x){
 ##          (using Theorem 1.2.58 in [BN])
 ## Input:
 ## dptd = the discrete phase-type distribution object
-## x = the number at which the density is evaluated
+## x = the integer at which the density is evaluated
 ##
 ## Output:
 ## The density function at x, f_tau(x)
@@ -123,7 +123,7 @@ pcontphasetype <- function(x, initDist, T.mat){
 ## The distribution function at x, F_tau(x)
 ##----------------------------------------------------
 pdiscphasetype <- function(x, initDist, T.mat){
-  return(1 - sum(initDist%*%(T.mat %^% x)))
+  return(1 - sum(initDist%*%(T.mat %^% floor(x))))
 }
 
 

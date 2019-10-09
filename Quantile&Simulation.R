@@ -15,7 +15,30 @@
 ##----------------------------------------------------
 qcontphasetype <- function(p, initDist, T.mat){
   
-  uniroot(function(y) pcontphasetype(x = y, initDist = initDist, T.mat = T.mat)-p, c(0, 400))$root[1]
+  m <- uniroot(function(y) pcontphasetype(x = y, initDist = initDist, T.mat = T.mat)-p, c(0, 400))
+  return(m$root[1])
+  
+}
+
+##----------------------------------------------------
+## The quantile function for of a discrete phase-type distribution
+##----------------------------------------------------
+## Name: qdiscphasetype
+## Purpose: Computing the quantile function of a discrete
+##          phase-type distribution by numeric inversion
+##          of the distribution function
+## Input:
+## p = the probability at which the quantile function is evaluated
+## initDist = the initial distribution
+## T.mat = the subtransition matrix
+##
+## Output:
+## The quantile function at p
+##----------------------------------------------------
+qdiscphasetype <- function(p, initDist, T.mat){
+  
+  m <- uniroot(function(y) pdiscphasetype(x = y, initDist = initDist, T.mat = T.mat)-p, c(0, 400))
+  return(round(m$root[1]))
   
 }
 
@@ -40,6 +63,26 @@ qphasetype <- function(...){
 qphasetype.contphasetype <- function(cptd, p){
   
   qcontphasetype(p = p, initDist = cptd$initDist, T.mat = cptd$T.mat)
+  
+}
+
+##----------------------------------------------------
+## The quantile function for of a discrete phase-type distribution
+##----------------------------------------------------
+## Name: qcontphasetype
+## Purpose: Computing the quantile function of a discrete
+##          phase-type distribution by numeric inversion
+##          of the distribution function
+## Input:
+## cptd = The discrete phase-type distribution object
+## p = the probability at which the quantile function is evaluated
+##
+## Output:
+## The quantile function at p
+##----------------------------------------------------
+qphasetype.discphasetype <- function(cptd, p){
+  
+  qdiscphasetype(p = p, initDist = cptd$initDist, T.mat = cptd$T.mat)
   
 }
 

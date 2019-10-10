@@ -86,6 +86,8 @@ qphasetype.discphasetype <- function(cptd, p){
   
 }
 
+
+
 ##----------------------------------------------------
 ## Simulation from a discrete phase-type distribution
 ##----------------------------------------------------

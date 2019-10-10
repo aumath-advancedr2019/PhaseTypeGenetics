@@ -15,7 +15,7 @@
 ##----------------------------------------------------
 dcontphasetype <- function(x, initDist, T.mat){
   
-    return(-sum(initDist %*% expm(x * T.mat) %*% T.mat))
+    return(-sum(initDist %*% expm(x * T.mat) %*% (diag(1, nrow = nrow(T.mat))-T.mat)))
   
 }
 
@@ -35,7 +35,7 @@ dcontphasetype <- function(x, initDist, T.mat){
 ## The density function at x, f_tau(x)
 ##----------------------------------------------------
 ddiscphasetype <- function(x, initDist, T.mat){
-  sum(initDist%*%(T.mat %^% x)%*%(diag(1, nrow = nrow(T.mat))-T.mat))
+  sum(initDist%*%(T.mat %^% (x-1))%*%(diag(1, nrow = nrow(T.mat))-T.mat))
 }
 
 

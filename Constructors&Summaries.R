@@ -6,7 +6,7 @@ contphasetype <- function(initDist, T.mat){
   if(length(initDist) != nrow(T.mat)) stop("The dimensions of the input should be the same")
   tmp <- list("initDist" = initDist, "T.mat" = T.mat)
   class(tmp) <- "contphasetype"
-  tmp
+  return(tmp)
 }
 
 # Constructor for discrete phase-type distribution
@@ -19,8 +19,10 @@ discphasetype <- function(initDist, T.mat){
   if(length(initDist) != nrow(T.mat)) stop("The dimensions of the input should be the same")
   tmp <- list("initDist" = initDist, "T.mat" = T.mat)
   class(tmp) <- "discphasetype"
-  tmp
+  return(tmp)
 }
+
+
 
 # Summary for continuous phase-type distribution
 summary.contphasetype <- function(x){

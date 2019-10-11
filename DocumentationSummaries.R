@@ -12,7 +12,7 @@
 #'
 #' @return \code{summary.discphasetype} and \code{summary.contphasetype} print
 #' the initial distribution and the subtransition/subintensity matrix of the
-#' phase-type distribution. If the sum of all enties in the initial distribution
+#' phase-type distribution. If the sum of all entries in the initial distribution
 #' is less than one, it also prints the defect size \code{(1-sum(initDist))}.
 #'
 #' @seealso \code{\link{summary}}, \code{\link{summary.glm}},

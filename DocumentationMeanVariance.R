@@ -6,13 +6,13 @@
 #' \code{P.mat}/\code{T.mat}.
 #'
 #' In the discrete case, the phase-type distribution has mean
-#' \code{E[tau] = initDist %*% (I-P.mat)^{-1} %*% e},
+#' \code{E[tau] = initDist %*% (I-P.mat)^{-1} %*% e + 1 - initDist %*% e},
 #' where initDist is the initial distribution, P.mat is the subtransition
 #' probability matrix and e is the vector having one in each entry. 
 #' Furthermore, the variance can be calculated as
 #' \code{Var[tau] = E[tau(tau-1)] + E[tau] - E[tau]^2}, 
 #' where 
-#' \code{E[tau(tau-1)] = 2 * initDist %*% P.mat %*% (I-P.mat)^{-2} %*% e}.
+#' \code{E[tau(tau-1)] = 2 * initDist %*% P.mat %*% (I-P.mat)^{-2} %*% e + 1 - initDist %*% e}.
 #' In the continuous case, the phase-type distribution has mean
 #'  \code{E[tau] = initDist %*% (-T.mat)^{-1} %*% e},
 #' where initDist is the initial distribution and T.mat is the subintensity
@@ -25,14 +25,14 @@
 #' To be able to use these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
 #'
-#' @return \code{mean} gives the mean and \code{variance} gives the 
+#' @return \code{mean} gives the mean and \code{var} gives the 
 #' variance of the phase-type distribution. The length of the output is 1.
 #'
 #' @source Mogens Bladt and Bo Friis Nielsen (2017):
 #' \emph{ Matrix-Exponential Distributions in Applied Probability}.
 #' Probability Theory and Stochastic Modelling (Springer), Volume 81.
 #'
-#' @seealso \code{\link{mean}}, \code{\link{variance}}.
+#' @seealso \code{\link{mean}}, \code{\link{var}}.
 #'
 #' @examples
 #'

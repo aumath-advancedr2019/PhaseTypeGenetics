@@ -6,19 +6,19 @@
 #' \code{P.mat}/\code{T.mat}.
 #'
 #' In the discrete case, the phase-type distribution has density
-#' f(x) = initDist %*% (P.mat %^% (x-1)) %*% t, for x>=1
+#' f(x) = initDist %*% (P.mat %^% (x-1)) %*% t + (x==1)*(1-sum(initDist)), for integers x>=1 
 #' where initDist is the initial distribution, P.mat is the subtransition
-#' probability matrix and t = (I-T)e. Furthermore, the distribution function
+#' probability matrix and t = (I-P)e. Furthermore, the distribution function
 #' is given by
-#' F(x) = 1- initDist %*% (P.mat %^% x) %*% e. If the quantile \code{x} is a
+#' F(x) = 1- initDist %*% (P.mat %^% x) %*% e + (x>=1)*(1-sum(initDist)). If the quantile \code{x} is a
 #' real number, the function will round the number down in order to obtain a
 #' natural number.
 #' In the continuous case, the phase-type distribution has density
-#' f(x) = initDist %*% expm(x * T.mat) %*% t,
+#' f(x) = initDist %*% expm(x * T.mat) %*% t, for x>=0
 #' where initDist is the initial distribution, T.mat is the subintensity
 #' rate matrix and t = -Te. Furthermore, the distribution function
 #' is given by
-#' F(x) = 1- initDist %*% expm(x * T.mat) %*% e.
+#' F(x) = 1- initDist %*% expm(x * T.mat) %*% e, for x>=0.
 #'
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
@@ -54,25 +54,24 @@ dphasetype <- function(...){
 #' @describeIn dphasetype Density of discrete phase-type distributed variable
 dphasetype.discphasetype <- function(object,x){
 
-  if(x<1){
-
-    stop("Not a valid quantile, as x<1")
+  if(x<1 | !is.integer(x)){
+    return(0)
   }else{
 
-  x <- floor(x)
   initDist = object$initDist
-  T.mat = object$P.mat
+  P.mat = object$P.mat
   }
 
- return(sum(initDist%*%(T.mat %^%(x-1))%*%(diag(1, nrow = nrow(T.mat))-T.mat)))
+ return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(iniDist)))
 }
 
 #' @describeIn dphasetype Density of continuous phase-type distributed variable
 dphasetype.contphasetype <- function(object, x){
 
   if(x<0){
-
-    stop("Not a valid quantile, as x<0")
+    
+    return(0)
+    
   }else{
 
   initDist = object$initDist
@@ -92,16 +91,17 @@ pphasetype <- function(...){
 pphasetype.discphasetype <- function(object,x){
 
   if(x<0){
-
-    stop("Not a valid quantile, as x<0")
+    
+      return(0)
+    
   }else{
+    
   x <- floor(x)
-
   initDist = object$initDist
-  T.mat = object$P.mat
+  P.mat = object$P.mat
   }
 
-  return(1 - sum(initDist%*%(T.mat %^% floor(x))))
+  return(1 - sum(initDist%*%(P.mat %^% x)))
 }
 
 #' @describeIn dphasetype distribution function of continuous phase-type distributed variable
@@ -109,7 +109,8 @@ pphasetype.contphasetype <- function(object, x){
 
   if(x<0){
 
-    stop("Not a valid quantile, as x<0")
+    return(0)
+    
   }else{
 
   initDist = object$initDist
@@ -133,10 +134,7 @@ qphasetype.discphasetype <- function(object, p){
     stop("Not a valid probability")
   }else{
 
-  initDist = object$initDist
-  T.mat = object$P.mat
-
-  m <- uniroot(function(y) pphasetype(object = object, x = y)-p, c(0, 400))
+  m <- uniroot(function(y) pphasetype(object = object, x = y)- p, c(0, 400))
   }
   return(round(m$root[1]))
 }
@@ -148,9 +146,6 @@ qphasetype.contphasetype <- function(object, p){
 
     stop("Not a valid probability")
   }else{
-
-  initDist = object$initDist
-  T.mat = object$T.mat
 
   m <- uniroot(function(y) pphasetype(object = object, x = y)-p, c(0, 400))
   }
@@ -172,7 +167,7 @@ rphasetype.discphasetype <- function(object, n){
   ## Extracting the initial distribution
   ## and the subtransition matrix
   initDist = object$initDist
-  T.mat = object$P.mat
+  P.mat = object$P.mat
 
   # Calculate the number of transient states
   p <- length(initDist)
@@ -181,7 +176,7 @@ rphasetype.discphasetype <- function(object, n){
   defect <- 1 - sum(initDist)
 
   # Initialize the vector with 1's because if the Markov Chain
-  ## is absorbed immediately then tau would be 1
+  # is absorbed immediately then tau would be 1
   tau <- rep(1,n)
 
   # If the defect is positive immediate absorption needs to be a possibility
@@ -190,9 +185,9 @@ rphasetype.discphasetype <- function(object, n){
     u <- runif(n)
   }
 
-  # We make the rows of the transition matrix correspond to
-  ## the transient states from the subtransition matrix
-  TransMat <- cbind(T.mat, 1-rowSums(T.mat))
+  # We make the rows of the transition matrix corresponding to
+  # the transient states from the subtransition matrix
+  TransMat <- cbind(P.mat, 1-rowSums(P.mat))
 
   # Now we simulate the Markov Chain until absorption in 'p+1'
   for(i in 1:n){

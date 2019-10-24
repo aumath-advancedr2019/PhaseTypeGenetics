@@ -3,9 +3,11 @@
 #' Computing (factorial) moments of a given order of phase-type distributed random variables.
 #' 
 #' In the discrete case ( tau ~ DPH(pi,P) ), the factorial moments are given by
-#' E[tau(tau-1)*...*(tau-i+1)] = i! * pi %*% P^(i-1) %*% (I-P)^(-i)%*% e.
+#' E[tau(tau-1)*...*(tau-i+1)] = i! * pi %*% P^(i-1) %*% (I-P)^(-i)%*% e,
+#' where \code{pi} is the initial distribution and \code{P} is the subtransition probability matrix.
 #' For tau ~ PH(pi, T), the i'th-order moment is defined as
-#' E[tau^i] = i!* pi %*% (-T)^(-i)%*%e.
+#' E[tau^i] = i!* pi %*% (-T)^(-i)%*%e,
+#' where \code{pi} is again the inital distribution and \code{T} is the subintensity rate matrix.
 #' In both cases, \code{e} is a vector with one in each entry. 
 #' 
 #' 

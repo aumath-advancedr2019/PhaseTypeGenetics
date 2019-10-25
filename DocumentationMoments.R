@@ -56,12 +56,12 @@ moments.discphasetype <- function(object, i, all){
   res <- NULL
   if(all == FALSE){
     
-    res <- factorial(i)*sum(initDist%*%P.mat^(i-1)%*%
+    res <- factorial(i)*sum(initDist%*%P.mat%^%(i-1)%*%
            (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(i)))
   }else{
     for (k in 1:i) {
       
-      res[k] <- factorial(k)*sum(initDist%*%P.mat^(k-1)%*%
+      res[k] <- factorial(k)*sum(initDist%*%P.mat%^%(k-1)%*%
                 (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(k)))
     }
     names(res) <- 1:i

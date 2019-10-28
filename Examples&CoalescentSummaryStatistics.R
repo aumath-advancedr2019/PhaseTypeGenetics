@@ -1,7 +1,7 @@
 phasetypexamples <- list(
 "discphasetype1" = discphasetype(initDist = c(.5,.2,.3,0),
                                 P.mat = matrix(c(.1,.3,.2,.6,.3,.2,.1,.2,.1,.1,.2,.1,.2,.1,.3,.1), nrow = 4)),
-"discphasetype2" <- discphasetype(initDist = c(.2,.7), 
+"discphasetype2" = discphasetype(initDist = c(.2,.7), 
                                   P.mat = matrix(c(.5,0,.3,.2), nrow = 2)),
 "contphasetype1" = contphasetype(initDist = c(.5,.2,.3,0),
                                  T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)),

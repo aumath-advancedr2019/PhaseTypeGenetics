@@ -10,6 +10,10 @@
 #' discrete phase-type distributions is on the natural numbers excluding zero.
 #' Hence, immediate absorbtion would not be possible. By adding one, we allow
 #' the site frequency to be zero. 
+#' Note that the package does also include the function \code{\link{dSegregatingSites}},
+#' which computes the density function of the number of segregating sites 
+#' for a given sample size \eqn{n}, a mutation parameter \eqn{\theta} and 
+#' a nonnegative vector of quantiles \eqn{k}. 
 #' 
 #' @param n the sample size
 #' @param lambda the mutation rate
@@ -37,6 +41,8 @@
 #' SiteFrequencies(n=4, lambda=1, i=2)
 #' SiteFrequencies(n=4, lambda=1, nSegSites=TRUE)
 #' SiteFrequencies(n=4, lambda=1, i=2, tailStat=TRUE)
+#' 
+#' @seealso \code{\link{dSegregatingSites}}
 #' 
 #' @export
 

@@ -1,8 +1,11 @@
 #' The number of segregating sites
 #'
-#' The density function for the total number of segregating sites 
+#' The density function of the total number of segregating sites 
 #'
-#' In 
+#' The density of the total number of segregating sites can be obtained
+#' by the aid of the block counting process together with the reward 
+#' transformation and the discretization. For more information on this topic see
+#' Hobolth et al. (2019): \emph{Phase-type distributions in population genetics}.
 #' 
 #' @param n the sample size
 #' @param theta the mutation parameter

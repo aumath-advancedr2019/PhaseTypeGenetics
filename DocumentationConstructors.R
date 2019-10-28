@@ -2,9 +2,9 @@
 #'
 #' Constructing phase-type distributions
 #'
-#' \code{discphasetype} creates an object of class "discphasetype", i.e. the
+#' \code{discphasetype} creates an object of class \emph{"discphasetype"}, i.e. the
 #' object represents a discrete phase-type distribution.
-#' \code{contphasetype}creates an object of class "contphasetype", i.e. the
+#' \code{contphasetype}creates an object of class \emph{"contphasetype"}, i.e. the
 #' object represents a continuous phase-type distribution.
 #'
 #' @param initDist a vector holding the initial distribution of the phase-type
@@ -21,19 +21,18 @@
 #' number less than or equal to one, and the length of the initial distribution has to be
 #' equal to the number of rows of \code{P.mat}.
 #'
-#' @return \code{discphasetype} returns a list of class "discphasetype", while
-#' \code{contcphasetype} returns a list of class "contphasetype". Both lists
+#' @return \code{discphasetype} returns a list of class \emph{"discphasetype"}, while
+#' \code{contcphasetype} returns a list of class \emph{"contphasetype"}. Both lists
 #' hold
-#' \describe{
-#'   \item{\code{initDist}}{The inital distribution }
-#'   \item{\code{P.mat}/\code{T.mat}}{The subtransition/subintensity matrix}
+#' \itemize{
+#'   \item \code{initDist} : The inital distribution 
+#'   \item \code{P.mat}/\code{T.mat} : The subtransition/subintensity matrix
 #' }
 #'
 #' @examples
 #'
 #'
-#' @export
-
+#' @describeIn discphasetype Creating an object of type discphasetype
 discphasetype <- function(initDist, P.mat){
   P.mat <- as.matrix(P.mat)
   if(sum(initDist) > 1) stop("Not a valid initial distribution, as sum(initDist) > 1")
@@ -48,7 +47,7 @@ discphasetype <- function(initDist, P.mat){
   return(tmp)
 }
 
-#' @rdname add
+#' @describeIn discphasetype Creating an object of type contphasetype
 contphasetype <- function(initDist, T.mat){
   T.mat <- as.matrix(T.mat)
   if(sum(initDist) > 1) stop("Not a valid initial distribution, as sum(initDist) > 1")

@@ -2,14 +2,13 @@
 #'
 #' Computing (factorial) moments of a given order of phase-type distributed random variables.
 #' 
-#' In the discrete case ( tau ~ DPH(pi,P) ), the factorial moments are given by
-#' E[tau(tau-1)*...*(tau-i+1)] = i! * pi %*% P^(i-1) %*% (I-P)^(-i)%*% e,
-#' where \code{pi} is the initial distribution and \code{P} is the subtransition probability matrix.
-#' For tau ~ PH(pi, T), the i'th-order moment is defined as
-#' E[tau^i] = i!* pi %*% (-T)^(-i)%*%e,
-#' where \code{pi} is again the inital distribution and \code{T} is the subintensity rate matrix.
-#' In both cases, \code{e} is a vector with one in each entry. 
-#' 
+#' In the discrete case \eqn{( \tau ~ DPH(\pi,P) )}, the factorial moments are given by
+#' \deqn{E[\tau(\tau-1)*...*(\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e},
+#' where \eqn{\pi} is the initial distribution and \eqn{P} is the subtransition probability matrix.
+#' For \eqn{\tau ~ PH(\pi, T)}, the \eqn{i}'th-order moment is defined as
+#' \deqn{E[\tau^i] = i! \pi (-T)^(-i) e},
+#' where \eqn{\pi} is again the inital distribution and \eqn{T} is the subintensity rate matrix.
+#' In both cases, \eqn{e} is a vector with one in each entry. 
 #' 
 #' @param object either a continuous phase-type distributed object of class \code{contphasetype} or 
 #' a discrete phase-type distributed object of class \code{discphasetype}.
@@ -17,11 +16,11 @@
 #' @param all a logical value indicating whether the function should compute
 #' all moments up to the given order. The default is equal to FALSE.
 #' 
-#' @return For \code{all = FALSE}, the function either returns the i'th-order moment (if the object is continuous 
-#' phase-type distributed) or the i'th factorial moment (if the object is discrete
+#' @return For \code{all = FALSE}, the function either returns the \eqn{i}'th-order moment (if the object is continuous 
+#' phase-type distributed) or the \eqn{i}'th factorial moment (if the object is discrete
 #' phase-type distributed). In both cases, the length of the output is one. 
 #' For \code{all = TRUE}, the function computes all (factorial) moments up to the given order,
-#' hence the output is a vector of length \code{i}.
+#' hence the output is a vector of length \eqn{i}.
 #'
 #' @source Mogens Bladt and Bo Friis Nielsen (2017):
 #' \emph{ Matrix-Exponential Distributions in Applied Probability}.
@@ -31,21 +30,18 @@
 #' @examples
 #'
 #'
-#' @export
-
-#' @describeIn moments generic
 moments <- function(..., all = FALSE){
   
   UseMethod("moments")
 }
 
-#' @describeIn momets the default moment function
+#' @rdname moments
 moments.default <- function(...){
   
   print("The package ‘moments’ can be used to compute sample moments of specified order.")
 }
 
-#' @describeIn momets computing moments of a discrete phase-type distribution
+#' @rdname moments
 moments.discphasetype <- function(object, i, all){
   
   if(i < 1 ) stop("Not a valid order. The number i has to be positive!")
@@ -69,7 +65,7 @@ moments.discphasetype <- function(object, i, all){
   return(res)
 }
 
-#' @describeIn momets computing moments of a continuous phase-type distribution
+#' @rdname moments
 moments.contphasetype <- function(object, i, all){
   
   if(i < 1 ) stop("Not a valid order. The number i has to be positive!")

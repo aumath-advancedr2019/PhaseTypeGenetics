@@ -6,19 +6,20 @@
 #' \code{P.mat}/\code{T.mat}.
 #'
 #' In the discrete case, the phase-type distribution has density
-#' f(x) = initDist %*% (P.mat %^% (x-1)) %*% t + (x==1)*(1-sum(initDist)), for integers x>=1 
-#' where initDist is the initial distribution, P.mat is the subtransition
-#' probability matrix and t = (I-P)e. Furthermore, the distribution function
+#' \deqn{f(x) = initDist (P.mat ^ (x-1))t + (x=1)(1-sum(initDist)), }
+#' for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
+#' probability matrix and \code{t = (I-P)e}. Furthermore, the distribution function
 #' is given by
-#' F(x) = 1- initDist %*% (P.mat %^% x) %*% e + (x>=1)*(1-sum(initDist)). If the quantile \code{x} is a
+#' \deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist))}. 
+#' If the quantile \eqn{x} is a
 #' real number, the function will round the number down in order to obtain a
 #' natural number.
 #' In the continuous case, the phase-type distribution has density
-#' f(x) = initDist %*% expm(x * T.mat) %*% t, for x>=0
-#' where initDist is the initial distribution, T.mat is the subintensity
-#' rate matrix and t = -Te. Furthermore, the distribution function
+#' \deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 }
+#' where \code{initDist} is the initial distribution, \code{T.mat} is the subintensity
+#' rate matrix and \code{t = -Te}. Furthermore, the distribution function
 #' is given by
-#' F(x) = 1- initDist %*% expm(x * T.mat) %*% e, for x>=0.
+#' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0.}
 #'
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
@@ -32,7 +33,7 @@
 #' gives the distribution function, \code{qphasetype} gives the quantile
 #' function, and \code{rphasetype} simulates from the distribution.
 #' The length of the output is 1, except for \code{rphasetype}, which produces
-#' an output of length \code{n}.
+#' an output of length \eqn{n}.
 #'
 #' @source Mogens Bladt and Bo Friis Nielsen (2017):
 #' \emph{ Matrix-Exponential Distributions in Applied Probability}.
@@ -44,14 +45,12 @@
 #' @examples
 #'
 #'
-#' @export
-
 dphasetype <- function(...){
 
   UseMethod("dphasetype")
 }
 
-#' @describeIn dphasetype Density of discrete phase-type distributed variable
+#' @rdname dphasetype
 dphasetype.discphasetype <- function(object,x){
 
   if(x<1 | !is.integer(x)){
@@ -65,7 +64,7 @@ dphasetype.discphasetype <- function(object,x){
  return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(iniDist)))
 }
 
-#' @describeIn dphasetype Density of continuous phase-type distributed variable
+#' @rdname dphasetype
 dphasetype.contphasetype <- function(object, x){
 
   if(x<0){
@@ -81,13 +80,13 @@ dphasetype.contphasetype <- function(object, x){
   return(-sum(initDist %*% expm(x * T.mat) %*% (diag(1, nrow = nrow(T.mat))-T.mat)))
 }
 
-#' @describeIn dphasetype generic
+#' @rdname dphasetype
 pphasetype <- function(...){
 
   UseMethod("pphasetype")
 }
 
-#' @describeIn dphasetype distribution function of discrete phase-type distributed variable
+#' @rdname dphasetype
 pphasetype.discphasetype <- function(object,x){
 
   if(x<0){
@@ -104,7 +103,7 @@ pphasetype.discphasetype <- function(object,x){
   return(1 - sum(initDist%*%(P.mat %^% x)))
 }
 
-#' @describeIn dphasetype distribution function of continuous phase-type distributed variable
+#' @rdname dphasetype
 pphasetype.contphasetype <- function(object, x){
 
   if(x<0){
@@ -120,13 +119,13 @@ pphasetype.contphasetype <- function(object, x){
   return(1 - sum(initDist %*% expm(x * T.mat)))
 }
 
-#' @describeIn dphasetype generic
+#' @rdname dphasetype
 qphasetype <- function(...){
 
   UseMethod("qphasetype")
 }
 
-#' @describeIn dphasetype Quantile function of discrete phase-type distributed variable
+#' @rdname dphasetype
 qphasetype.discphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -139,7 +138,7 @@ qphasetype.discphasetype <- function(object, p){
   return(round(m$root[1]))
 }
 
-#' @describeIn dphasetype Quantile function of continuous phase-type distributed variable
+#' @rdname dphasetype
 qphasetype.contphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -153,13 +152,13 @@ qphasetype.contphasetype <- function(object, p){
 
 }
 
-#' @describeIn dphasetype generic
+#' @rdname dphasetype
 rphasetype <- function(...){
 
   UseMethod("rphasetype")
 }
 
-#' @describeIn dphasetype Simulating from a discrete phase-type distribution
+#' @rdname dphasetype
 rphasetype.discphasetype <- function(object, n){
 
   n=floor(abs(n))
@@ -207,7 +206,7 @@ rphasetype.discphasetype <- function(object, n){
   return(tau)
 }
 
-#' @describeIn dphasetype Simulating from a continuous phase-type distribution
+#' @rdname dphasetype
 rphasetype.contphasetype <- function(object,n){
 
   n=floor(abs(n))

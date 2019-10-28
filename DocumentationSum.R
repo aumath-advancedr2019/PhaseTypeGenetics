@@ -6,16 +6,13 @@
 #' matrices equal to \code{P.mat1}/\code{T.mat1} and  \code{P.mat2}/\code{T.mat2}.
 #'
 #' In the discrete case, the sum of two phase-type distributed 
-#' variables tau1 ~ DPH_p(alpha,S) and tau2 ~ DPH_q(beta,T) is 
+#' variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} is 
 #' again discrete phase-type distributed in the following way
-#' 
-#' tau1 + tau2 ~ DPH_{p+q}((alpha,0),cbind((S, s%*%beta),(0,T)) ).
-#' 
+#' \deqn{tau1 + tau2 ~ DPH_{p+q}((\alpha,0),cbind((S, s \beta),(0,T)) )}.
 #' In the continous case, the sum of two phase-type distributed 
-#' variables X ~ PH_p(alpha,S) and Y ~ PH_q(beta,T) is 
+#' variables \eqn{X ~ PH_p(\alpha,S)} and \eqn{Y ~ PH_q(\beta,T)} is 
 #' again continuous and phase-type distributed in the following way
-#' 
-#' X + Y ~ PH_{p+q}((alpha,0),cbind((S, s%*%beta),(0,T)) )
+#' \deqn{X + Y ~ PH_{p+q}((\alpha,0),cbind((S, s \beta),(0,T)) ).}
 #' 
 #' @param object1,object2 two objects of class \code{discphasetype} 
 #' or \code{contphasetype} for which the sum should be computed.
@@ -33,9 +30,7 @@
 #' @examples
 #'
 #'
-#' @export
-
-#' @describeIn sum.discphasetype computing the sum of two discrete phase-type distributions
+#' @describeIn sum computing the sum of two discrete phase-type distributions
 sum.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
@@ -52,7 +47,7 @@ sum.discphasetype <- function(object1,object2){
   
 }
 
-#' @describeIn sum.discphasetype computing the sum of two continuous phase-type distributions
+#' @describeIn sum computing the sum of two continuous phase-type distributions
 sum.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist

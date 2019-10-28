@@ -4,8 +4,8 @@
 #' segregating sites and the tail statistics using phase-type distributions.
 #' 
 #' This function can be used to compute the distribution of the site frequencies
-#' xi_i + 1, for all i in {1,...,n-1}, the total number of segregating sites S_{Total} + 1
-#' and the tail statistic S_{i+} + 1. 
+#' \eqn{\xi_i + 1}, for all \eqn{i} in eqn{{1,...,n-1}}, the total number of segregating sites \eqn{S_{Total} + 1}
+#' and the tail statistic \eqn{S_{i+} + 1}. 
 #' The reason for adding one to the site frequency is that the support for 
 #' discrete phase-type distributions is on the natural numbers excluding zero.
 #' Hence, immediate absorbtion would not be possible. By adding one, we allow
@@ -14,19 +14,19 @@
 #' @param n the sample size
 #' @param lambda the mutation rate
 #' @param i either the number of the site frequency that should be considered
-#' or the number of the first term of the tail statistic. In both cases 1 <= i <= n-1.
+#' or the number of the first term of the tail statistic. In both cases \eqn{1 <= i <= n-1}.
 #' @param nSegSites a logical value indicating whether the function should compute
-#' the distribution of the number of segregating sites (S_{Total} = xi_1 + ... + xi_{n-1}). 
-#' If TRUE, any value of \code{i} will be ignored. Defaults to FALSE.
+#' the distribution of the number of segregating sites \eqn{(S_{Total} = \xi_1 + ... + \xi_{n-1})}. 
+#' If TRUE, any value of \eqn{i} will be ignored. Defaults to FALSE.
 #' @param tailStat a logical value indicating whether the function should compute 
-#' the distribution of the tail statistic ( S_{i+} = xi_i +...+ xi_{n-1}).
-#' If TRUE, \code{i} will determine the first term of this statistic. Defaults to FALSE.
+#' the distribution of the tail statistic \eqn{( S_{i+} = \xi_i +...+ \xi_{n-1})}.
+#' If TRUE, \eqn{i} will determine the first term of this statistic. Defaults to FALSE.
 #' 
 #' @return If \code{nSegSites = FALSE} and \code{tailStat= FALSE}, the function
-#' returns the distribution of the i'th site frequency (xi_i) plus one. If \code{nSegSites = TRUE},
+#' returns the distribution of the \eqn{i}'th site frequency \eqn{(\xi_i)} plus one. If \code{nSegSites = TRUE},
 #' the function returns the distribution of the total number of segregating sites plus one, and if
 #' \code{tailStat= TRUE}, the distribution of the tail statistic (which first term 
-#' is determined by \code{i}) plus one is returned.
+#' is determined by \eqn{i}) plus one is returned.
 #' In all three cases, the returned object is of type \code{discphasetype}. 
 #'
 #' @source Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019):

@@ -1,16 +1,15 @@
 #' Summaries of phase-type distributed objects
 #'
-#' These \code{summary} functions are \code{\link{methods}} which depend on the \code{\link{class}} of the first argument.
+#' This \code{summary} function is a \code{\link{method}} that depends on the \code{\link{class}} of the argument.
 #' For objects of class \code{discphasetype} or \code{contphasetype},
 #' \code{summary} prints the inital distribution and the
 #' subtransition/subintensity matrix of the phase-type distribution.
-#'
 #'
 #' @param object an object for which a summary is desired. To be able to use
 #' the summaries for phase-type distributed objects,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
 #'
-#' @return \code{summary.discphasetype} and \code{summary.contphasetype} print
+#' @return \code{summary} prints
 #' the initial distribution and the subtransition/subintensity matrix of the
 #' phase-type distribution. If the sum of all entries in the initial distribution
 #' is less than one, it also prints the defect size \code{(1-sum(initDist))}.
@@ -21,8 +20,6 @@
 #' @examples
 #'
 #'
-#' @export
-
 summary.discphasetype <- function(object){
   cat("A discrete phase-type distribution with initial probability vector \n")
   print(object$initDist)
@@ -33,7 +30,7 @@ summary.discphasetype <- function(object){
   }
 }
 
-#' @rdname add
+#' @rdname summary.discphasetype
 summary.contphasetype <- function(object){
   cat("A continuous phase-type distribution with initial probability vector \n")
   print(object$initDist)

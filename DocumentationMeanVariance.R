@@ -6,20 +6,20 @@
 #' \code{P.mat}/\code{T.mat}.
 #'
 #' In the discrete case, the phase-type distribution has mean
-#' \code{E[tau] = initDist %*% (I-P.mat)^{-1} %*% e + 1 - initDist %*% e},
-#' where initDist is the initial distribution, P.mat is the subtransition
-#' probability matrix and e is the vector having one in each entry. 
+#' \deqn{E[\tau] = initDist (I-P.mat)^{-1} e + 1 - initDist e},
+#' where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
+#' probability matrix and \code{e} is the vector having one in each entry. 
 #' Furthermore, the variance can be calculated as
-#' \code{Var[tau] = E[tau(tau-1)] + E[tau] - E[tau]^2}, 
+#' \deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2}, 
 #' where 
-#' \code{E[tau(tau-1)] = 2 * initDist %*% P.mat %*% (I-P.mat)^{-2} %*% e + 1 - initDist %*% e}.
+#' \deqn{E[\tau(\tau-1)] = 2 initDist P.mat (I-P.mat)^{-2} e + 1 - initDist e}.
 #' In the continuous case, the phase-type distribution has mean
-#'  \code{E[tau] = initDist %*% (-T.mat)^{-1} %*% e},
-#' where initDist is the initial distribution and T.mat is the subintensity
+#' \deqn{E[\tau] = initDist (-T.mat)^{-1} e},
+#' where \code{initDist} is the initial distribution and \code{T.mat} is the subintensity
 #' rate matrix. Furthermore, the variance can be calculated in the usual way
-#' \code{Var[tau] = E[tau^2] - E[tau]^2},
+#' \deqn{Var[tau] = E[tau^2] - E[tau]^2},
 #' where 
-#' \code{E[tau^2] = 2 * initDist %*% (-T.mat)^{-2} %*% e}
+#' \deqn{E[\tau^2] = 2 initDist (-T.mat)^{-2} e}.
 #'
 #' @param object an object for which the mean or variance should be computed.
 #' To be able to use these function,the object has to be of
@@ -37,8 +37,6 @@
 #' @examples
 #'
 #'
-#' @export
-
 mean.discphasetype <- function(object){
   
   initDist <- object$initDist
@@ -48,7 +46,7 @@ mean.discphasetype <- function(object){
   
 }
 
-#' @describeIn mean.discphasetype computing the mean of a discrete PH dist
+#' @rdname mean.discphasetype
 mean.contphasetype <- function(object){
   
   initDist = object$initDist
@@ -57,19 +55,19 @@ mean.contphasetype <- function(object){
   return(sum(initDist%*%solve(-T.mat)))
 }
 
-#' @describeIn mean.discphasetype generic
+#' @rdname mean.discphasetype
 var <- function(...){
   
   UseMethod("var")
 }
 
-#' @describeIn mean.discphasetype the default variance
+#' @rdname mean.discphasetype
 var.default <- function(x,...){
   
   var(x,...)
 }
 
-#' @describeIn mean.discphasetype computing the variance of a discrete PH dist
+#' @rdname mean.discphasetype
 var.discphasetype <- function(object){
   
   initDist = object$initDist
@@ -81,7 +79,7 @@ var.discphasetype <- function(object){
   return(secondMoment + firstmoment - firstmoment^2)
 }
 
-#' @describeIn mean.discphasetype computing the variance of a continuous PH dist
+#' @rdname mean.discphasetype
 var.contphasetype <- function(object){
   
   initDist = object$initDist

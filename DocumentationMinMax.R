@@ -6,28 +6,28 @@
 #' matrices equal to \code{P.mat1}/\code{T.mat1} and  \code{P.mat2}/\code{T.mat2}.
 #'
 #' In the discrete case, the minimum and maximum of two phase-type distributed 
-#' variables tau1 ~ DPH_p(alpha,S) and tau2 ~ DPH_q(beta,T) are defined 
+#' variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} are defined 
 #' as follows
-#' min(tau1, tau2) ~ DPH_{pq}( kronecker(alpha,beta), kronecker(S,T) )
+#' \deqn{min(tau1, tau2) ~ DPH_{pq}( kronecker(\alpha,\beta), kronecker(S,T) )}
 #' and 
-#' max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(alpha,beta),0.vec), K ), 
+#' \deqn{max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(\alpha,\beta),0.vec), K )}, 
 #' where 
-#' 0.vec is a vector of length p+q with zero in each entry and 
-#' K= rbind( cbind(kronecker(S,T), kronecker(S,t),kronecker(s,T) ),
+#' \code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and 
+#' \deqn{K= rbind( cbind(kronecker(S,T), kronecker(S,t),kronecker(s,T) ),
 #'           cbind(matrix(0, ncol = p*q, nrow = p), S , matrix(0, ncol = q, nrow = p)), 
-#'           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T))
+#'           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T)).}
 #' 
 #' In the continous case, the minima and maxima of two phase-type distributed 
-#' variables X ~ PH_p(alpha,S) and Y ~ PH_q(beta,T) is 
+#' variables \eqn{X ~ PH_p(\alpha,S)} and \eqn{Y ~ PH_q(\beta,T)} is 
 #' given in the following way
-#' min(X, Y) ~ PH( kronecker(alpha,beta), kronecker(S,T) ) 
+#' \deqn{min(X, Y) ~ PH( kronecker(\alpha,\beta), kronecker(S,T) )}
 #' and 
-#' max(X, Y) ~ PH( c(kronecker(alpha,beta),0.vec), K )
+#' \deqn{max(X, Y) ~ PH( c(kronecker(alpha,beta),0.vec), K )}
 #' where 
-#' 0.vec is a vector of length p+q with zero in each entry and 
-#' K= rbind( cbind(kronecker(S,T), kronecker(I,t),kronecker(s,I) ),
+#' \code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and 
+#' \deqn{K= rbind( cbind(kronecker(S,T), kronecker(I,t),kronecker(s,I) ),
 #'           cbind(matrix(0, ncol = p*q, nrow = p), S , matrix(0, ncol = q, nrow = p)), 
-#'           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T))
+#'           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T)).}
 #' 
 #' 
 #' @param object1,object2 two objects of class \code{discphasetype} 
@@ -48,9 +48,15 @@
 #' @examples
 #'
 #'
-#' @export
+min <- function(...) UseMethod("min")
 
-#' @describeIn min.discphasetype computing the minimum of two discrete phase-type distributions
+#' @rdname min
+min.default <- function(...){
+  
+  min(...)
+}
+
+#' @rdname min
 min.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
@@ -64,7 +70,7 @@ min.discphasetype <- function(object1,object2){
   return(discphasetype(initDist = newInitDist, P.mat = newP.mat))
   
 }
-#' @describeIn min.discphasetype computing the minimum of two continuous phase-type distributions
+#' @rdname min
 min.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
@@ -80,7 +86,16 @@ min.contphasetype <- function(object1,object2){
   
 }
 
-#' @describeIn min.discphasetype computing the maximum of two discrete phase-type distributions
+#' @rdname min
+max <- function(...) UseMethod("max")
+
+#' @rdname min
+max.default <- function(...){
+  
+  max(...)
+}
+
+#' @rdname min
 max.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
@@ -100,7 +115,7 @@ max.discphasetype <- function(object1,object2){
   return(discphasetype(initDist = newInitDist, P.mat = newP.mat))
 }
 
-#' @describeIn min.discphasetype computing the maximum of two continuous phase-type distributions
+#' @rdname min
 max.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
@@ -121,6 +136,5 @@ max.contphasetype <- function(object1,object2){
                     cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T.mat2))
   
   return(contphasetype(initDist = newInitDist, T.mat = newT.mat))
-  
 }
 

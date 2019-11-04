@@ -1,4 +1,4 @@
-.onLoad <- function(){
+.onLoad <- function(libname=NULL, pkgname){
   
   expmpackage <-ifelse(nzchar(system.file(package = "expm")), TRUE, FALSE)
   partitionspackage <-ifelse(nzchar(system.file(package = "partitions")), TRUE, FALSE)

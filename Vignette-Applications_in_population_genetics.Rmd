@@ -326,7 +326,7 @@ P_i = (I - \lambda^{-1}T_i)^{-1} \quad \text{ and } \quad p_i=e-P_ie.
 
 #### Example 4:
 
-For $n=4$, we have seen that the total length of branches giving rise to singletons is phase-type distributed with initial distribution $\pi_i = (1,0,0)$, subintensity rate matrix 
+For $n=4$, we have seen that the total length of branches giving rise to singletons is discrete phase-type distributed with initial distribution $\pi_i = (1,0,0)$, subintensity rate matrix 
 \begin{equation*}
 T_i = \begin{pmatrix}
 -1.5 & 1.5 & 0 \\
@@ -352,7 +352,7 @@ T = \begin{pmatrix}
 0 & 0 & 0 & -0.5\\
 \end{pmatrix}.
 \end{equation*}
-Hence, the number of segregating sites plus one is also phase-type distributed with initial distribution $\pi_i = (1,0,0,0)$ and subintensity rate matrix 
+Hence, the number of segregating sites plus one is also discrete phase-type distributed with initial distribution $\pi_i = (1,0,0,0)$ and subintensity rate matrix 
 \begin{equation*}
 P = (I -\tfrac{2}{\theta} T)^{-1} = \begin{pmatrix}
 0.4 & 0.3 & 4/30 & 2/30 \\

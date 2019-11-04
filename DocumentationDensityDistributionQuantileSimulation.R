@@ -43,8 +43,64 @@
 #' \code{\link{dexp}}.
 #'
 #' @examples
+#' 
+#' ## We reproduce Figure 3.4 in John Wakeley (2009): 
+#' ## "Coalescent Theory: An Introduction", 
+#' ## Roberts and Company Publishers, Colorado.
+#' 
+#' x.vec <- seq(0,4, by=0.1)
+#' dist <- matrix(nrow = 6, ncol = length(x.vec))
+#' for(x in x.vec){
+#'  
+#'  dist[2,which(x.vec ==x)] <- dphasetype(T_MRCA$n5,x)
+#'  dist[3,which(x.vec ==x)] <- dphasetype(T_MRCA$n10,x)
+#'  dist[4,which(x.vec ==x)] <- dphasetype(T_MRCA$n20,x)
+#'  dist[5,which(x.vec ==x)] <- dphasetype(T_MRCA$n50,x)
+#'  dist[6,which(x.vec ==x)] <- dphasetype(T_MRCA$n100,x)
+#' }
+#'
+#' ## For n=2, the initial distribution is initDist = 1 and the transition probability
+#' ## matrix is T.mat = -1, hence the distribution is given by
+#' dist[1,] <- exp(-x.vec)
+#' 
+#' plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
+#'      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[MRCA]](x)),
+#'      xlim = c(0,4), ylim = c(0,1), frame.plot = F)
+#' points(x.vec, dist[2,], type = "l")
+#' points(x.vec, dist[3,], type = "l")
+#' points(x.vec, dist[4,], type = "l")
+#' points(x.vec, dist[5,], type = "l")
+#' points(x.vec, dist[6,], type = "l")
 #'
 #'
+#' x.vec <- seq(0,15, by=0.1)
+#' dist <- matrix(,nrow = 6, ncol = length(x.vec))
+#' for(x in x.vec){
+#'
+#'  dist[2,which(x.vec ==x)] <- dphasetype(T_Total$n5,x)
+#'  dist[3,which(x.vec ==x)] <- dphasetype(T_Total$n10,x)
+#'  dist[4,which(x.vec ==x)] <- dphasetype(T_Total$n20,x)
+#'  dist[5,which(x.vec ==x)] <- dphasetype(T_Total$n50,x)
+#'  dist[6,which(x.vec ==x)] <- dphasetype(T_Total$n100,x)
+#' }
+#'
+#' ## For n=2, the initial distribution is initDist = 1 and the transition probability
+#' ## matrix is T.mat = -1/2, hence the distribution is given by
+#' dist[1,] <- exp(-x.vec/2)/2
+#'
+#' plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
+#'     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[Total]](x)),
+#'     xlim = c(0,15), ylim = c(0,0.5), frame.plot = F)
+#' points(x.vec, dist[2,], type = "l")
+#' points(x.vec, dist[3,], type = "l")
+#' points(x.vec, dist[4,], type = "l")
+#' points(x.vec, dist[5,], type = "l")
+#' points(x.vec, dist[6,], type = "l")
+#'
+#' ## Simulating ten total branch lengths 
+#' ## for a sample of size 5
+#' rphasetype(T_Total$n5, n=10)
+#' 
 dphasetype <- function(...){
 
   UseMethod("dphasetype")
@@ -76,8 +132,8 @@ dphasetype.contphasetype <- function(object, x){
   initDist = object$initDist
   T.mat = object$T.mat
   }
-
-  return(-sum(initDist %*% expm(x * T.mat) %*% (diag(1, nrow = nrow(T.mat))-T.mat)))
+  
+  return(-sum(initDist %*% expm(x * T.mat) %*% T.mat))
 }
 
 #' @rdname dphasetype

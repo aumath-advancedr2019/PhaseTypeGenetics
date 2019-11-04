@@ -84,7 +84,9 @@ var.contphasetype <- function(object){
   
   initDist = object$initDist
   T.mat = object$T.mat
+  
+  secondMoment <- 2*sum(initDist%*%solve(T.mat%^%2))
+  firstmoment <- sum(initDist%*%solve(-T.mat))
  
-  return(LaplacePhaseType(initDist = initDist, Tmat = T.mat, i=2)-
-           LaplacePhaseType(initDist = initDist, Tmat = T.mat, i=1)^2) 
+  return(secondMoment-firstmoment^2) 
 }

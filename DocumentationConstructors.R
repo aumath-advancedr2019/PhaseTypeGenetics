@@ -30,7 +30,28 @@
 #' }
 #'
 #' @examples
+#' ## For n=4, the time to the most recent common ancestor is
+#' ## phase-type distributed with
+#' ## initital distribution
+#' initDist <- c(1,0,0)
+#' ## and sub-intensity rate matrix
+#' T.mat <- matrix(c(-6,6,0,
+#'                    0,-3,3,
+#'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
+#'  
+#' T_MRCA <- contphasetype(initDist, T.mat)
 #'
+#' ## For theta=2, the number of segregating sites plus one is
+#' ## discrete phase-type distributed with
+#' ## initital distribution
+#' initDist <- c(1,0,0,0)
+#' ## and sub-transition probability matrix
+#' P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+#'                    0, 0.5, 2/9, 1/9,
+#'                    0, 0, 2/3, 0,
+#'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
+#'  
+#' S_Total <- discphasetype(initDist, P.mat)
 #'
 #' @describeIn discphasetype Creating an object of type discphasetype
 discphasetype <- function(initDist, P.mat){

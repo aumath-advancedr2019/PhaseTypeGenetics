@@ -36,6 +36,90 @@
 #'
 #' @examples
 #'
+#' ## We reproduce Figure 3.3 in John Wakeley (2009): 
+#' ## "Coalescent Theory: An Introduction", 
+#' ## Roberts and Company Publishers, Colorado.
+#'
+#' ## We define vectors holding the means and variances
+#' VecOfMeansMRCA <- replicate(20,0)
+#' VecOfVarsMRCA <- replicate(20,0)
+#' VecOfMeansTotal <- replicate(20,0)
+#' VecOfVarsTotal <- replicate(20,0)
+#'
+#' ## For n=2, we have that the initial distribution is initDist = 1 and
+#' ## the transition probability matrix is T.mat = -1 for T_MRCA and
+#' ## T.mat = -1/2 for T_Total,
+#' ## hence the mean is given by
+#' VecOfMeansMRCA[2] <- 1 ## -pi*T^(-1)* e = -1*(-1)*1 = 1
+#' VecOfMeansTotal[2] <- 2 ## -pi*T^(-1)* e = -1*(-1/2)^(-1)*1 = 2
+#' ## and the variance is
+#' VecOfVarsMRCA[2] <- 1 ## 2-1^2
+#' VecOfVarsTotal[2] <- 4 ## 8-2^2
+#' ## as variance= E[X^2] - E[X]^2.
+#' 
+#' # For n=3, we have that the initial distibrution is
+#' initDist = c(1,0)
+#' ## and the transition probability matrices are
+#' T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
+#' T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
+#' ## for T_MRCA and T_Total, respectively. 
+#' ## Defining two objects of class "contphasetype"
+#' T_MRCA <- contphasetype(initDist, T.matMRCA)
+#' T_Total <- contphasetype(initDist, T.matTotal)
+#' ## Hence the means are given by
+#' VecOfMeansMRCA[3] <- mean(T_MRCA)
+#' VecOfMeansTotal[3] <- mean(T_Total)
+#' ## and the variances are
+#' VecOfVarsMRCA[3] <- var(T_MRCA)
+#' VecOfVarsTotal[3] <-var(T_Total)
+#' 
+#' for (n in 4:20) {
+#' 
+#'  ## The initial distribution
+#'  initDist <- c(1,replicate(n-2,0))
+#'  ## The subintensity rate matrix
+#'  T.mat <- diag(choose(n:3,2))
+#'  T.mat <- cbind(replicate(n-2,0),T.mat)
+#'  T.mat <- rbind(T.mat, replicate(n-1,0))
+#'  diag(T.mat) <- -choose(n:2,2)
+#'  ## Define an object of class "contphasetype"
+#'  obj <- contphasetype(initDist,T.mat)
+#'  ## Compute the mean and variance 
+#'  VecOfMeansMRCA[n] <- mean(obj)
+#'  VecOfVarsMRCA[n] <- var(obj)
+#'  
+#'  ## For T_total, we compute the same numbers
+#'  ## The subintensity rate matrix
+#'  T.mat <- diag((n-1):2)
+#'  T.mat <- cbind(replicate(n-2,0),T.mat)
+#'  T.mat <- rbind(T.mat, replicate(n-1,0))
+#'  diag(T.mat) <- -((n-1):1)
+#'  T.mat <- 1/2*T.mat
+#'  ## Define an object of class "contphasetype"
+#'  obj <- contphasetype(initDist,T.mat)
+#'  ## Compute the mean and variance
+#'  VecOfMeansTotal[n] <- mean(obj)
+#'  VecOfVarsTotal[n] <- var(obj)
+#' }
+#'
+#' ## Plotting the means
+#' plot(x = 1:20, VecOfMeansMRCA, type = "l", main = expression(paste("The dependence of ",E(T[MRCA]),"
+#'     and ", E(T[Total]), " on the sample size")), cex.main = 0.9, xlab = "n",
+#'     ylab = "Expectation",
+#'     xlim = c(0,25), ylim = c(0,8), frame.plot = F)
+#' points(x= 1:20, VecOfMeansTotal, type = "l")
+#'
+#' text(23,tail(VecOfMeansMRCA, n=1),labels = expression(E(T[MRCA])))
+#' text(23,tail(VecOfMeansTotal, n=1),labels = expression(E(T[Total])))
+#'
+#' ## And plotting the variances
+#' plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA]), 
+#'      " and ", Var(T[Total]), " on the sample size")), cex.main = 0.9, xlab = "n", ylab = "Variance",
+#'     xlim = c(0,25), ylim = c(0,7), frame.plot = F)
+#' points(x= 1:20, VecOfVarsTotal, type = "l")
+#'
+#' text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))
+#' text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
 #'
 mean.discphasetype <- function(object){
   

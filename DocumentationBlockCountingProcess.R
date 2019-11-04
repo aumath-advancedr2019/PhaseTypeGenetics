@@ -30,9 +30,9 @@ BlockCountProcess <- function(n){
   ## Possible states
   ##----------------------------------------------------
   ## Size of the state space (number of states)
-  d <- P(n)
+  d <- partitions::P(n)
   ## Set of partitions of [n]
-  Partition.mat <- parts(n)
+  Partition.mat <- partitions::parts(n)
   ## Rewriting the partitions as (a1,...,an)/
   ## Definition of the state space matrix
   StateSpace.mat <- t(apply(Partition.mat, 2,tabulate, nbins = n))

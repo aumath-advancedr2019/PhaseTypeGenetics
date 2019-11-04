@@ -334,7 +334,7 @@ T_i = \begin{pmatrix}
 0 & 0 & -1  \\
 \end{pmatrix}.
 \end{equation*}
-and defect size $\pi_{i,d+1}=0$, where $d=3$. From above we have that the number of singletons plus one is again phase-type distributed with initial distribution $\pi_i = (1,0,0)$ and subintensity rate matrix 
+and defect size $\pi_{i,d+1}=0$, where $d=3$. From above we have that the number of singletons plus one is again phase-type distributed with initial distribution $\pi_i = (1,0,0)$ and subtransition probability matrix 
 \begin{equation*}
 P_i = (I -\tfrac{2}{\theta} T_i)^{-1} = \begin{pmatrix}
 0.4 & 0.24 & 0.12 \\
@@ -352,7 +352,7 @@ T = \begin{pmatrix}
 0 & 0 & 0 & -0.5\\
 \end{pmatrix}.
 \end{equation*}
-Hence, the number of segregating sites plus one is also discrete phase-type distributed with initial distribution $\pi_i = (1,0,0,0)$ and subintensity rate matrix 
+Hence, the number of segregating sites plus one is also discrete phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and subtransition probability matrix 
 \begin{equation*}
 P = (I -\tfrac{2}{\theta} T)^{-1} = \begin{pmatrix}
 0.4 & 0.3 & 4/30 & 2/30 \\

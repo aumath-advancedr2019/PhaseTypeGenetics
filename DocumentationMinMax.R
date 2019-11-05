@@ -33,9 +33,9 @@
 #' @param object1,object2 two objects of class \code{discphasetype} 
 #' or \code{contphasetype} for which the maximum or minimum should be computed.
 #'
-#' @return The function \code{min} returns an object of type \code{discphasetype} 
+#' @return The function \code{minima} returns an object of type \code{discphasetype} 
 #' or \code{contphasetype} (depending on the input) holding the ditribution 
-#' of the minimum of the input objects, while \code{max} returns an object of type \code{discphasetype} 
+#' of the minimum of the input objects, while \code{mixima} returns an object of type \code{discphasetype} 
 #' or \code{contphasetype} that holds the ditribution 
 #' of the maximum of the input objects.
 #'
@@ -51,7 +51,7 @@
 #' ## are given by
 #' T_Total1 <- matrix(c(-1.5, 1.5, 0,
 #'                      0, -1, 1,
-#'                      0, 0, -0,5), nrow = 3, byrow = TRUE)
+#'                      0, 0, -0.5), nrow = 3, byrow = TRUE)
 #'                      
 #' T_Total2 <- matrix(c(-1.5, 1.5, 0, 0,
 #'                      0, -1, 2/3, 1/3,
@@ -62,19 +62,19 @@
 #' T_Total1 <- contphasetype(initDist = c(1,0,0), T_Total1)
 #' T_Total2 <- contphasetype(initDist = c(1,0,0,0), T_Total2)
 #' 
-#' ## Computing the min and max
-#' min(T_Total1, T_Total2)
-#' max(T_Total1, T_Total2)
-min <- function(...) UseMethod("min")
+#' ## Computing the minimum and maximum
+#' minima(T_Total1, T_Total2)
+#' mixima(T_Total1, T_Total2)
+minima <- function(...) UseMethod("minima")
 
-#' @rdname min
-min.default <- function(...){
+#' @rdname minima
+minima.default <- function(...){
   
   min(...)
 }
 
-#' @rdname min
-min.discphasetype <- function(object1,object2){
+#' @rdname minima
+minima.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -87,8 +87,8 @@ min.discphasetype <- function(object1,object2){
   return(discphasetype(initDist = newInitDist, P.mat = newP.mat))
   
 }
-#' @rdname min
-min.contphasetype <- function(object1,object2){
+#' @rdname minima
+minima.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat
@@ -103,17 +103,17 @@ min.contphasetype <- function(object1,object2){
   
 }
 
-#' @rdname min
-max <- function(...) UseMethod("max")
+#' @rdname minima
+mixima <- function(...) UseMethod("mixima")
 
-#' @rdname min
-max.default <- function(...){
+#' @rdname minima
+mixima.default <- function(...){
   
   max(...)
 }
 
-#' @rdname min
-max.discphasetype <- function(object1,object2){
+#' @rdname minima
+mixima.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -132,8 +132,8 @@ max.discphasetype <- function(object1,object2){
   return(discphasetype(initDist = newInitDist, P.mat = newP.mat))
 }
 
-#' @rdname min
-max.contphasetype <- function(object1,object2){
+#' @rdname minima
+mixima.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat

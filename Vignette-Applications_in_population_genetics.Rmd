@@ -187,15 +187,15 @@ If we are interesed in the total length of all branches giving rise to singleton
 knitr::include_graphics("T1_n4.png")
 ```
 
-Hence, the total length of all branches giving rise to singletons would be $T_1 = 4T_4 + 2T_3 + 1T_2$. For the other tree, the total length of branches having one descendant in the sample would be $T_1 = 4T_4 + 2T_3 + 0T_2$. Hence, $\mathbf{r}_1 = (4,2,1,0)$. By using the reward transformation, we get that the total length of branches giving rise to singletons is phase-type distributed with initial distribution $\pi_i = (1,0,0)$ and subintensity rate matrix 
+Hence, the total length of all branches giving rise to singletons would be $T_1 = 4T_4 + 2T_3 + 1T_2$. For the other tree, the total length of branches having one descendant in the sample would be $T_1 = 4T_4 + 2T_3 + 0T_2$. Hence, $\mathbf{r}_1 = (4,2,1,0)$. By using the reward transformation, we get that the total length of branches giving rise to singletons is phase-type distributed with initial distribution $\pi_1 = (1,0,0)$ and subintensity rate matrix 
 \begin{equation*}
-T_i = \begin{pmatrix}
+T_1 = \begin{pmatrix}
 -1.5 & 1.5 & 0 \\
 0 & -1.5 & 1  \\
 0 & 0 & -1  \\
 \end{pmatrix}.
 \end{equation*}
-As one of the rewards is zero, we have a defect size of $\pi_{i,d+1}=0$, where $d=3$.\
+As one of the rewards is zero, we have a defect size of $\pi_{1,d+1}=0$, where $d=3$.\
 We can also compute the total length of all branches $\tau$. 
 For both the first and the second tree, the total branch length is given as $T = 4T_4 + 3T_3 + 2T_2$.Hence, the reward vector has to be $\mathbf{r} = (4,3,2,2)$. By using the reward transformation, we get that the total branch length is phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and subintensity rate matrix 
 \begin{equation*}

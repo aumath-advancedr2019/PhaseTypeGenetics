@@ -29,8 +29,41 @@
 #'
 #' @examples
 #'
-#'
-moments <- function(..., all = FALSE){
+#' ## Using the function moments() to compute the mean
+#' ## and variance of a phase-type distribution
+#' 
+#' ## For n=4, the time to the most recent common ancestor is
+#' ## phase-type distributed with initital distribution
+#' initDist <- c(1,0,0)
+#' ## and sub-intensity rate matrix
+#' T.mat <- matrix(c(-6,6,0,
+#'                    0,-3,3,
+#'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
+#' ## Defining an object of type "contphasetype"
+#' T_MRCA <- contphasetype(initDist, T.mat)
+#' ## Computing all moments up to order 2
+#' m <- moments(T_MRCA, i=2, all = TRUE)
+#' ## We get the desired numbers
+#' m[1] == mean(T_MRCA)
+#' m[2] - m[1]^2 == var(T_MRCA)
+#' 
+#' ## For theta=2, the number of segregating sites plus one is
+#' ## discrete phase-type distributed with
+#' ## initital distribution
+#' initDist <- c(1,0,0,0)
+#' ## and sub-transition probability matrix
+#' P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+#'                    0, 0.5, 2/9, 1/9,
+#'                    0, 0, 2/3, 0,
+#'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
+#' ## Defining an object of type "discphasetype"
+#' S_Total <- discphasetype(initDist, P.mat)
+#' ## Computing all moments up to order 2
+#' m <- moments(S_Total, i=2, all = TRUE)
+#' ## We get the desired numbers
+#' m[1] == mean(S_Total)
+#' m[2] + m[1] - m[1]^2 == var(S_Total)
+moments <- function(...){
   
   UseMethod("moments")
 }
@@ -42,7 +75,7 @@ moments.default <- function(...){
 }
 
 #' @rdname moments
-moments.discphasetype <- function(object, i, all){
+moments.discphasetype <- function(object, i, all = FALSE){
   
   if(i < 1 ) stop("Not a valid order. The number i has to be positive!")
   
@@ -52,13 +85,13 @@ moments.discphasetype <- function(object, i, all){
   res <- NULL
   if(all == FALSE){
     
-    res <- factorial(i)*sum(initDist%*%P.mat%^%(i-1)%*%
-           (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(i)))
+    res <- factorial(i)*sum(initDist%*%(P.mat%^%(i-1)%*%
+           (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(i))))
   }else{
-    for (k in 1:i) {
+    for (k in 1:i){
       
-      res[k] <- factorial(k)*sum(initDist%*%P.mat%^%(k-1)%*%
-                (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(k)))
+      res[k] <- factorial(k)*sum(initDist%*%(P.mat%^%(k-1)%*%
+                (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(k))))
     }
     names(res) <- 1:i
   }
@@ -66,7 +99,7 @@ moments.discphasetype <- function(object, i, all){
 }
 
 #' @rdname moments
-moments.contphasetype <- function(object, i, all){
+moments.contphasetype <- function(object, i, all = FALSE){
   
   if(i < 1 ) stop("Not a valid order. The number i has to be positive!")
   

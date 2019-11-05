@@ -76,6 +76,7 @@ T_Total2 <- contphasetype(initDist = c(1,0,0,0), T_Total2)
 ## Computing the minimum and maximum
 minima(T_Total1, T_Total2)
 maxima(T_Total1, T_Total2)
+
 }
 \seealso{
 \code{\link{min}} or \code{\link{max}}.

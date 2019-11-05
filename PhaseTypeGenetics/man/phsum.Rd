@@ -63,6 +63,7 @@ T2 <- contphasetype(initDist2, T.mat2)
 phsum(T1,T2)
 ## (Please compare this distribution with the distribution
 ## obtained directly from the reward transformation)
+
 }
 \seealso{
 \code{\link{sum}}.

@@ -76,7 +76,7 @@ contphasetype <- function(initDist, T.mat){
   if(nrow(T.mat)!= ncol(T.mat)) stop("The subintensity matrix is not a square matrix")
   if(sum(diag(T.mat)>=0) > 0) stop("All diagonal entries of the subintensity matrix must be negative")
   if(det(T.mat)==0) stop("A singular matrix is not a valid subintensity matrix")
-  if(sum(rowSums(T.mat) > 0) > 0) stop("The sums of the rows must be non-positive")
+  if(sum(round(rowSums(T.mat),9) > 0) > 0) stop("The sums of the rows must be non-positive")
   if(length(initDist) != nrow(T.mat)) stop("The dimensions of the input should be the same")
   tmp <- list("initDist" = initDist, "T.mat" = T.mat)
   class(tmp) <- "contphasetype"

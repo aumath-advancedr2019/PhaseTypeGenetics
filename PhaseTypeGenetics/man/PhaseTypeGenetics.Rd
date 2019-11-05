@@ -21,7 +21,7 @@ These functions are
 \item pphasetype
 \item qphasetype
 \item rphasetype
-\item sum
+\item phsum
 \item summary
 \item var
 }
@@ -62,7 +62,7 @@ segregating sites and the tail statistics using phase-type theory.
 \item \code{\link{pphasetype}}
 \item \code{\link{qphasetype}}
 \item \code{\link{rphasetype}}
-\item \code{\link[=sum.discphasetype]{sum}}
+\item \code{\link{phsum}}
 \item \code{\link[=summary.discphasetype]{summary}}
 \item \code{\link{var}}.
 }

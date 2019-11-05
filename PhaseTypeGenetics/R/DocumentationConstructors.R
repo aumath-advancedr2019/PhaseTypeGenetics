@@ -25,7 +25,7 @@
 #' \code{contcphasetype} returns a list of class \emph{"contphasetype"}. Both lists
 #' hold
 #' \itemize{
-#'   \item \code{initDist} : The inital distribution 
+#'   \item \code{initDist} : The inital distribution
 #'   \item \code{P.mat}/\code{T.mat} : The subtransition/subintensity matrix
 #' }
 #'
@@ -38,7 +38,7 @@
 #' T.mat <- matrix(c(-6,6,0,
 #'                    0,-3,3,
 #'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
-#'  
+#'
 #' T_MRCA <- contphasetype(initDist, T.mat)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
@@ -50,7 +50,7 @@
 #'                    0, 0.5, 2/9, 1/9,
 #'                    0, 0, 2/3, 0,
 #'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
-#'  
+#'
 #' S_Total <- discphasetype(initDist, P.mat)
 #'
 #' @describeIn discphasetype Creating an object of type discphasetype
@@ -69,6 +69,7 @@ discphasetype <- function(initDist, P.mat){
 }
 
 #' @describeIn discphasetype Creating an object of type contphasetype
+#' @export
 contphasetype <- function(initDist, T.mat){
   T.mat <- as.matrix(T.mat)
   if(sum(initDist) > 1) stop("Not a valid initial distribution, as sum(initDist) > 1")

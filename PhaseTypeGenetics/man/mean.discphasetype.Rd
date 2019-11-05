@@ -20,7 +20,7 @@ Probability Theory and Stochastic Modelling (Springer), Volume 81.
 
 var(...)
 
-\method{var}{default}(x, ...)
+\method{var}{default}(x, y = NULL, na.rm = FALSE, use)
 
 \method{var}{discphasetype}(object)
 
@@ -32,11 +32,11 @@ To be able to use these function,the object has to be of
 class \code{discphasetype} or \code{contphasetype}.}
 }
 \value{
-\code{mean} gives the mean and \code{var} gives the 
+\code{mean} gives the mean and \code{var} gives the
 variance of the phase-type distribution. The length of the output is 1.
 }
 \description{
-Mean and variance for both the discrete and continuous 
+Mean and variance for both the discrete and continuous
 phase-type distribution with initial distribution equal to
 \code{initDist} and subtransition/subintensity matrix equal to
 \code{P.mat}/\code{T.mat}.
@@ -45,23 +45,23 @@ phase-type distribution with initial distribution equal to
 In the discrete case, the phase-type distribution has mean
 \deqn{E[\tau] = initDist (I-P.mat)^{-1} e + 1 - initDist e},
 where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
-probability matrix and \code{e} is the vector having one in each entry. 
+probability matrix and \code{e} is the vector having one in each entry.
 Furthermore, the variance can be calculated as
-\deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2}, 
-where 
+\deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2},
+where
 \deqn{E[\tau(\tau-1)] = 2 initDist P.mat (I-P.mat)^{-2} e + 1 - initDist e}.
 In the continuous case, the phase-type distribution has mean
 \deqn{E[\tau] = initDist (-T.mat)^{-1} e},
 where \code{initDist} is the initial distribution and \code{T.mat} is the subintensity
 rate matrix. Furthermore, the variance can be calculated in the usual way
 \deqn{Var[tau] = E[tau^2] - E[tau]^2},
-where 
+where
 \deqn{E[\tau^2] = 2 initDist (-T.mat)^{-2} e}.
 }
 \examples{
 
-## We reproduce Figure 3.3 in John Wakeley (2009): 
-## "Coalescent Theory: An Introduction", 
+## We reproduce Figure 3.3 in John Wakeley (2009):
+## "Coalescent Theory: An Introduction",
 ## Roberts and Company Publishers, Colorado.
 
 ## We define vectors holding the means and variances
@@ -86,7 +86,7 @@ initDist = c(1,0)
 ## and the transition probability matrices are
 T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
 T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
-## for T_MRCA and T_Total, respectively. 
+## for T_MRCA and T_Total, respectively.
 ## Defining two objects of class "contphasetype"
 T_MRCA <- contphasetype(initDist, T.matMRCA)
 T_Total <- contphasetype(initDist, T.matTotal)
@@ -108,10 +108,10 @@ for (n in 4:20) {
  diag(T.mat) <- -choose(n:2,2)
  ## Define an object of class "contphasetype"
  obj <- contphasetype(initDist,T.mat)
- ## Compute the mean and variance 
+ ## Compute the mean and variance
  VecOfMeansMRCA[n] <- mean(obj)
  VecOfVarsMRCA[n] <- var(obj)
- 
+
  ## For T_total, we compute the same numbers
  ## The subintensity rate matrix
  T.mat <- diag((n-1):2)
@@ -137,7 +137,7 @@ text(23,tail(VecOfMeansMRCA, n=1),labels = expression(E(T[MRCA])))
 text(23,tail(VecOfMeansTotal, n=1),labels = expression(E(T[Total])))
 
 ## And plotting the variances
-plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA]), 
+plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA]),
      " and ", Var(T[Total]), " on the sample size")), cex.main = 0.9, xlab = "n", ylab = "Variance",
     xlim = c(0,25), ylim = c(0,7), frame.plot = F)
 points(x= 1:20, VecOfVarsTotal, type = "l")

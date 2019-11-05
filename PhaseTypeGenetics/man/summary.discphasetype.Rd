@@ -28,6 +28,7 @@ subtransition/subintensity matrix of the phase-type distribution.
 }
 \examples{
 
+summary(T_Total$n10)
 
 }
 \seealso{

@@ -8,7 +8,7 @@
 #' In the discrete case, the sum of two phase-type distributed
 #' variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} is
 #' again discrete phase-type distributed in the following way
-#' \deqn{tau1 + tau2 ~ DPH_{p+q}((\alpha,0),cbind((S, s \beta),(0,T)) )}.
+#' \deqn{tau1 + tau2 ~ DPH_{p+q}((\alpha,0),cbind((S, s \beta),(0,T)) ).}
 #' In the continous case, the sum of two phase-type distributed
 #' variables \eqn{X ~ PH_p(\alpha,S)} and \eqn{Y ~ PH_q(\beta,T)} is
 #' again continuous and phase-type distributed in the following way
@@ -80,6 +80,7 @@ phsum.discphasetype <- function(object1,object2){
 
 }
 
+#' @export
 phsum.contphasetype <- function(object1,object2){
 
   initDist1 = object1$initDist

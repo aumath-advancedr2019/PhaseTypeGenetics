@@ -10,16 +10,16 @@
 #' for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
 #' probability matrix and \code{t = (I-P)e}. Furthermore, the distribution function
 #' is given by
-#' \deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist))}. 
+#' \deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
 #' If the quantile \eqn{x} is a
 #' real number, the function will round the number down in order to obtain a
 #' natural number.
 #' In the continuous case, the phase-type distribution has density
-#' \deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 }
+#' \deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 , }
 #' where \code{initDist} is the initial distribution, \code{T.mat} is the subintensity
 #' rate matrix and \code{t = -Te}. Furthermore, the distribution function
 #' is given by
-#' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0.}
+#' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
 #'
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
@@ -43,15 +43,15 @@
 #' \code{\link{dexp}}.
 #'
 #' @examples
-#' 
-#' ## We reproduce Figure 3.4 in John Wakeley (2009): 
-#' ## "Coalescent Theory: An Introduction", 
+#'
+#' ## We reproduce Figure 3.4 in John Wakeley (2009):
+#' ## "Coalescent Theory: An Introduction",
 #' ## Roberts and Company Publishers, Colorado.
-#' 
+#'
 #' x.vec <- seq(0,4, by=0.1)
 #' dist <- matrix(nrow = 6, ncol = length(x.vec))
 #' for(x in x.vec){
-#'  
+#'
 #'  dist[2,which(x.vec ==x)] <- dphasetype(T_MRCA$n5,x)
 #'  dist[3,which(x.vec ==x)] <- dphasetype(T_MRCA$n10,x)
 #'  dist[4,which(x.vec ==x)] <- dphasetype(T_MRCA$n20,x)
@@ -62,7 +62,7 @@
 #' ## For n=2, the initial distribution is initDist = 1 and the transition probability
 #' ## matrix is T.mat = -1, hence the distribution is given by
 #' dist[1,] <- exp(-x.vec)
-#' 
+#'
 #' plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
 #'      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[MRCA]](x)),
 #'      xlim = c(0,4), ylim = c(0,1), frame.plot = F)
@@ -97,16 +97,15 @@
 #' points(x.vec, dist[5,], type = "l")
 #' points(x.vec, dist[6,], type = "l")
 #'
-#' ## Simulating ten total branch lengths 
+#' ## Simulating ten total branch lengths
 #' ## for a sample of size 5
 #' rphasetype(T_Total$n5, n=10)
-#' 
-dphasetype <- function(...){
+#'
+dphasetype <- function(object,x){
 
   UseMethod("dphasetype")
 }
 
-#' @rdname dphasetype
 dphasetype.discphasetype <- function(object,x){
 
   if(x<1 | !is.integer(x)){
@@ -120,37 +119,35 @@ dphasetype.discphasetype <- function(object,x){
  return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(iniDist)))
 }
 
-#' @rdname dphasetype
 dphasetype.contphasetype <- function(object, x){
 
   if(x<0){
-    
+
     return(0)
-    
+
   }else{
 
   initDist = object$initDist
   T.mat = object$T.mat
   }
-  
+
   return(-sum(initDist %*% expm(x * T.mat) %*% T.mat))
 }
 
 #' @rdname dphasetype
-pphasetype <- function(...){
+pphasetype <- function(object,x){
 
   UseMethod("pphasetype")
 }
 
-#' @rdname dphasetype
 pphasetype.discphasetype <- function(object,x){
 
   if(x<0){
-    
+
       return(0)
-    
+
   }else{
-    
+
   x <- floor(x)
   initDist = object$initDist
   P.mat = object$P.mat
@@ -159,13 +156,12 @@ pphasetype.discphasetype <- function(object,x){
   return(1 - sum(initDist%*%(P.mat %^% x)))
 }
 
-#' @rdname dphasetype
 pphasetype.contphasetype <- function(object, x){
 
   if(x<0){
 
     return(0)
-    
+
   }else{
 
   initDist = object$initDist
@@ -176,12 +172,11 @@ pphasetype.contphasetype <- function(object, x){
 }
 
 #' @rdname dphasetype
-qphasetype <- function(...){
+qphasetype <- function(object, p){
 
   UseMethod("qphasetype")
 }
 
-#' @rdname dphasetype
 qphasetype.discphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -194,7 +189,6 @@ qphasetype.discphasetype <- function(object, p){
   return(round(m$root[1]))
 }
 
-#' @rdname dphasetype
 qphasetype.contphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -209,12 +203,11 @@ qphasetype.contphasetype <- function(object, p){
 }
 
 #' @rdname dphasetype
-rphasetype <- function(...){
+rphasetype <- function(object, n){
 
   UseMethod("rphasetype")
 }
 
-#' @rdname dphasetype
 rphasetype.discphasetype <- function(object, n){
 
   n=floor(abs(n))
@@ -262,7 +255,7 @@ rphasetype.discphasetype <- function(object, n){
   return(tau)
 }
 
-#' @rdname dphasetype
+#' @export
 rphasetype.contphasetype <- function(object,n){
 
   n=floor(abs(n))

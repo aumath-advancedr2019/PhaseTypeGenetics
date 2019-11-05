@@ -30,27 +30,29 @@
 #' @seealso \code{\link{SiteFrequencies}}, \code{\link{dphasetype}}.
 #'
 #' @examples
-#'
+#' 
+#' ## Computing the density for a sample of n=5
 #' dSegregatingSites(n=5,theta=2,k=5)
 #' dSegregatingSites(n=5,theta=2,k=1:20, plot=TRUE)
 #' 
 #' ## We apply the function for different sample sizes
-#' ## and 
+#' ## and theta=2
 #' k.vec <- 0:15
 #' theta <- 2
-#' 
+#' ## Defining a matrix of results
 #' Res.mat <- dSegregatingSites(n = 1, theta = theta, k = k.vec)
-#'
-#' for(n in 2:20){
+#' ## And Applying the function for all n in {2,...,19}
+#' for(n in 2:19){
 #' 
 #' Res.mat <- cbind(Res.mat, dSegregatingSites(n = n, theta = theta, k = k.vec))
-#' 
 #' }
 #' 
-#' ## Now we reprodue Figure 4.1 in John Wakeley (2008): 
-#' ## 'Coalescent Theory: An Indtroduction' by using the package plot3D.
+#' ## We reproduce Figure 4.1 in John Wakeley (2009): 
+#' ## "Coalescent Theory: An Introduction", 
+#' ## Roberts and Company Publishers, Colorado.
+#' ## by using the package plot3D.
 #' library(plot3D)
-#' hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+#' hist3D(x=k.vec, y=1:19, z=Res.mat, col = "grey", border = "black",
 #'        xlab = "k", ylab = "n", zlab = "P(S=k)",
 #'        main = "The probability function of the number of segregating sites",
 #'        sub = expression(paste("The mutation parameter is ", theta,"= 2")),
@@ -64,7 +66,7 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
   
   if(n==1){
     
-    res <- replicate(k,0)
+    res <- replicate(length(k),0)
     
   }else if(n==2){
     
@@ -72,7 +74,7 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
     P.mat <- theta/(theta+1)
     p.vec <- 1/(theta+1)
     ## We store the results in a matrix
-    ProbSegSites <- (P.mat^k)*p.vec
+    res <- (P.mat^k)*p.vec
   }else{
     ## For a given number n of samples, we find the state
     ## space and the corresponding rate matrix for the block 
@@ -111,18 +113,11 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
   
   if(plot){
     
-    plot(x=k, y=res, type = "l", col = "grey",
+    plot(x=k, y=res, type = "l", col = "darkgrey",
          xlab = "k", ylab = expression(paste("P(", S["Total"], "=k)")),
          main = "The density function of the number of segregating sites",
          sub = paste("The mutation parameter is equal to", theta),
-         cex.main = 0.9, ylim = c(0,max(res)*1.2))
+         cex.main = 0.9, ylim = c(0, max(res)*1.2))
   }
   return(res)
 }
-
-
-
-
-
-
-

@@ -1,13 +1,16 @@
 Package: PhaseTypeGenetics
 Type: Package
-Title: Properties of the phase-type distribution with applications in population genetics
+Title: The phase-type distribution with applications in population genetics
 Version: 0.1.0
-Author: Peter Krarup and Jette Steinbach
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: The package provides several functions to compute 
-  properties of the discrete and continuous phase-type 
-  distribution. In addition, the packages includes several 
-  functions that are useful in connection to population genetics.
+Authors@R: c(
+    person("Krarup", "Peter", email = "peter.krarup@post.au.dk", role = c("cre", "aut")),
+    person("Steinbach", "Jette", email = "jette.steinbach@post.au.dk", role = "aut"))
+Description: The package provides several 
+  functions to compute properties of the 
+  discrete and continuous phase-type 
+  distribution. In addition, the packages 
+  includes several functions that are useful 
+  in connection to population genetics.
 License: Unlimited
 Date: 5 11 2019
 Encoding: UTF-8

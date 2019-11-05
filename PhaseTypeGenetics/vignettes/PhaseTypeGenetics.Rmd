@@ -66,7 +66,7 @@ and as we are interested in the whole tree, the initial distribution is
 \pi = (1,0,…,0),
 \end{equation*}
 i.e. the process always starts in State 1.\
-As all rows in a rate matrix have to sum to zero, and as we are interested in the time spend in the transient states, we can disregard the last state (the absorbing state). Instead, we consider the subintensity rate matrix T, which is the upper left sub-matrix of $\Lambda$
+As all rows in a rate matrix have to sum to zero, and as we are interested in the time spend in the transient states, we can disregard the last state (the absorbing state). Instead, we consider the sub-intensity rate matrix T, which is the upper left sub-matrix of $\Lambda$
 \begin{equation*}
 \Lambda = \begin{pmatrix}
 T & t \\
@@ -78,14 +78,14 @@ As already mentioned, all rows in the generator matrix $\Lambda$ have to sum to 
 \begin{equation*}
 t = -Te,
 \end{equation*}
-where $e$ is a $p \times 1$ vector with one in each entry. By disregarding the absorbing state, we also have to reduce the dimension of the initial distribution $\pi= (\pi_1,…,\pi_p)$. In this new setup, $\pi$ is now a $1 \times p$ vector that has to sum to one.\
-Now we have that the waiting time to absorption in state $p+1$, $\tau = \inf \{t > 0 \mid X_t =p+1\}$ is phase-type distributed with initial distribution $\pi$ and subintensity rate matrix $T$, and we write 
+where $e$ is a $p \times 1$ vector with one in each entry. By disregarding the absorbing state, we also have to reduce the dimension of the initial distribution $\pi= (\pi_1,…,\pi_p)$. In this new set-up, $\pi$ is now a $1 \times p$ vector that has to sum to one.\
+Now we have that the waiting time to absorption in state $p+1$, $\tau = \inf \{t > 0 \mid X_t =p+1\}$ is phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, and we write 
  \begin{equation*}
 \tau \sim \text{PH}_p (\pi, T).
 \end{equation*}
 
 ### Transformation via rewards
-We can also define the total branch length as a phase-type distributed waiting time. In this situation, the initial distribution is the same, but the subintensity rate matrix $T$ looks different.  As
+We can also define the total branch length as a phase-type distributed waiting time. In this situation, the initial distribution is the same, but the sub-intensity rate matrix $T$ looks different.  As
 \begin{equation*}
 T_k \sim \text{Exp}(\binom{k}{2}) = \text{Exp}(\tfrac{k(k-1)}{2}) 
 \end{equation*}
@@ -93,7 +93,7 @@ and as  the exponential distribution is closed under scaling by a positive facto
 \begin{equation*}
 k T_k \sim  \text{Exp}(\tfrac{k(k-1)}{2k})=  \text{Exp}(\tfrac{(k-1)}{2}).
 \end{equation*}
-Hence, the subintensity rate matrix for the total branch length is
+Hence, the sub-intensity rate matrix for the total branch length is
 \begin{equation*}
 T= \tfrac{1}{2} \begin{pmatrix}
 - (n-1) & (n-1) & 0 & 0 &\cdots & 0 \\
@@ -120,7 +120,7 @@ If $r(i) \neq 0$ for all $i$ and $\Delta (\mathbf{r})$ denotes the diagonal matr
 \begin{equation*}
 Y \sim \text{PH}_p(\pi, \Delta^{-1} (\mathbf{r}) T),
 \end{equation*}
-which implies that the subintensity rate matrix for the total branch length is given as stated above.\
+which implies that the sub-intensity rate matrix for the total branch length is given as stated above.\
 
 The transformation via positive rewards can be extended to the case where $r(i)$ is zero for some $i$'s. In this case, we call it transformation via non-negative rewards. This is important in connection to the site frequency spectrum.
 
@@ -131,7 +131,7 @@ As before, we consider $n=4$. In this situation, the Markov jump process would b
 knitr::include_graphics("CTMC_n4.png")
 ```
 
-The subintensity rate matrix corresponding to the time to the most recent common ancestor $T_{\text{MRCA}}$ would be 
+The sub-intensity rate matrix corresponding to the time to the most recent common ancestor $T_{\text{MRCA}}$ would be 
 \begin{equation*}
 T_{\text{MRCA}}= \begin{pmatrix}
 -6 & 6 & 0 \\
@@ -139,7 +139,7 @@ T_{\text{MRCA}}= \begin{pmatrix}
 0 & 0  & -1\\
 \end{pmatrix}
 \end{equation*}
-and the subintensity rate matrix corresponding to the total branch length $T_{\text{Total}}$ would be 
+and the sub-intensity rate matrix corresponding to the total branch length $T_{\text{Total}}$ would be 
 \begin{equation*}
 T_{\text{Total}}= \tfrac{1}{2} \begin{pmatrix}
 -3 & 3 & 0 \\
@@ -153,15 +153,15 @@ T_{\text{Total}}= \tfrac{1}{2} \begin{pmatrix}
 As before, we let $\{X_t\}_{t\geq0}$ be the underlying Markov jump process and we consider the time to the most recent common ancestor
 $T_{\text{MRCA}} = \tau_{\text{MRCA}} \sim \text{PH}_p (\pi, T)$. 
 But in this section, we use the block counting process to obtain the distribution of the waiting time $\tau_{\text{MRCA}}$.\
-From the block counting process, we get a state space and a subintensity rate matrix. Each state of the state space is represented by a $n-1$ dimensional vector, such that the $i$'th entry correpsonds to the number of branches giving rise to $i$'tons. That is, the first entry corresponds to the number of branches giving rise to singletons, the second entry corresponds to the number of doubletons, etc. 
-Due to this setup, the total length of all branches that have $i$ descendents in the sample can be obtained by the aid of the transformation via rewards,
+From the block counting process, we get a state space and a sub-intensity rate matrix. Each state of the state space is represented by a $n-1$ dimensional vector, such that the $i$'th entry corresponds to the number of branches giving rise to $i$'tons. That is, the first entry corresponds to the number of branches giving rise to singletons, the second entry corresponds to the number of double-tons, etc. 
+Due to this set-up, the total length of all branches that have $i$ descendants in the sample can be obtained by the aid of the transformation via rewards,
 \begin{equation*}
 \tau_i = \int_{0}^{\tau_{\text{MRCA}}} r_i(X_t) dt,
 \end{equation*}
-where $r_i(j)$ is the number of $i$'tons in the $j$th state for all $i,j \in \{1,...,n-1\}$.\
-Then, $\tau_i$ is again phase type distributed with a new initial distribution, $\pi_i$, a new subintensity rate matrix, $T_i$, and defect size $\pi_{i,d+1}$, where $d$ is the number of positive rewards (and hence the new number of transient states).\
+where $r_i(j)$ is the number of $i$'tons in the $j$'th state for all $i,j \in \{1,...,n-1\}$.\
+Then, $\tau_i$ is again phase type distributed with a new initial distribution, $\pi_i$, a new sub-intensity rate matrix, $T_i$, and defect size $\pi_{i,d+1}$, where $d$ is the number of positive rewards (and hence the new number of transient states).\
 
-This approach can also be used to obatin the distribution of the total branch length. As before, the total branch length can be obtained by the aid of the transformation via rewards,
+This approach can also be used to obtain the distribution of the total branch length. As before, the total branch length can be obtained by the aid of the transformation via rewards,
 \begin{equation*}
 \tau = \int_{0}^{\tau_{\text{MRCA}}} r(X_t) dt,
 \end{equation*}
@@ -169,7 +169,7 @@ where $r(j)= r_1(j) + \cdots + r_{n-1}(j)$ is the sum of all $i$'tons in state $
 
 #### Example 3:
 
-We continue the example with $n=4$. In this case, there are two possible trees. One of which is disblayed above, the other is displayed in the following graph
+We continue the example with $n=4$. In this case, there are two possible trees. One of which is displayed above, the other is displayed in the following graph
 
 ```{r Tree2, echo=FALSE, out.width = '50%'}
 knitr::include_graphics("Tree2_n4.png")
@@ -181,7 +181,7 @@ The corresponding block counting process is given by
 knitr::include_graphics("BCP.png")
 ```
 
-and the subintesity rate matrix for this proces is 
+and the sub-intensity rate matrix for this process is 
 \begin{equation*}
 T = \begin{pmatrix}
 -6 & 6 & 0 & 0 \\
@@ -191,14 +191,14 @@ T = \begin{pmatrix}
 \end{pmatrix}.
 \end{equation*}
 Hence, the waiting time to the most recent common ancestor
-$T_{\text{MRCA}} = \tau_{\text{MRCA}}$ is now phase-type distributed with a different subintensity rate matrix.\
-If we are interesed in the total length of all branches giving rise to singletons, we have to give different rewards to the four states of the block counting process. Remember that the first tree had the following structure:
+$T_{\text{MRCA}} = \tau_{\text{MRCA}}$ is now phase-type distributed with a different sub-intensity rate matrix.\
+If we are interested in the total length of all branches giving rise to singletons, we have to give different rewards to the four states of the block counting process. Remember that the first tree had the following structure:
 
 ```{r T1, echo=FALSE, out.width = '40%'}
 knitr::include_graphics("T1_n4.png")
 ```
 
-Hence, the total length of all branches giving rise to singletons would be $T_1 = 4T_4 + 2T_3 + 1T_2$. For the other tree, the total length of branches having one descendant in the sample would be $T_1 = 4T_4 + 2T_3 + 0T_2$. Hence, $\mathbf{r}_1 = (4,2,1,0)$. By using the reward transformation, we get that the total length of branches giving rise to singletons is phase-type distributed with initial distribution $\pi_1 = (1,0,0)$ and subintensity rate matrix 
+Hence, the total length of all branches giving rise to singletons would be $T_1 = 4T_4 + 2T_3 + 1T_2$. For the other tree, the total length of branches having one descendant in the sample would be $T_1 = 4T_4 + 2T_3 + 0T_2$. Hence, $\mathbf{r}_1 = (4,2,1,0)$. By using the reward transformation, we get that the total length of branches giving rise to singletons is phase-type distributed with initial distribution $\pi_1 = (1,0,0)$ and sub-intensity rate matrix 
 \begin{equation*}
 T_1 = \begin{pmatrix}
 -1.5 & 1.5 & 0 \\
@@ -208,7 +208,7 @@ T_1 = \begin{pmatrix}
 \end{equation*}
 As one of the rewards is zero, we have a defect size of $\pi_{1,d+1}=0$, where $d=3$.\
 We can also compute the total length of all branches $\tau$. 
-For both the first and the second tree, the total branch length is given as $T = 4T_4 + 3T_3 + 2T_2$.Hence, the reward vector has to be $\mathbf{r} = (4,3,2,2)$. By using the reward transformation, we get that the total branch length is phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and subintensity rate matrix 
+For both the first and the second tree, the total branch length is given as $T = 4T_4 + 3T_3 + 2T_2$.Hence, the reward vector has to be $\mathbf{r} = (4,3,2,2)$. By using the reward transformation, we get that the total branch length is phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and sub-intensity rate matrix 
 \begin{equation*}
 T = \begin{pmatrix}
 -1.5 & 1.5 & 0 & 0\\
@@ -222,7 +222,7 @@ This time, none of the rewards is zero. Hence, there is no defect size and the d
 ### The site frequencies
 
 Now that we have found the distribution of the branch lengths, it is straight forward to compute the distribution of the site frequencies $\xi_i$ for all $i=1,...,n-1$ and the number of segregating sites $S_{\text{Total}}$.\
-As before, we let $\tau_i$ denote the total length of all branches that have $i$ descendents in the sample and $\tau$ be the total length of all branches. Then, 
+As before, we let $\tau_i$ denote the total length of all branches that have $i$ descendants in the sample and $\tau$ be the total length of all branches. Then, 
 \begin{equation*}
 \tau_i \sim \text{PH}(\pi_i, T_i) \quad \text{and} \quad \tau \sim \text{PH}(\pi, T).
 \end{equation*}
@@ -337,7 +337,7 @@ P_i = (I - \lambda^{-1}T_i)^{-1} \quad \text{ and } \quad p_i=e-P_ie.
 
 #### Example 4:
 
-For $n=4$, we have seen that the total length of branches giving rise to singletons is discrete phase-type distributed with initial distribution $\pi_i = (1,0,0)$, subintensity rate matrix 
+For $n=4$, we have seen that the total length of branches giving rise to singletons is discrete phase-type distributed with initial distribution $\pi_i = (1,0,0)$, sub-intensity rate matrix 
 \begin{equation*}
 T_i = \begin{pmatrix}
 -1.5 & 1.5 & 0 \\
@@ -345,7 +345,7 @@ T_i = \begin{pmatrix}
 0 & 0 & -1  \\
 \end{pmatrix}.
 \end{equation*}
-and defect size $\pi_{i,d+1}=0$, where $d=3$. From above we have that the number of singletons plus one is again phase-type distributed with initial distribution $\pi_i = (1,0,0)$ and subtransition probability matrix 
+and defect size $\pi_{i,d+1}=0$, where $d=3$. From above we have that the number of singletons plus one is again phase-type distributed with initial distribution $\pi_i = (1,0,0)$ and sub-transition probability matrix 
 \begin{equation*}
 P_i = (I -\tfrac{2}{\theta} T_i)^{-1} = \begin{pmatrix}
 0.4 & 0.24 & 0.12 \\
@@ -354,7 +354,7 @@ P_i = (I -\tfrac{2}{\theta} T_i)^{-1} = \begin{pmatrix}
 \end{pmatrix},
 \end{equation*}
 for $\theta = 2$. The defect size is still $\pi_{i,d+1}=0$.\
-We can also compute the distribution of the number of segregating sites $S_{\text{Total}} +1$. From the previous example, we have that the total branch length $\tau$ is phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and subintensity rate matrix 
+We can also compute the distribution of the number of segregating sites $S_{\text{Total}} +1$. From the previous example, we have that the total branch length $\tau$ is phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and sub-intensity rate matrix 
 \begin{equation*}
 T = \begin{pmatrix}
 -1.5 & 1.5 & 0 & 0\\
@@ -363,7 +363,7 @@ T = \begin{pmatrix}
 0 & 0 & 0 & -0.5\\
 \end{pmatrix}.
 \end{equation*}
-Hence, the number of segregating sites plus one is also discrete phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and subtransition probability matrix 
+Hence, the number of segregating sites plus one is also discrete phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and sub-transition probability matrix 
 \begin{equation*}
 P = (I -\tfrac{2}{\theta} T)^{-1} = \begin{pmatrix}
 0.4 & 0.3 & 4/30 & 2/30 \\

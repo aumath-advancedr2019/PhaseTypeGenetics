@@ -35,7 +35,7 @@
 #'
 #' @return The function \code{minima} returns an object of type \code{discphasetype} 
 #' or \code{contphasetype} (depending on the input) holding the ditribution 
-#' of the minimum of the input objects, while \code{mixima} returns an object of type \code{discphasetype} 
+#' of the minimum of the input objects, while \code{maxima} returns an object of type \code{discphasetype} 
 #' or \code{contphasetype} that holds the ditribution 
 #' of the maximum of the input objects.
 #'
@@ -64,7 +64,7 @@
 #' 
 #' ## Computing the minimum and maximum
 #' minima(T_Total1, T_Total2)
-#' mixima(T_Total1, T_Total2)
+#' maxima(T_Total1, T_Total2)
 minima <- function(...) UseMethod("minima")
 
 #' @rdname minima
@@ -104,16 +104,16 @@ minima.contphasetype <- function(object1,object2){
 }
 
 #' @rdname minima
-mixima <- function(...) UseMethod("mixima")
+maxima <- function(...) UseMethod("maxima")
 
 #' @rdname minima
-mixima.default <- function(...){
+maxima.default <- function(...){
   
   max(...)
 }
 
 #' @rdname minima
-mixima.discphasetype <- function(object1,object2){
+maxima.discphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -133,7 +133,7 @@ mixima.discphasetype <- function(object1,object2){
 }
 
 #' @rdname minima
-mixima.contphasetype <- function(object1,object2){
+maxima.contphasetype <- function(object1,object2){
   
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat

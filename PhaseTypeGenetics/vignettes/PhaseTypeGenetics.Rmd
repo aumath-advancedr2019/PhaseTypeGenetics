@@ -2,7 +2,11 @@
 title: "PhaseTypeGenetics"
 author: "Jette Steinbach and Peter Krarup"
 date: "1 11 2019"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+
 vignette: >
   %\VignetteIndexEntry{PhaseTypeGenetics}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,6 +23,19 @@ knitr::opts_chunk$set(
 ```{r setup, results='hide'}
 library(PhaseTypeGenetics)
 ```
+## Introduction to PhaseTypeGenetics
+The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.\
+
+All functions and applications are based on the theory developed in 
+
+* Mogens Bladt and Bo Friis Nielsen (2017): 
+  \emph{ Matrix-Exponential Distributions in Applied Probability}. 
+  Probability Theory and Stochastic Modelling (Springer), Volume 81 
+* and Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
+  \emph{Phase-type distributions in population genetics}. 
+  Theoretical Population Biology, 127, pp. 16-32.
+
+## Defining phase-type distributions
 
 ## Applications in Population Genetics
 
@@ -373,3 +390,5 @@ P = (I -\tfrac{2}{\theta} T)^{-1} = \begin{pmatrix}
 \end{pmatrix},
 \end{equation*}
 for $\theta = 2$. 
+
+## The functions

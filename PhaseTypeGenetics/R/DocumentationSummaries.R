@@ -19,6 +19,7 @@
 #'
 #' @examples
 #'
+#' summary(T_Total$n10)
 #'
 summary.discphasetype <- function(object){
   cat("A discrete phase-type distribution with initial probability vector \n")

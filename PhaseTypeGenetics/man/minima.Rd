@@ -35,9 +35,9 @@ matrices equal to \code{P.mat1}/\code{T.mat1} and  \code{P.mat2}/\code{T.mat2}.
 In the discrete case, the minimum and maximum of two phase-type distributed
 variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} are defined
 as follows
-\deqn{min(tau1, tau2) ~ DPH_{pq}( kronecker(\alpha,\beta), kronecker(S,T) )}
+\deqn{min(tau1, tau2) ~ DPH_{pq}( kronecker(\alpha,\beta), kronecker(S,T) ),}
 and
-\deqn{max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(\alpha,\beta),0.vec), K )},
+\deqn{max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(\alpha,\beta),0.vec), K ),}
 where
 \code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and
 \deqn{K= rbind( cbind(kronecker(S,T), kronecker(S,t),kronecker(s,T) ),
@@ -47,9 +47,9 @@ where
 In the continous case, the minima and maxima of two phase-type distributed
 variables \eqn{X ~ PH_p(\alpha,S)} and \eqn{Y ~ PH_q(\beta,T)} is
 given in the following way
-\deqn{min(X, Y) ~ PH( kronecker(\alpha,\beta), kronecker(S,T) )}
+\deqn{min(X, Y) ~ PH( kronecker(\alpha,\beta), kronecker(S,T) ),}
 and
-\deqn{max(X, Y) ~ PH( c(kronecker(alpha,beta),0.vec), K )}
+\deqn{max(X, Y) ~ PH( c(kronecker(alpha,beta),0.vec), K ),}
 where
 \code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and
 \deqn{K= rbind( cbind(kronecker(S,T), kronecker(I,t),kronecker(s,I) ),

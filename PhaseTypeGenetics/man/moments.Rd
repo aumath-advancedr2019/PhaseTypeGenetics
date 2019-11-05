@@ -2,9 +2,6 @@
 % Please edit documentation in R/DocumentationMoments.R
 \name{moments}
 \alias{moments}
-\alias{moments.default}
-\alias{moments.discphasetype}
-\alias{moments.contphasetype}
 \title{Statistical moments of phase-type distributions}
 \source{
 Mogens Bladt and Bo Friis Nielsen (2017):
@@ -13,15 +10,9 @@ Probability Theory and Stochastic Modelling (Springer), Volume 81.
 }
 \usage{
 moments(...)
-
-\method{moments}{default}(...)
-
-\method{moments}{discphasetype}(object, i, all = FALSE)
-
-\method{moments}{contphasetype}(object, i, all = FALSE)
 }
 \arguments{
-\item{object}{either a continuous phase-type distributed object of class \code{contphasetype} or 
+\item{object}{either a continuous phase-type distributed object of class \code{contphasetype} or
 a discrete phase-type distributed object of class \code{discphasetype}.}
 
 \item{i}{a positive number stating the order of the desired moment}
@@ -30,9 +21,9 @@ a discrete phase-type distributed object of class \code{discphasetype}.}
 all moments up to the given order. The default is equal to FALSE.}
 }
 \value{
-For \code{all = FALSE}, the function either returns the \eqn{i}'th-order moment (if the object is continuous 
+For \code{all = FALSE}, the function either returns the \eqn{i}'th-order moment (if the object is continuous
 phase-type distributed) or the \eqn{i}'th factorial moment (if the object is discrete
-phase-type distributed). In both cases, the length of the output is one. 
+phase-type distributed). In both cases, the length of the output is one.
 For \code{all = TRUE}, the function computes all (factorial) moments up to the given order,
 hence the output is a vector of length \eqn{i}.
 }
@@ -41,10 +32,10 @@ Computing (factorial) moments of a given order of phase-type distributed random 
 }
 \details{
 In the discrete case \eqn{( \tau ~ DPH(\pi,P) )}, the factorial moments are given by
-\deqn{E[\tau(\tau-1)*...*(\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e},
+\deqn{E[\tau(\tau-1)*...*(\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e,}
 where \eqn{\pi} is the initial distribution and \eqn{P} is the subtransition probability matrix.
 For \eqn{\tau ~ PH(\pi, T)}, the \eqn{i}'th-order moment is defined as
-\deqn{E[\tau^i] = i! \pi (-T)^(-i) e},
+\deqn{E[\tau^i] = i! \pi (-T)^(-i) e,}
 where \eqn{\pi} is again the inital distribution and \eqn{T} is the subintensity rate matrix.
 In both cases, \eqn{e} is a vector with one in each entry.
 }

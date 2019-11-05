@@ -21,6 +21,7 @@
 #'
 #' summary(T_Total$n10)
 #'
+#' @export
 summary.discphasetype <- function(object){
   cat("A discrete phase-type distribution with initial probability vector \n")
   print(object$initDist)
@@ -32,6 +33,7 @@ summary.discphasetype <- function(object){
 }
 
 #' @rdname summary.discphasetype
+#' @export
 summary.contphasetype <- function(object){
   cat("A continuous phase-type distribution with initial probability vector \n")
   print(object$initDist)

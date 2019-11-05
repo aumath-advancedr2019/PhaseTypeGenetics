@@ -14,16 +14,16 @@ discretization(object, a = NULL, lambda = NULL)
 \arguments{
 \item{object}{a continuous phase-type distributed object of class \code{contphasetype}.}
 
-\item{a}{a constant that is larger than the maximum of all diagonal 
+\item{a}{a constant that is larger than the maximum of all diagonal
 entries of the subintensity rate matrix}
 
 \item{lambda}{the mutation rate at the locus}
 }
 \value{
 Depending on the input, the function returns the discretized phase-type
-disctribution with subtransition probability matrix equal to either 
+disctribution with subtransition probability matrix equal to either
 \deqn{P := I + 1/a * T }
-(if \eqn{a} is provided) or 
+(if \eqn{a} is provided) or
 \deqn{P = (I-lambda^{-1} * T)^{-1}}
 (if \eqn{\lambda} is provided). If both \eqn{a} and \eqn{\lambda} are provided, the function
 returns both distributions in a list. In all three cases, the returned objects are
@@ -34,20 +34,20 @@ Discretizes a continuous phase-type distribution with initial distribution
 \code{initDist} and subintensity rate matrix \code{T.mat}.
 }
 \details{
-The relation between continuous and discrete phase-type distributions 
+The relation between continuous and discrete phase-type distributions
 is given in the following way. If \eqn{T} is the subintensity rate matrix of a continuous
 phase-type distribution with representation \eqn{PH(pi,T)}, then there exists
-a constant \eqn{a>0} such that \eqn{P := I + 1/a * T} is a subtransition 
-probability matrix and \eqn{DPH(pi, P)} is a representation for a discrete 
-phase-type distribution. This holds for any \eqn{a} larger than the maximum of 
-all diagonal entries in \eqn{T}, as all entries in a subtransition 
-probability matrix have to be between zero and one. 
+a constant \eqn{a>0} such that \eqn{P := I + 1/a * T} is a subtransition
+probability matrix and \eqn{DPH(pi, P)} is a representation for a discrete
+phase-type distribution. This holds for any \eqn{a} larger than the maximum of
+all diagonal entries in \eqn{T}, as all entries in a subtransition
+probability matrix have to be between zero and one.
 It even holds that for a genealogical model where the total
 branch length \eqn{\tau ~ PH(pi, T)} and the mutation rate at the locus is \eqn{\lambda = \theta/2},
 the number of segregating sites \eqn{S} plus one is discrete phase-type distributed
-with inital distribution \eqn{pi} and subtransition probability matrix 
-\eqn{P = (I-\lambda^{-1} * T)^{-1}}, i.e. 
-\deqn{S + 1 ~ DPH(pi, P)}.
+with inital distribution \eqn{pi} and subtransition probability matrix
+\eqn{P = (I-\lambda^{-1} * T)^{-1}}, i.e.
+\deqn{S + 1 ~ DPH(pi, P).}
 }
 \examples{
 ## For n=4, the total branch length is phase-type
@@ -62,7 +62,7 @@ T.mat <- matrix(c(-1.5, 1.5, 0, 0,
 T_Total <- contphasetype(initDist,T.mat)
 
 ## Hence, for theta=2, the number of segregating sites plus one is
-## discrete phase-type distributed with the same initial 
+## discrete phase-type distributed with the same initial
 ## distribution and subtransition probability matrix
 discretization(T_Total, lambda=1)$P.mat
 

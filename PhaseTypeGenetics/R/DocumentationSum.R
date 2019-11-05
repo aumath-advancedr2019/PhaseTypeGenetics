@@ -54,16 +54,20 @@
 #' phsum(T1,T2)
 #' ## (Please compare this distribution with the distribution
 #' ## obtained directly from the reward transformation)
+#'
+#' @export
 phsum <- function(...){
 
   UseMethod("phsum")
 }
 
+#' @export
 phsum.default <- function(x,...){
 
   sum(x,...)
 }
 
+#' @export
 phsum.discphasetype <- function(object1,object2){
 
   initDist1 = object1$initDist

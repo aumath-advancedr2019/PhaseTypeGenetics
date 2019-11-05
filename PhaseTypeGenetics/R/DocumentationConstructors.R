@@ -54,6 +54,7 @@
 #' S_Total <- discphasetype(initDist, P.mat)
 #'
 #' @describeIn discphasetype Creating an object of type discphasetype
+#' @export
 discphasetype <- function(initDist, P.mat){
   P.mat <- as.matrix(P.mat)
   if(sum(initDist) > 1) stop("Not a valid initial distribution, as sum(initDist) > 1")

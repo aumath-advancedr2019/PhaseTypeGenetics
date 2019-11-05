@@ -101,11 +101,13 @@
 #' ## for a sample of size 5
 #' rphasetype(T_Total$n5, n=10)
 #'
+#' @export
 dphasetype <- function(object,x){
 
   UseMethod("dphasetype")
 }
 
+#' @export
 dphasetype.discphasetype <- function(object,x){
 
   if(x<1 | !is.integer(x)){
@@ -119,6 +121,7 @@ dphasetype.discphasetype <- function(object,x){
  return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(iniDist)))
 }
 
+#' @export
 dphasetype.contphasetype <- function(object, x){
 
   if(x<0){
@@ -135,11 +138,13 @@ dphasetype.contphasetype <- function(object, x){
 }
 
 #' @rdname dphasetype
+#' @export
 pphasetype <- function(object,x){
 
   UseMethod("pphasetype")
 }
 
+#' @export
 pphasetype.discphasetype <- function(object,x){
 
   if(x<0){
@@ -156,6 +161,7 @@ pphasetype.discphasetype <- function(object,x){
   return(1 - sum(initDist%*%(P.mat %^% x)))
 }
 
+#' @export
 pphasetype.contphasetype <- function(object, x){
 
   if(x<0){
@@ -172,11 +178,13 @@ pphasetype.contphasetype <- function(object, x){
 }
 
 #' @rdname dphasetype
+#' @export
 qphasetype <- function(object, p){
 
   UseMethod("qphasetype")
 }
 
+#' @export
 qphasetype.discphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -189,6 +197,7 @@ qphasetype.discphasetype <- function(object, p){
   return(round(m$root[1]))
 }
 
+#' @export
 qphasetype.contphasetype <- function(object, p){
 
   if( p<0 | p>1 ){
@@ -203,11 +212,13 @@ qphasetype.contphasetype <- function(object, p){
 }
 
 #' @rdname dphasetype
+#' @export
 rphasetype <- function(object, n){
 
   UseMethod("rphasetype")
 }
 
+#' @export
 rphasetype.discphasetype <- function(object, n){
 
   n=floor(abs(n))

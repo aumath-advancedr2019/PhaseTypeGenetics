@@ -3,17 +3,9 @@
 %   R/DocumentationDensityDistributionQuantileSimulation.R
 \name{dphasetype}
 \alias{dphasetype}
-\alias{dphasetype.discphasetype}
-\alias{dphasetype.contphasetype}
 \alias{pphasetype}
-\alias{pphasetype.discphasetype}
-\alias{pphasetype.contphasetype}
 \alias{qphasetype}
-\alias{qphasetype.discphasetype}
-\alias{qphasetype.contphasetype}
 \alias{rphasetype}
-\alias{rphasetype.discphasetype}
-\alias{rphasetype.contphasetype}
 \title{The phase-type distribution}
 \source{
 Mogens Bladt and Bo Friis Nielsen (2017):
@@ -21,29 +13,13 @@ Mogens Bladt and Bo Friis Nielsen (2017):
 Probability Theory and Stochastic Modelling (Springer), Volume 81.
 }
 \usage{
-dphasetype(...)
+dphasetype(object, x)
 
-\method{dphasetype}{discphasetype}(object, x)
+pphasetype(object, x)
 
-\method{dphasetype}{contphasetype}(object, x)
+qphasetype(object, p)
 
-pphasetype(...)
-
-\method{pphasetype}{discphasetype}(object, x)
-
-\method{pphasetype}{contphasetype}(object, x)
-
-qphasetype(...)
-
-\method{qphasetype}{discphasetype}(object, p)
-
-\method{qphasetype}{contphasetype}(object, p)
-
-rphasetype(...)
-
-\method{rphasetype}{discphasetype}(object, n)
-
-\method{rphasetype}{contphasetype}(object, n)
+rphasetype(object, n)
 }
 \arguments{
 \item{object}{an object for which the density, distribution function,
@@ -76,27 +52,27 @@ In the discrete case, the phase-type distribution has density
 for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
 probability matrix and \code{t = (I-P)e}. Furthermore, the distribution function
 is given by
-\deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist))}. 
+\deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
 If the quantile \eqn{x} is a
 real number, the function will round the number down in order to obtain a
 natural number.
 In the continuous case, the phase-type distribution has density
-\deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 }
+\deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 , }
 where \code{initDist} is the initial distribution, \code{T.mat} is the subintensity
 rate matrix and \code{t = -Te}. Furthermore, the distribution function
 is given by
-\deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0.}
+\deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
 }
 \examples{
 
-## We reproduce Figure 3.4 in John Wakeley (2009): 
-## "Coalescent Theory: An Introduction", 
+## We reproduce Figure 3.4 in John Wakeley (2009):
+## "Coalescent Theory: An Introduction",
 ## Roberts and Company Publishers, Colorado.
 
 x.vec <- seq(0,4, by=0.1)
 dist <- matrix(nrow = 6, ncol = length(x.vec))
 for(x in x.vec){
- 
+
  dist[2,which(x.vec ==x)] <- dphasetype(T_MRCA$n5,x)
  dist[3,which(x.vec ==x)] <- dphasetype(T_MRCA$n10,x)
  dist[4,which(x.vec ==x)] <- dphasetype(T_MRCA$n20,x)
@@ -142,7 +118,7 @@ points(x.vec, dist[4,], type = "l")
 points(x.vec, dist[5,], type = "l")
 points(x.vec, dist[6,], type = "l")
 
-## Simulating ten total branch lengths 
+## Simulating ten total branch lengths
 ## for a sample of size 5
 rphasetype(T_Total$n5, n=10)
 

@@ -31,7 +31,7 @@ equal to the number of rows and number of columns of \code{T.mat}.}
 \code{contcphasetype} returns a list of class \emph{"contphasetype"}. Both lists
 hold
 \itemize{
-  \item \code{initDist} : The inital distribution 
+  \item \code{initDist} : The inital distribution
   \item \code{P.mat}/\code{T.mat} : The subtransition/subintensity matrix
 }
 }
@@ -60,7 +60,7 @@ initDist <- c(1,0,0)
 T.mat <- matrix(c(-6,6,0,
                    0,-3,3,
                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
- 
+
 T_MRCA <- contphasetype(initDist, T.mat)
 
 ## For theta=2, the number of segregating sites plus one is
@@ -72,7 +72,7 @@ P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
                    0, 0.5, 2/9, 1/9,
                    0, 0, 2/3, 0,
                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
- 
+
 S_Total <- discphasetype(initDist, P.mat)
 
 }

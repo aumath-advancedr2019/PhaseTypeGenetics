@@ -63,16 +63,20 @@
 #' ## We get the desired numbers
 #' m[1] == mean(S_Total)
 #' m[2] + m[1] - m[1]^2 == var(S_Total)
+#'
+#' @export
 moments <- function(...){
 
   UseMethod("moments")
 }
 
+#' @export
 moments.default <- function(...){
 
   print("The package ‘moments’ can be used to compute sample moments of specified order.")
 }
 
+#' @export
 moments.discphasetype <- function(object, i, all = FALSE){
 
   if(i < 1 ) stop("Not a valid order. The number i has to be positive!")

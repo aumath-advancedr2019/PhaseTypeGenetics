@@ -4,9 +4,6 @@
 \alias{mean.discphasetype}
 \alias{mean.contphasetype}
 \alias{var}
-\alias{var.default}
-\alias{var.discphasetype}
-\alias{var.contphasetype}
 \title{Mean and variance of phase-type distributions}
 \source{
 Mogens Bladt and Bo Friis Nielsen (2017):
@@ -18,13 +15,7 @@ Probability Theory and Stochastic Modelling (Springer), Volume 81.
 
 \method{mean}{contphasetype}(object)
 
-var(...)
-
-\method{var}{default}(x, y = NULL, na.rm = FALSE, use)
-
-\method{var}{discphasetype}(object)
-
-\method{var}{contphasetype}(object)
+var(object, ...)
 }
 \arguments{
 \item{object}{an object for which the mean or variance should be computed.
@@ -43,20 +34,20 @@ phase-type distribution with initial distribution equal to
 }
 \details{
 In the discrete case, the phase-type distribution has mean
-\deqn{E[\tau] = initDist (I-P.mat)^{-1} e + 1 - initDist e},
+\deqn{E[\tau] = initDist (I-P.mat)^{-1} e + 1 - initDist e,}
 where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
 probability matrix and \code{e} is the vector having one in each entry.
 Furthermore, the variance can be calculated as
-\deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2},
+\deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2,}
 where
-\deqn{E[\tau(\tau-1)] = 2 initDist P.mat (I-P.mat)^{-2} e + 1 - initDist e}.
+\deqn{E[\tau(\tau-1)] = 2 initDist P.mat (I-P.mat)^{-2} e + 1 - initDist e.}
 In the continuous case, the phase-type distribution has mean
-\deqn{E[\tau] = initDist (-T.mat)^{-1} e},
+\deqn{E[\tau] = initDist (-T.mat)^{-1} e,}
 where \code{initDist} is the initial distribution and \code{T.mat} is the subintensity
 rate matrix. Furthermore, the variance can be calculated in the usual way
-\deqn{Var[tau] = E[tau^2] - E[tau]^2},
+\deqn{Var[tau] = E[tau^2] - E[tau]^2,}
 where
-\deqn{E[\tau^2] = 2 initDist (-T.mat)^{-2} e}.
+\deqn{E[\tau^2] = 2 initDist (-T.mat)^{-2} e.}
 }
 \examples{
 
@@ -144,7 +135,6 @@ points(x= 1:20, VecOfVarsTotal, type = "l")
 
 text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))
 text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
-
 }
 \seealso{
 \code{\link{mean}}, \code{\link{var}}.

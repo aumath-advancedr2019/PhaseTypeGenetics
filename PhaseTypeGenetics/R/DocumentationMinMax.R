@@ -65,13 +65,17 @@
 #' ## Computing the minimum and maximum
 #' minima(T_Total1, T_Total2)
 #' maxima(T_Total1, T_Total2)
+#'
+#' @export
 minima <- function(...) UseMethod("minima")
 
+#' @export
 minima.default <- function(...){
 
   min(...)
 }
 
+#' @export
 minima.discphasetype <- function(object1,object2){
 
   initDist1 = object1$initDist
@@ -86,6 +90,7 @@ minima.discphasetype <- function(object1,object2){
 
 }
 
+#' @export
 minima.contphasetype <- function(object1,object2){
 
   initDist1 = object1$initDist
@@ -102,14 +107,16 @@ minima.contphasetype <- function(object1,object2){
 }
 
 #' @rdname minima
+#' @export
 maxima <- function(...) UseMethod("maxima")
 
-
+#' @export
 maxima.default <- function(...){
 
   max(...)
 }
 
+#' @export
 maxima.discphasetype <- function(object1,object2){
 
   initDist1 = object1$initDist

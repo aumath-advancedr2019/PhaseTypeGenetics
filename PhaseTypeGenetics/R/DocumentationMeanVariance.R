@@ -120,7 +120,7 @@
 #'
 #' text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))
 #' text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
-#'
+#' @export
 mean.discphasetype <- function(object){
 
   initDist <- object$initDist
@@ -131,6 +131,7 @@ mean.discphasetype <- function(object){
 }
 
 #' @rdname mean.discphasetype
+#' @export
 mean.contphasetype <- function(object){
 
   initDist = object$initDist
@@ -140,11 +141,13 @@ mean.contphasetype <- function(object){
 }
 
 #' @rdname mean.discphasetype
-var <- function(...){
+#' @export
+var <- function(object,...){
 
   UseMethod("var")
 }
 
+#' @export
 var.default <- function(x, y=NULL, na.rm = FALSE, use){
 
   if (missing(use))
@@ -164,6 +167,7 @@ var.default <- function(x, y=NULL, na.rm = FALSE, use){
   .Call(C_cov, x, y, na.method, FALSE)
 }
 
+#' @export
 var.discphasetype <- function(object){
 
   initDist = object$initDist

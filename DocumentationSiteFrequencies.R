@@ -90,11 +90,11 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
     ## In order to find the distribution for the tail 
     ## statistic, we need a reward vector that
     ## correpsonds to xi_i+...+_xi_n-1. Hence
-    if(length(j:(n-1))==1){
+    if(length(i:(n-1))==1){
       r.vec <- res$StateSpace.mat[,(n-1)]
       
     }else{
-      r.vec <- rowSums(res$StateSpace.mat[,j:(n-1)])
+      r.vec <- rowSums(res$StateSpace.mat[,i:(n-1)])
     }
     
     ## In this case, some of the enties in the reward vector 

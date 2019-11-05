@@ -47,7 +47,24 @@
 #'
 #' @examples
 #'
-#'
+#' ## Two representations of the total branch length
+#' ## are given by
+#' T_Total1 <- matrix(c(-1.5, 1.5, 0,
+#'                      0, -1, 1,
+#'                      0, 0, -0,5), nrow = 3, byrow = TRUE)
+#'                      
+#' T_Total2 <- matrix(c(-1.5, 1.5, 0, 0,
+#'                      0, -1, 2/3, 1/3,
+#'                      0, 0, -0.5, 0,
+#'                      0, 0, 0, -0.5), nrow = 4, byrow = TRUE)
+#'                      
+#' ## Defining two objects of type "contphasetype".
+#' T_Total1 <- contphasetype(initDist = c(1,0,0), T_Total1)
+#' T_Total2 <- contphasetype(initDist = c(1,0,0,0), T_Total2)
+#' 
+#' ## Computing the min and max
+#' min(T_Total1, T_Total2)
+#' max(T_Total1, T_Total2)
 min <- function(...) UseMethod("min")
 
 #' @rdname min

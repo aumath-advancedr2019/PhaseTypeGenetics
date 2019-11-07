@@ -1,0 +1,235 @@
+---
+title: "Sums and Extrema"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sums_and_Extrema}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, eval = FALSE}
+    library(PhaseTypeGenetics)
+```
+
+```{r include=FALSE}
+    library(PhaseTypeGenetics)
+```
+
+
+## Sums of independent discrete phase-type distributions
+
+Consider $\tau_1\sim DPH_{p}(\alpha,S)$ and $\tau_2\sim DPH_{q}(\beta,T)$ independent. Then by Theorem 1.2.65 in [BN]
+
+\begin{equation*}
+\tau_1+\tau_2\sim DPH_{p+q}\bigg(\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix},\begin{pmatrix}S & s\beta \\ \boldsymbol{0} & T\end{pmatrix}\bigg),
+\end{equation*}
+where $s=\boldsymbol{e}-S\boldsymbol{e}$ is the vector of exit-probabilities from $S$.  
+
+
+The proof of this is that we take the two underlying Markov Chains and knit them together to form a new Markov Chain that first has to behave as the Markov Chain corresponding to $\tau_1$ until it is absorbed and from then on behave as the Markov Chain corresponding to $\tau_2$. The waiting time for absorption in this new Markov Chain then has the same distribution as $\tau_1+\tau_2$.  
+Formally the way we make this new Markov Chain is that the state space is $\{1,\dotsc,p+q+1\}$ and we make the states $\{1,\dotsc,p\}$ correspond to the $p$ transient states in the Markov Chain underlying $\tau_1$ and the states $\{p+1,\dotsc,p+q\}$ correspond to the $q$ transient states in the Markov Chain underlying $\tau_2$.  
+The initial distribution for the sum is $\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix}$ because then we will initialize in one of the states $\{1,\dotsc,p\}$ and the probability is that of the transient states for $\tau_1$.  
+The probabilities for transition among the states $\{1,\dotsc,p\}$ is given by $S$. In the new Markov Chain we combine the absorption of the first Markov Chain with in the initialization of the second Markov Chain. This is why the upper right corner of the the new sub-transition matrix is given $s\beta$. This matrix has dimension $p\times q$ and for $i\in\{1,\dotsc,p\}$ and $j\in\{1,\dotsc,q\}$ the $(i,j)$'th entry is $s_i\beta_j$, which is the probability of exiting the first Markov Chain from state $i$ and entering the second Markov chain in state its $j$'th state. The probabilities for transition among the states $\{p+1,\dotsc,p+q\}$ are the same as transition amond the $q$ transient states underlying $\tau_2$, and is given by $T$.  
+This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `discphasetype`-class, then it outputs an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+
+#### Example
+
+Suppose that 
+\begin{equation*}
+\tau_1\sim DPH_{2}(\begin{pmatrix}0.5 & 0.5\end{pmatrix},\begin{pmatrix}0.4 & 0.2 \\ 0.9 & 0\end{pmatrix})
+\end{equation*}
+and
+\begin{equation*}
+\tau_2\sim DPH_{2}(\begin{pmatrix}0.75 & 0.2\end{pmatrix},\begin{pmatrix}0.1 & 0.7 \\ 0.2 & 0.7\end{pmatrix})
+\end{equation*}
+then 
+\begin{equation*}
+\begin{pmatrix}0.1 \\ 0.1\end{pmatrix}\begin{pmatrix}0.75 & 0.2\end{pmatrix}=\begin{pmatrix}0.075 & 0.02\\ 0.075 & 0.02\end{pmatrix}
+\end{equation*}
+so
+$\tau_1+\tau_2$ follows a discrete phase-type distribution with initial distribution
+\begin{equation*}
+\begin{pmatrix} 0.5 & 0.5 & 0 & 0\end{pmatrix}
+\end{equation*}
+and subtransition probability matrix
+\begin{equation*}
+\begin{pmatrix}0.4 & 0.2 & 0.075 & 0.02\\
+               0.9 & 0 & 0.075 & 0.02\\
+               0 & 0 & 0.1 & 0.7 \\
+               0 & 0 & 0.2 & 0.7\end{pmatrix}
+\end{equation*}
+
+## Sums of independent continuous phase-type distributions
+
+Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then by Theorem 3.1.26 in [BN]
+\begin{equation*}
+X+Y\sim PH_{p+q}\bigg(\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix},\begin{pmatrix}S & s\beta \\ \boldsymbol{0} & T\end{pmatrix}\bigg),
+\end{equation*}
+where $s=-S\boldsymbol{e}$ is the vector of exit-rates from $S$.  
+Similarly to the discrete case the proof of this is constructing a Markov Jump Process behaves as the Markov Jump Process underlying $X$ until it is absorbed and from then on behaves as the Markov Jump Process underlying $Y$.  
+Similar consideration as in the discrete case show that one way of making such a Markov Jump Process is with initial distribution and subintensity matrix as stated in the theorem.
+This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `contphasetype`-class, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+
+#### Example
+
+Suppose a random variable $E$ follows an exponential distribution with parameter $\lambda>0$. Then by comparing the distribution functions we see that that $E\sim PH_{1}(1,-\lambda)$. It now follows that if $E_1,\dotsc,E_n$ are independent exponentially distributed random variables with respective parameters $\lambda_1,\dotsc,\lambda_n$ then
+
+\begin{equation*}
+\sum_{i=1}^{n}E_i\sim PH_{n}(\begin{pmatrix}1 & 0 & \cdots & 0\end{pmatrix},\Lambda_n),
+\end{equation*}
+where the $(i,j)$'th entry of $\Lambda_n$ is given by
+\begin{equation*}
+(\Lambda_n)_{i,j}=
+\begin{cases}   \lambda_i, &\text{ if }j=i+1,\\
+               -\lambda_i, &\text{ if }j=i,\\
+                 0, & \text{ otherwise.}
+\end{cases}
+\end{equation*}
+
+## Extremum of two independent discrete phase-type distributions
+Consider $\tau_1\sim DPH_{p}(\alpha,S)$ and $\tau_2\sim DPH_{q}(\beta,T)$ independent. Then by Theorem 1.2.67 in [BN]
+\begin{equation*}
+\min(\tau_1,\tau_2)\sim DPH_{pq}(\alpha\otimes\beta,S\otimes T),
+\end{equation*}
+and
+\begin{equation*}
+\max(\tau_1,\tau_2)\sim DPH_{pq+p+q}(\begin{pmatrix}\alpha\otimes\beta & 0 & 0\end{pmatrix},K).
+\end{equation*}
+where
+\begin{equation*}
+K=\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T\\
+                  0 & S & 0\\
+                  0 & 0 & T\end{pmatrix},
+\end{equation*}
+and $s=\boldsymbol{e}-S\boldsymbol{e}$, $t=\boldsymbol{e}-T\boldsymbol{e}$ are the vectors of exit-probabilities from $S$ and $T$ respectively.  
+The proof is as follows. Let $\{X_1(n)\}_{n\in\mathbb{N}}$ denote the Markov chain underlying $\tau_1$. The transition probability matrix of this Markov chain is
+\begin{equation*}
+P_1=\begin{pmatrix}S & s\\ 0 & 1\end{pmatrix}.
+\end{equation*}
+Let $\{X_2(n)\}_{n\in\mathbb{N}}$ denote the Markov chain underlying $\tau_2$. The transition probability matrix of this Markov chain is
+\begin{equation*}
+P_2=\begin{pmatrix}T & t\\ 0 & 1\end{pmatrix}.
+\end{equation*}
+$\{Y(n)\}_{n\in\mathbb{N}}=\{(X_1(n),X_2(n))\}_{n\in\mathbb{N}}$ is a Markov Chain on the (lexicographically ordered) product space of the respective state spaces with transition probability matrix
+\begin{equation*}
+P_1\otimes P_2=\begin{pmatrix}S\otimes P_2 & s\otimes P_2 \\
+                                0\otimes P_2 & 1\otimes P_2\end{pmatrix}
+                =\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T & s\otimes t\\
+                                S\otimes 0 & S\otimes 1 & s\otimes 0 & s\otimes 1\\
+                                0\otimes T & 0\otimes t & 1\otimes T & 1\otimes t\\
+                                0\otimes 0 & 0\otimes 1 & 1\otimes 0 & 1\otimes 1
+                \end{pmatrix}
+                =\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T & s\otimes t\\
+                                0 & S & 0 & s\\
+                                0 & 0 & T & t\\
+                                0 & 0 & 0 & 1
+                \end{pmatrix}.
+\end{equation*}
+We can write 
+\begin{equation*}
+\max(\tau_1,\tau_2)=\inf\{n\in\mathbb{N}:X_1(n)=p+1\text{ and } X_2(n)=q+1\}=\inf\{n\in\mathbb{N}:Y(n)=(p+1,q+1)\},
+\end{equation*}
+meaning that $\max(\tau_1,\tau_2)$ is exactly the stopping for absorption of $\{Y(n)\}_{n\in\mathbb{N}}$ which shows the subtransition matrix for $\max(\tau_1,\tau_2)$.
+From $\{Y(n)\}_{n\in\mathbb{N}}$ we can make yet another Markov chain $\{Z(n)\}_{n\in\mathbb{N}}$ by setting
+\begin{equation*}Z(n)=\begin{cases}Y(n),& \text{ if } X_1(n)\leq p \text{ and } X_2(n)\leq q,\\
+                    (p+1,1),& \text{otherwise}\end{cases}.
+\end{equation*}
+Then $\{Z(n)\}_{n\in\mathbb{N}}$ is a Markov Chain with transition probability matrix
+\begin{equation*}\begin{pmatrix}S\otimes T & r\\
+                 0 & 1\end{pmatrix},\end{equation*}
+where $r=e-(S\otimes T)e$. We can write 
+\begin{equation*}\min(\tau_1,\tau_2)=\inf\{n\in\mathbb{N}:X_1(n)>p\text{ and } X_2(n)>q\}=\inf\{n\in\mathbb{N}:Z(n)=(p+1,1)\},
+\end{equation*}meaning that $\min(\tau_1,\tau_2)$ is exactly the stopping for absorption of $\{Z(n)\}_{n\in\mathbb{N}}$ which shows the subtransition matrix for $\min(\tau_1,\tau_2)$.  
+Initializing $\{Y(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0 & 0\end{pmatrix}$ and $\{Z(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta & 0\end{pmatrix}$,
+is precisely the way to initialize the underlying $\{X_1(n)\}_{n\in\mathbb{N}}$ and $\{X_2(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.  
+This theorem is implemented in the `minima`- and `maxima`-functions. They take two phase-type objects as input and if both of these are of the `discphasetype`-class, then they each output an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+
+#### Example
+
+Let's run the functions on pair of discrete phase-type distributions
+
+```{r}
+ tau1 <- discphasetype(initDist = c(.5,.2,.3),
+                                P.mat = matrix(c(.1,.3,.2,.3,.2,.1,.2,.1,.3), 
+                                               nrow = 3))
+tau2 = discphasetype(initDist = c(.2,.7), 
+                                  P.mat = matrix(c(.5,0,.3,.2), nrow = 2))
+```
+Plugging these into `minima` and `maxima` we get
+```{r}
+  minima(tau1,tau2)
+  maxima(tau1,tau2) 
+```
+
+## Extremum of two independent continuous phase-type distributions
+Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then by Corollary 3.1.32 in [BN]
+\begin{equation*}
+\min(X,Y)\sim PH_{pq}(\alpha\otimes\beta,S\oplus T),
+\end{equation*}
+and
+\begin{equation*}
+\max(X,Y)\sim PH_{pq+p+q}(\begin{pmatrix}\alpha\otimes\beta & 0 & 0\end{pmatrix},K).
+\end{equation*}
+where
+\begin{equation*}K=\begin{pmatrix}S\oplus T & I\otimes t & s\otimes I\\
+                  0 & S & 0\\
+                  0 & 0 & T\end{pmatrix},
+\end{equation*}
+and $s=-S\boldsymbol{e}$, $t=-T\boldsymbol{e}$ are the vectors of exit-rates from $S$ and $T$ respectively and $\oplus$ is the Kronecker sum given by $A\oplus B=A\otimes I_{\text{dim}(B)} + I_{\text{dim}(A)}\otimes B$.
+The proof is as follows. Let $\{X_1(t)\}_{t\geq0}$ denote the Markov Jump Process underlying $X$. The rate matrix of this Markov Jump Process is
+\begin{equation*}
+Q_1=\begin{pmatrix}S & s\\ 0 & 0\end{pmatrix}.
+\end{equation*}
+Let $\{Y_1(t)\}_{t\geq0}$ denote the Markov Jump Process underlying $Y$. The rate matrix of this Markov Jump Process is
+\begin{equation*}
+Q_2=\begin{pmatrix}T & t\\ 0 & 0\end{pmatrix}.
+\end{equation*}
+$\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}$ is a Markov Jump Process on the (lexicographically ordered) product space of the respective state spaces with rate matrix
+\begin{equation*}Q_1\oplus Q_2=\begin{pmatrix}S\oplus T & I\otimes t & s\otimes I & 0\\
+                                0 & S & 0 & s\\
+                                0 & 0 & T & t\\
+                                0 & 0 & 0 & 0
+                \end{pmatrix}.
+\end{equation*}
+We can write 
+\begin{equation*}\max(X,Y)=\inf\{t\geq0\in\mathbb{N}:X_1(t)=p+1\text{ and } Y_1(t)=q+1\}=\inf\{t\geq0:Z(t)=(p+1,q+1)\},
+\end{equation*}
+meaning that $\max(X,Y)$ is exactly the stopping time for absorption of $\{Z(t)\}_{t\geq0}$ which shows the subintensity matrix for $\max(X,Y)$.
+From $\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}$ we can make yet another Markov Jump Process $\{W(t)\}_{t\geq0}$ by setting
+\begin{equation*W(t)=\begin{cases}Y(t),& \text{ if } X_1(t)\leq p \text{ and } Y_1(t)\leq q,\\
+                    (p+1,1),& \text{otherwise}\end{cases}.
+\end{equation*}
+Then $\{W(t)\}_{t\geq0}$ is a Markov Jump Process with rate matrix
+\begin{equation*\begin{pmatrix}S\oplus T & r\\
+                 0 & 1\end{pmatrix},
+\end{equation*}
+where $r=e-(S\oplus T)e$. We can write 
+\begin{equation*}\min(X,Y)=\inf\{t\geq0:X_1(t)>p\text{ and } Y_1(t)>q\}=\inf\{t\geq0:W(t)=(p+1,1)\},
+\end{equation*} 
+meaning that $\min(X,Y)$ is exactly the stopping time for absorption of $\{W(t)\}_{t\geq0}$ which shows the subintensity matrix for $\min(X,Y)$.  
+Initializing $\{Z(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0 & 0\end{pmatrix}$ and $\{W(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0\end{pmatrix}$,
+is precisely the way to initialize the underlying $\{X_1(t)\}_{t\geq0}$ and $\{Y_1(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.   
+This result is implemented in the `phasemin` and `phasemax` functions. They take two phase-type objects as input and if both of these are of the `contphasetype`class, then they each output an object of the `contphasetype`class with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
+
+#### Examples
+
+Let's run the functions on pair of continuous phase-type distributions
+
+```{r}
+x_1 <- contphasetype(initDist = c(.12,.53,.24),
+                                 T.mat = matrix(c(-6,1,1,2,-8,0,2,3,-5), nrow = 3))
+x_2 <- contphasetype(initDist = c(.7,.3),
+                                T.mat = matrix(c(-2,1,2,-4), nrow = 2))
+```
+Plugging these into `minima` and `maxima` we get
+```{r}
+  minima(x_1,x_2)
+  maxima(x_1,x_2)
+```

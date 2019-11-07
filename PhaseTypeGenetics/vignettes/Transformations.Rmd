@@ -1,0 +1,96 @@
+---
+title: "Transformations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Transformations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, eval = FALSE}
+    library(PhaseTypeGenetics)
+```
+
+```{r include=FALSE}
+    library(PhaseTypeGenetics)
+```
+
+## Discretization of a continuous phase-type distribution
+
+In the `phastypdist` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
+
+### The first transformation
+
+Let $T$ be a subintensity matrix, then for any $a$ greater than the maximum of the absolute value of the diagonal entries of $T$, 
+\begin{equation*}I+a^{-1}T
+\end{equation*}
+is a subtransition probability matrix. The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $a$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $I+a^{-1}T$.
+
+### The second transformation
+
+The basis of this transformation is found in [HSB]. Let $X\sim PH(\alpha,T)$. Then for a $\lambda>0$ and a random variable $Y$ satisfying that 
+\begin{equation*}Y|X\sim\text{Poisson}(\lambda X),
+\end{equation*}
+is can be shown that
+\begin{equation*}Y+1\sim DPH(\alpha,(I-\lambda^{-1}T)^{-1}).
+\end{equation*}
+The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $\lambda$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $(I-\lambda^{-1}T)^{-1})$.
+
+### Using the function
+
+The function takes three parameters: `object`, `a` and `lambda`.  
+`object` must be of the class `contphasetype` and `a` and `lambda` mus be numbers greater than 0. `a` and `lambda` are both `NULL` as default. You must give either an `a` parameter or a `lambda` parameter.  
+If the given `a` is greater than the maximum of the absolute value of the diagonal entries of the subintensity matrix of `object`, `discretization(object = object,a = a)` performs the first transformation of the object.
+If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
+It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
+
+#### Example
+
+```{r}
+(x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
+                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
+discretization(x_1, a = 12, lambda = 2)
+
+```
+
+## Transformation via rewards
+
+Starting from a continuous phase-type distributed random variable $\tau\sim PH_p(\alpha,T)$, we can do what is called a reward-transformation of the underlying Markov Jump Process $\{X_t\}_{t\geq0}$. Formally we let $r=(r(1),\dotsc,r(p))$ be a vector of non-negative numbers(the reward vector) and write
+\begin{equation*}
+Y=\int_{0}^{\tau}r(X_t)\text{d}t.
+\end{equation*}
+Mogens Bladt and Bo Friis Nielsen([BN] Theorem 3.1.33) prove that the random variable $Y$ follows a continuous phase-type distribution.  
+$Y$ should be interpreted as
+\begin{equation*}Y=\sum_{i=1}^{p}r(i)Z_i,
+\end{equation*}
+$Z_i$ is the total time spent in state $i$ prior to absorption. If $r(i)>0$ for all $i$ then
+\begin{equation*}Y\sim PH_p(\alpha,\Delta(r)^{-1}T).
+\end{equation*}
+Because the holding time in state $i$ is exponentially distributed with parameter $-t_{i,i}$. Handling a case where $r(i)=0$ for some $i$ is a lot more tricky.  
+Basically we want to find the rate matrix for the Markov Jump Process that arises when we take $\{X_t\}_{t\geq0}$ and delete any transitions into a state for which the reward is $0$, and subsequently delete any possible self-transitions. Afterwards we transform this Markov Jump Process as before, because the remaining states $i$ all satisfy $r(i)>0$.  
+Before the deletion the probability of $\{X_t\}_{t\geq0}$ transitioning from a one transient state $i$ to another transient state $j$ is $-\frac{t_{i,j}}{t_{i,i}}$. Let's say that $r(i)>0$ and $r(j)>0$. After the "deletion" of the $0$-reward states there are many ways of transitioning from $i$ to $j$. Leaving $i$, $\{X_t\}_{t\geq0}$ could transition to a $0$-reward transient state and from there make finitely many jumps among $0$-reward transient states before jumping to $j$, but in the "deletion" process this would only register as a jump from $i$ to $j$.  
+The transformation also impacts the initial distribution, because initializing in a $0$-reward transient state will be ignored, but $\{X_t\}_{t\geq0}$ could be absorbed directly from a $0$-reward state before visiting a state with a strictly positive reward. There the entries of the initial distribution for $Y$ do not necessarily add up to $1$.
+
+### The function
+
+In the `phastypdist` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
+
+#### Examples
+
+```{r}
+
+(x_2 <-  contphasetype(initDist = c(.2,.7), 
+                                T.mat = matrix(c(-7,3,2,-4), nrow = 2)))
+
+RewTransDistribution(x_2,c(2,3))
+x_1
+RewTransDistribution(x_1,c(0,2,1,0))
+
+```

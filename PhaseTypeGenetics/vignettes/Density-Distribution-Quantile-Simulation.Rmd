@@ -1,0 +1,80 @@
+---
+title: "Density-Distribution-Quantile-Simulation"
+author: "Jette Steinbach"
+date: "10 11 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This package includes some functions that compute the basic properties of phase-type distributions, i.e. the density, distribution and quantile function as well as simulations.
+
+### The density
+
+#### - in the discrete case
+In the following, let $\tau= \inf\{t\geq 1 \mid X_t = p+1\}$ be discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, $\tau \sim DPH_{p}(\pi,T)$.\
+Then the density for $\tau$ is given by
+\begin{align*}
+\mathbb{P}(\tau= n) &= \sum_{i=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)\mathbb{P}(X_{n-1}=i)\\
+&= \sum_{i=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i) \sum_{j=1}^{p} \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
+&= \sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)  \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
+\end{align*}
+for $n \geq 1$, where the first and second equality are due to the law of total probability. Now we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution. Furthermore, the probability $\mathbb{P}(\tau=n \mid X_{n-1}=i)$ for the process to be absorbed at time $n$, given that the process is in state $i$ at time $n-1$ is given by the $i$'th entry of the exit probability vector $t = \boldsymbol{e} - T \boldsymbol{e}$. Finally, the probability $\mathbb{P}(X_{n-1}=i \mid X_0 =j )$ for the process to be in state $i$ at time $n-1$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $n-1$) is given by the $(j,i)$'th element of sub-transition probability matrix $T^{n-1}$. Hence, we have that  
+\begin{align*}
+\mathbb{P}(\tau= n) &= \sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)  \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
+&= \sum_{i=1}^{p} \sum_{j=1}^{p} t_i (T^{n-1} )_{ji} \pi_j\\
+&= \sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j (T^{n-1} )_{ji} t_i\\
+&= \pi T^{n-1} t.
+\end{align*}
+
+#### - in the continuous case
+Now let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
+Then the density for $\tau$ is given by the derivative of the distribution function (see next section)
+\begin{align*}
+f(u) &= \frac{\partial}{\partial u} F(u)\\
+&= \frac{\partial}{\partial u} 1-\pi e^{Tu} \boldsymbol{e} \\
+&= -\pi e^{Tu}T \boldsymbol{e}\\
+&= \pi e^{Tu}t
+\end{align*}
+for $u \geq 0$, where we have used that $t = -T \boldsymbol{e}$.
+
+### The distribution function
+
+#### - in the discrete case
+Let again $\tau= \inf\{t\geq 1 \mid X_t = p+1\}$ be discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, $\tau \sim DPH_{p}(\pi,T)$.\
+Then the distribution function for $\tau$ is given by
+\begin{align*}
+F_{\tau}(n) = \mathbb{P}(\tau \leq n) &= 1- \mathbb{P}(\tau > n)\\
+&= 1-\sum_{i=1}^{p} \mathbb{P}( X_{n}=i)\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)
+\end{align*}
+for $n \geq 1$, where the fourth equality is due to the law of total probability. As before, we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution, and that the probability $\mathbb{P}(X_{n}=i \mid X_0 =j )$ for the process to be in state $i$ at time $n$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $n$) is given by the $(j,i)$'th element of sub-transition probability matrix $T^{n}$. Hence, we have that  
+\begin{align*}
+F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} (T^{n})_{ji}\pi_j\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j(T^{n})_{ji}\\
+&= 1- \pi T^{n}\boldsymbol{e}.
+\end{align*}
+
+#### - in the continuous case
+As before, let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
+Then the distribution function for $\tau$ is given by
+\begin{align*}
+ F_{\tau}(u) = \mathbb{P}(\tau \leq u) &= 1- \mathbb{P}(\tau > u)\\
+&= 1-\sum_{i=1}^{p} \mathbb{P}( X_{u}=i)\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{u}=i \mid X_0 =j) \mathbb{P}( X_0 =j)
+\end{align*}
+for $u \geq 0$, where the fourth equality is due to the law of total probability. As in the discrete case, we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution, and that the probability $\mathbb{P}(X_{u}=i \mid X_0 =j )$ for the process to be in state $i$ at time $u$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $u$) is given by the $(j,i)$'th element of sub-transition probability matrix $e^{Tu}$. Hence, we have that  
+\begin{align*}
+F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} (e^{Tu})_{ji}\pi_j\\
+&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j(e^{Tu})_{ji}\\
+&= 1- \pi e^{Tu}\boldsymbol{e}.
+\end{align*}
+
+### The quantile function
+
+### Simulations
+

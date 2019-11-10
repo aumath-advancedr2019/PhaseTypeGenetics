@@ -573,7 +573,7 @@ Plugging these into `minima` and `maxima` we get
   maxima(tau1,tau2) 
 ```
 
-## Extremum of two independent continuous phase-type distributions
+### Extremum of two independent continuous phase-type distributions
 Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then by Corollary 3.1.32 in [BN]
 \begin{equation*}
 \min(X,Y)\sim PH_{pq}(\alpha\otimes\beta,S\oplus T),
@@ -641,12 +641,14 @@ Plugging these into `minima` and `maxima` we get
 
 ***
 \center __mean & var__ \center
+
 ***
 h
 
 
 ***
 \center __moments__ \center
+
 ***
 
 h
@@ -654,6 +656,7 @@ h
 
 ***
 \center __phsum__ \center
+
 ***
 
 ### Sums of independent discrete phase-type distributions
@@ -727,11 +730,12 @@ where the $(i,j)$'th entry of $\Lambda_n$ is given by
 
 ***
 \center __RewTransDistribution__ \center
+
 ***
 
 ### Discretization of a continuous phase-type distribution
 
-In the `phastypdist` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
+In the `PhaseTypeGenetics` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
 
 #### The first transformation
 
@@ -788,7 +792,7 @@ The transformation also impacts the initial distribution, because initializing i
 
 #### The function
 
-In the `phastypdist` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
+In the `PhaseTypeGenetics` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
 
 ##### Example 10
 
@@ -805,11 +809,13 @@ RewTransDistribution(x_1,c(0,2,1,0))
 
 ***
 \center __SiteFrequencies__ \center
+
 ***
 h
 
 ***
 \center __summary__ \center
+
 ***
 h
 

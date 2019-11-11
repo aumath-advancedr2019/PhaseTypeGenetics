@@ -10,22 +10,22 @@ BlockCountProcess(n)
 \item{n}{the sample size}
 }
 \value{
-The function returns a list containing the subintensity 
-rate matrix \code{Rate.mat} and the state space matrix \code{StateSpace.mat}. 
+The function returns a list containing the subintensity
+rate matrix \code{Rate.mat} and the state space matrix \code{StateSpace.mat}.
 In the latter, each row corresponds to a state and each state is a
 \eqn{(n-1)}-dimensional row vector.
 }
 \description{
-Computing the state space and the corresponding rate matrix for 
-the block counting process for a given sample size \eqn{n} in 
+Computing the state space and the corresponding rate matrix for
+the block counting process for a given sample size \eqn{n} in
 the standard coalescent model.
 }
 \details{
-For a given sample size \eqn{n}, one can have one or more possible 
-coalescent trees. Each coalescent event in these trees correspond 
+For a given sample size \eqn{n}, one can have one or more possible
+coalescent trees. Each coalescent event in these trees correspond
 to a state of the block counting process. Furthermore, each state is
 represented by a \eqn{(n-1)}- dimensional row vector, where each entry \eqn{i}
-corresponds to the the number of bracnhes giving rise to \eqn{i} 
+corresponds to the number of bracnhes giving rise to \eqn{i}
 descendents. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
 and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)}.
 }

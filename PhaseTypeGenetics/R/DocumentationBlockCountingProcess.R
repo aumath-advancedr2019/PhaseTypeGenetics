@@ -8,7 +8,7 @@
 #' coalescent trees. Each coalescent event in these trees correspond
 #' to a state of the block counting process. Furthermore, each state is
 #' represented by a \eqn{(n-1)}- dimensional row vector, where each entry \eqn{i}
-#' corresponds to the number of bracnhes giving rise to \eqn{i}
+#' corresponds to the number of branches giving rise to \eqn{i}
 #' descendents. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
 #' and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)}.
 #'

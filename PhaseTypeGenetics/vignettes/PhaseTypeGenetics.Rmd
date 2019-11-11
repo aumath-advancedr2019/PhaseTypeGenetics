@@ -395,6 +395,7 @@ for $\theta = 2$.
 ## The functions
 
 ***
+
 \center __BlockCountProcess__ \center
 
 ***
@@ -402,6 +403,7 @@ h
 
 
 ***
+
 \center __discphasetype & contphasetype__ \center
 
 ***

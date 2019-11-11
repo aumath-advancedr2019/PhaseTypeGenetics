@@ -399,7 +399,52 @@ for $\theta = 2$.
 \center __BlockCountProcess__ \center
 
 ***
-h
+
+### The block counting process
+
+The function `BlockCountProcess` is the first example of a function that is intended for the use in population genetics. It computes the state space and the corresponding rate matrix for the block counting process for a given sample size $n$ in the standard coalescent model.\
+For any given sample size $n\geq 1$ there is one or more possible coalescent trees.
+Each coalescent event in these trees correspond to a state of the block counting process, and each state is represented by a $n-1$ dimensional vector, say $S_i$ for $i\in\{1,...,s\}$, where $s$ is the number of states in the state space. Each entry $j$ in the vector $S_i$ corresponds to the number of branches giving rise to $j$ descendants. Due to this definition, $S_1$ is always of the form $(n,0,...,0)$ and $S_2$ is always given by the vector $(n-2,1,...,0)$. This is due to the fact that in the first state $S_1$, no coalescent events have taken place and we still consider all $n$ individuals, i.e. $n$ descendants. In the second state $S_2$, two of the individuals have coalesced. Hence, there are $n-2$ branches giving rise to $n-2$ descendants and one branch giving rise to $2$ descendants.
+
+#### Example 5
+
+We consider the block counting process for $n=4$. In a previous section we have seen that there are two possible trees
+
+```{r Tree12, echo=FALSE, out.width = '40%'}
+knitr::include_graphics("Tree_n4.png")
+knitr::include_graphics("Tree2_n4.png")
+```
+
+that the corresponding block counting process is given by
+
+```{r BCP1, echo=FALSE, out.width = '40%'}
+knitr::include_graphics("BCP.png")
+```
+
+and that the sub-intensity rate matrix for this process is 
+\begin{equation*}
+T = \begin{pmatrix}
+-6 & 6 & 0 & 0 \\
+0 & -3 & 2 & 1 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & -1 
+\end{pmatrix}.
+\end{equation*}
+Hence, for $n=4$ the number of states $s$ in the state space is 4 (without the last state MRCA) and the state space matrix $S=(S_1,...,S_s)^T$ is given by
+\begin{equation*}
+S = \begin{pmatrix}
+4 & 0 & 0 \\
+2 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 2 & 0\\
+\end{pmatrix}.
+\end{equation*}
+Instead of doing all of these computations by hand, we can use the function `BlockCountProcess` to obtain the state space matrix $S$ and the corresponding rate matrix
+
+```{r}
+BlockCountProcess(n=4)
+
+```
 
 
 ***
@@ -412,7 +457,7 @@ h
 
 In order to be able to use the functions in this package, it is necessary to define objects of S3 class `discphasetype` and `contphasetype`. An object of class `discphasetype` represents a discrete phase-type distributed object with initial distribution `initDist` and sub-transition probability matrix `P.mat`. An object of class `contphasetype` represents a continuous phase-type distributed object with initial distribution `initDist` and sub-intensity rate matrix `T.mat`.
 
-#### Example 5
+#### Example 6
 
 For $n=4$, the time to the most recent common ancestor is phase-type distributed with initital distribution $\pi = (1,0,0)$ and sub-intensity rate matrix
 \begin{equation*}
@@ -491,7 +536,7 @@ If the given `a` is greater than the maximum of the absolute value of the diagon
 If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
 It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
 
-##### Example 6
+##### Example 7
 
 ```{r}
 (x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
@@ -620,7 +665,7 @@ For an object of type `contphasetype` with initital distribution $\pi$ and sub-t
 * The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
 * As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add an exponential distributed variable to the waiting time $\tau$, i.e. $\tau = \tau + \lambda$, where $\lambda \sim \text{Exp}(-T[X_t,X_t])$. Furthermore, the current state $X_t$ is sampled among all states $1,...,p+1$ (except for the previous state $X_{t-1}$) according to the rates given in $T$ and the exit rates from $t$.
 
-### Example 7
+### Example 8
 
 We want to reproduce Figure 3.4 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the distributions of $T_{\text{MRCA}}$ and $T_{\text{Total}}$ for $n \in \{2,5,10,20,50,100\}$. The initial distributions and sub-intensity rate matrices are stored in the datasets `T_MRCA` and `T_Total` that are provided in the package.
 First, we compute the distribution of $T_{\text{MRCA}}$ 
@@ -713,9 +758,10 @@ points(t.vec, dist.mat[6,], type = "l")
 \center __dSegregatingSites__ \center
 
 ***
+### The number of segregating sites $S_{\text{Total}}$
 
-h
 
+#### Example 9
 ***
 \center __maxima & minima__ \center
 

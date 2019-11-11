@@ -23,10 +23,24 @@
 #'
 #' @export
 summary.discphasetype <- function(object){
+
   cat("A discrete phase-type distribution with initial probability vector \n")
-  print(object$initDist)
-  cat("and subtransition matrix \n")
-  print(object$P.mat)
+
+  if(length(object$initDist) < 10){
+
+    print(object$initDist)
+    cat("and subtransition matrix \n")
+    print(object$P.mat)
+  }else{
+
+    print(object$initDist[1:10])
+    cat("...\n")
+    cat("and subtransition matrix \n")
+    print(object$P.mat[1:10,1:10])
+    cat("... \n")
+    cat("(Showing only the first ten entries)\n")
+  }
+
   if(sum(object$initDist) < 1){
     cat("and defect\n", 1-sum(object$initDist))
   }
@@ -35,10 +49,23 @@ summary.discphasetype <- function(object){
 #' @rdname summary.discphasetype
 #' @export
 summary.contphasetype <- function(object){
+
   cat("A continuous phase-type distribution with initial probability vector \n")
-  print(object$initDist)
-  cat("and subintensity matrix \n")
-  print(object$T.mat)
+
+  if(length(object$initDist) < 10){
+
+    print(object$initDist)
+    cat("and subintensity matrix \n")
+    print(object$T.mat)
+  }else{
+
+    print(object$initDist[1:10])
+    cat("... \n")
+    cat("and subintensity matrix \n")
+    print(object$T.mat[1:10,1:10])
+    cat("... \n")
+    cat("(Showing only the first ten entries)\n")
+  }
   if(sum(object$initDist) < 1){
     cat("and defect\n", 1-sum(object$initDist))
   }

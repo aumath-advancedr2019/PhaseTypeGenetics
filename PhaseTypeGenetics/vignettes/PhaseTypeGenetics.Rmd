@@ -533,24 +533,24 @@ DPH_{p}(\pi,T) & \text{ with probability $1- \pi_{p+1}$} .
 \end{equation*}
 Then we have that 
 \begin{align*}
-\mathbb{P}(\tau= n) &= \mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau \geq 1\}}= n)\\
-&= \mathbb{P}(\tau(\mathbb{1}_{\{\tau = 1\}} + \mathbb{1}_{\{\tau > 1\}}) = n)\\
-&= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau \cdot 1\kern-.35em1_{\{\tau \geq 1\}}= n)\\
+&= \mathbb{P}(\tau(1\kern-.35em1_{\{\tau = 1\}} + 1\kern-.35em1_{\{\tau > 1\}}) = n)\\
+&= \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n)
 \end{align*}
 Due to the definition of $\tau$, we know that when $\tau > 1$, $\tau \sim DPH_{p}(\pi,T)$. Hence, from the previous computations
 \begin{equation*}
-\mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n) = \pi T^{n-1} t \quad \text{ for } n\geq 1.
+\mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n) = \pi T^{n-1} t \quad \text{ for } n\geq 1.
 \end{equation*}
 On the other hand, 
 \begin{equation*}
-\mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \mathbb{P}(1 \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \begin{cases}
+\mathbb{P}(\tau \cdot 1\kern-.35em1_{\{\tau = 1\}} = n) = \mathbb{P}(1 \cdot 1\kern-.35em1_{\{\tau = 1\}} = n) = \begin{cases}
 \mathbb{P}(\tau = 1 )=\pi_{p+1}  & \text{ if } n=1\\
 0 & \text{ otherwise}.
 \end{cases}
 \end{equation*}
 This implies that 
 \begin{align*}
-\mathbb{P}(\tau= n) &= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)\\
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n)\\
 &= \begin{cases}
 \pi T^{n-1} t + \pi_{p+1}  & \text{ if } n=1\\
 \pi T^{n-1} t & \text{ otherwise}.

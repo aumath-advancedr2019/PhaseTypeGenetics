@@ -760,8 +760,48 @@ points(t.vec, dist.mat[6,], type = "l")
 ***
 ### The number of segregating sites $S_{\text{Total}}$
 
+The function `dSegregatingSites` is another example of a function intended for the use in population genetics. It computes the density of the total number of segregating sites $S_{\text{Total}}$ for a given sample size $n$ and a mutation parameter $\theta$. This density can be obtained by the aid of the block counting process together with the reward transformation and the discretization. All of these three topics are discussed in other sections. In short, we obtain the distribution for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ from the block counting process. Then we use the reward transformation to find the distribution of the total branch length $\tau_{\text{Total}}$. Afterwards, the distribution of the total number of segregating sites $S_{\text{Total}}$ is computed by the aid of the discretization with $\lambda=\theta/2$ being equal to the mutation rate. Finally, the density is computed using the formula 
+\begin{equation*}
+\mathbb{P}(S_{\text{Total}} + 1 = k) = \mathbb{P}(S_{\text{Total}} = k-1) = \pi T^{k-1} t.
+\end{equation*}
+
+The function `dSegregatingSites` provides a special feature. If `plot=TRUE`, the function plots the density of the total number of segregating sites $S_{\text{Total}}$ for the given values of $k$.
 
 #### Example 9
+
+We want to reproduce Figure 4.1 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the density of the number of segregating sites $S_{\text{Total}}$ for $n \in \{1,...,20\}$, $k \in \{0,...,15\}$ and $\theta=2$. First, we compute the densities using the function `dSegregatingSites`.
+
+```{r}
+## We apply the function dSegregatingSites for 
+## different quantiles and theta=2
+k.vec <- 0:15
+theta <- 2
+
+## Defining a matrix holding all densities
+Res.mat <- dSegregatingSites(n = 1, theta = theta, k = k.vec)
+
+## and Applying the function for all n in {2,...,20}
+for(n in 2:20){
+
+  Res.mat <- cbind(Res.mat, dSegregatingSites(n = n, theta = theta, k = k.vec))
+}
+
+```
+
+Now that we have calculated all prbabilities $\mathbb{P}(S_{\text{Total}} = k)$, we can produce the desired plot
+
+```{r}
+
+## We reproduce the plot by using the package plot3D.
+library(plot3D)
+
+hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+       xlab = "k", ylab = "n", zlab = "P(S=k)",
+       main = "The probability function of the number of segregating sites",
+       sub = expression(paste("The mutation parameter is ", theta,"= 2")),
+       cex.main = 0.9, colkey = F, zlim = c(0,0.4))
+```
+
 ***
 \center __maxima & minima__ \center
 
@@ -825,7 +865,7 @@ Initializing $\{Y(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta
 is precisely the way to initialize the underlying $\{X_1(n)\}_{n\in\mathbb{N}}$ and $\{X_2(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.  
 This theorem is implemented in the `minima`- and `maxima`-functions. They take two phase-type objects as input and if both of these are of the `discphasetype`-class, then they each output an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 8
+#### Example 10
 
 Let's run the functions on pair of discrete phase-type distributions
 
@@ -892,7 +932,7 @@ Initializing $\{Z(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0
 is precisely the way to initialize the underlying $\{X_1(t)\}_{t\geq0}$ and $\{Y_1(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.   
 This result is implemented in the `phasemin` and `phasemax` functions. They take two phase-type objects as input and if both of these are of the `contphasetype`class, then they each output an object of the `contphasetype`class with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
 
-#### Example 9
+#### Example 11
 
 Let's run the functions on pair of continuous phase-type distributions
 
@@ -943,7 +983,7 @@ The initial distribution for the sum is $\begin{pmatrix}\alpha & \boldsymbol{0}\
 The probabilities for transition among the states $\{1,\dotsc,p\}$ is given by $S$. In the new Markov Chain we combine the absorption of the first Markov Chain with in the initialization of the second Markov Chain. This is why the upper right corner of the the new sub-transition matrix is given $s\beta$. This matrix has dimension $p\times q$ and for $i\in\{1,\dotsc,p\}$ and $j\in\{1,\dotsc,q\}$ the $(i,j)$'th entry is $s_i\beta_j$, which is the probability of exiting the first Markov Chain from state $i$ and entering the second Markov chain in state its $j$'th state. The probabilities for transition among the states $\{p+1,\dotsc,p+q\}$ are the same as transition amond the $q$ transient states underlying $\tau_2$, and is given by $T$.  
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `discphasetype`-class, then it outputs an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 10
+#### Example 14
 
 Suppose that 
 \begin{equation*}
@@ -981,7 +1021,7 @@ Similarly to the discrete case the proof of this is constructing a Markov Jump P
 Similar consideration as in the discrete case show that one way of making such a Markov Jump Process is with initial distribution and subintensity matrix as stated in the theorem.
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `contphasetype`-class, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 11
+#### Example 15
 
 Suppose a random variable $E$ follows an exponential distribution with parameter $\lambda>0$. Then by comparing the distribution functions we see that that $E\sim PH_{1}(1,-\lambda)$. It now follows that if $E_1,\dotsc,E_n$ are independent exponentially distributed random variables with respective parameters $\lambda_1,\dotsc,\lambda_n$ then
 
@@ -1024,7 +1064,7 @@ The transformation also impacts the initial distribution, because initializing i
 
 In the `PhaseTypeGenetics` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
 
-##### Example 12
+##### Example 16
 
 ```{r}
 
@@ -1055,7 +1095,7 @@ h
 
 This package also provides a method to summaries objects of type `discphasetype` and `contphasetype`. The method is called `summary`, consistent with R language. It prints the type of the phase-type distribution (discrete/continuous), the initital distribution and the sub-intensity rate matrix or sub-transition probability matrix, respectively. In addition, it prints the defect size, if present.
 
-#### Example 13
+#### Example 18
 
 ```{r}
 summary(T_MRCA$n10)

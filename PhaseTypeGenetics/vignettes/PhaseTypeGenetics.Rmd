@@ -6,11 +6,12 @@ output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-
 vignette: >
   %\VignetteIndexEntry{PhaseTypeGenetics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage{dsfont}
+  \usepackage{bbm}
 ---
 
 ```{r, include = FALSE}
@@ -437,6 +438,39 @@ for $n \geq 1$, where the first and second equality are due to the law of total 
 &= \pi T^{n-1} t.
 \end{align*}
 
+We also need to take possible defect sizes into account. So let $\tau \sim DPH_{p}(\pi,T)$ with defect size $\pi_{p+1}$, i.e.
+\begin{equation*}
+\tau \sim \begin{cases}
+1 & \text{ with probability $\pi_{p+1}$} \\
+DPH_{p}(\pi,T) & \text{ with probability $1- \pi_{p+1}$} .
+\end{cases}
+\end{equation*}
+Then we have that 
+\begin{align*}
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau \geq 1\}}= n)\\
+&= \mathbb{P}(\tau(\mathbb{1}_{\{\tau = 1\}} + \mathbb{1}_{\{\tau > 1\}}) = n)\\
+&= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)
+\end{align*}
+Due to the definition of $\tau$, we know that when $\tau > 1$, $\tau \sim DPH_{p}(\pi,T)$. Hence, from the previous computations
+\begin{equation*}
+\mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n) = \pi T^{n-1} t \quad \text{ for } n\geq 1.
+\end{equation*}
+On the other hand, 
+\begin{equation*}
+\mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \mathbb{P}(1 \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \begin{cases}
+\mathbb{P}(\tau = 1 )=\pi_{p+1}  & \text{ if } n=1\\
+0 & \text{ otherwise}.
+\end{cases}
+\end{equation*}
+This implies that 
+\begin{align*}
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)\\
+&= \begin{cases}
+\pi T^{n-1} t + \pi_{p+1}  & \text{ if } n=1\\
+\pi T^{n-1} t & \text{ otherwise}.
+\end{cases}
+\end{align*}
+
 #### - in the continuous case
 Now let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
 Then the density for $\tau$ is given by the derivative of the distribution function (see next section)
@@ -484,7 +518,110 @@ F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) 
 
 ### The quantile function
 
+In this package, we used the inbuild function `uniroot` to find the quantile for a given probability $p$. Type `help("uniroot")` into your console to find out more about this function.
+
 ### Simulations
+
+For an object of type `discphasetype` with initital distribution $\pi$ and sub-intensity rate matrix $T$ the simulation is conducted roughly in the following way. 
+
+* The waiting time $\tau$ is set to be $1$, which corrsponds to immediate absorbtion.
+* The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
+* As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add one to the waiting time $\tau$, i.e. $\tau = \tau +1$, and the current state $X_t$ is sampled among all states $1,...,p+1$ according to the transition probabilites given in $T$ and the exit rates from $t$. 
+
+For an object of type `contphasetype` with initital distribution $\pi$ and sub-transition probability matrix $T$ the simulation is conducted roughly in the same way. 
+
+* The waiting time $\tau$ is set to be $0$, which corrsponds to immediate absorbtion.
+* The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
+* As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add an exponential distributed variable to the waiting time $\tau$, i.e. $\tau = \tau + \lambda$, where $\lambda \sim \text{Exp}(-T[X_t,X_t])$. Furthermore, the current state $X_t$ is sampled among all states $1,...,p+1$ (except for the previous state $X_{t-1}$) according to the rates given in $T$ and the exit rates from $t$.
+
+### Example 5
+
+We want to reproduce Figure 3.4 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the distributions of $T_{\text{MRCA}}$ and $T_{\text{Total}}$ for $n \in \{2,5,10,20,50,100\}$. The initial distributions and sub-intensity rate matrices are stored in the datasets `T_MRCA` and `T_Total` that are provided in the package.
+First, we compute the distribution of $T_{\text{MRCA}}$ 
+
+```{r}
+
+## Defining the vector of quantiles
+t.vec <- seq(0,4, by=0.1)
+
+## and the matrix holding all distributions
+dist.mat <- matrix(nrow = 6, ncol = length(t.vec))
+
+## Now we can compute the distributions
+for(x in t.vec){
+
+  dist.mat[2,which(t.vec ==x)] <- dphasetype(T_MRCA$n5,x)
+  dist.mat[3,which(t.vec ==x)] <- dphasetype(T_MRCA$n10,x)
+  dist.mat[4,which(t.vec ==x)] <- dphasetype(T_MRCA$n20,x)
+  dist.mat[5,which(t.vec ==x)] <- dphasetype(T_MRCA$n50,x)
+  dist.mat[6,which(t.vec ==x)] <- dphasetype(T_MRCA$n100,x)
+}
+
+## For n=2, the initial distribution is equal to 1 and 
+## the sub-intensity rate matrix is T.mat = -1. Hence,
+## the distribution is given by
+dist.mat[1,] <- exp(-t.vec)
+
+```
+
+Now that we have computed the distribution of $T_{\text{MRCA}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,4\}$, we are able to reproduce the first figure
+```{r}
+plot(t.vec, dist.mat[1,], type = "l", 
+     main = expression(paste("The distribution of ", T["MRCA"], 
+     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
+     ylab = expression(f[T[MRCA]](t)), xlim = c(0,4), ylim = c(0,1), 
+     frame.plot = F)
+
+points(t.vec, dist.mat[2,], type = "l")
+points(t.vec, dist.mat[3,], type = "l")
+points(t.vec, dist.mat[4,], type = "l")
+points(t.vec, dist.mat[5,], type = "l")
+points(t.vec, dist.mat[6,], type = "l")
+
+```
+
+Now, we can perform the same calculations for $T_{\text{Total}}$
+
+```{r}
+
+## Defining the vector of quantiles
+t.vec <- seq(0,15, by=0.1)
+
+## and the matrix holding all distributions
+dist.mat <- matrix(nrow = 6, ncol = length(t.vec))
+
+## Now we can compute the distributions
+for(x in t.vec){
+
+  dist.mat[2,which(t.vec ==x)] <- dphasetype(T_Total$n5,x)
+  dist.mat[3,which(t.vec ==x)] <- dphasetype(T_Total$n10,x)
+  dist.mat[4,which(t.vec ==x)] <- dphasetype(T_Total$n20,x)
+  dist.mat[5,which(t.vec ==x)] <- dphasetype(T_Total$n50,x)
+  dist.mat[6,which(t.vec ==x)] <- dphasetype(T_Total$n100,x)
+}
+
+## For n=2, the initial distribution is equal to 1 and 
+## the sub-intensity rate matrix is T.mat = -1/2. Hence,
+## the distribution is given by
+dist.mat[1,] <- exp(-t.vec/2)/2
+
+```
+
+Now that we have computed the distribution of $T_{\text{Total}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,15\}$, we are able to reproduce the second figure
+```{r}
+plot(t.vec, dist.mat[1,], type = "l", 
+     main = expression(paste("The distribution of ", T["Total"], 
+     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
+     ylab = expression(f[T[Total]](t)), xlim = c(0,15), ylim = c(0,0.5), 
+     frame.plot = F)
+
+points(t.vec, dist.mat[2,], type = "l")
+points(t.vec, dist.mat[3,], type = "l")
+points(t.vec, dist.mat[4,], type = "l")
+points(t.vec, dist.mat[5,], type = "l")
+points(t.vec, dist.mat[6,], type = "l")
+
+```
 
 ***
 \center __dSegregatingSites__ \center
@@ -556,7 +693,7 @@ Initializing $\{Y(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta
 is precisely the way to initialize the underlying $\{X_1(n)\}_{n\in\mathbb{N}}$ and $\{X_2(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.  
 This theorem is implemented in the `minima`- and `maxima`-functions. They take two phase-type objects as input and if both of these are of the `discphasetype`-class, then they each output an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 5
+#### Example 6
 
 Let's run the functions on pair of discrete phase-type distributions
 
@@ -623,7 +760,7 @@ Initializing $\{Z(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0
 is precisely the way to initialize the underlying $\{X_1(t)\}_{t\geq0}$ and $\{Y_1(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.   
 This result is implemented in the `phasemin` and `phasemax` functions. They take two phase-type objects as input and if both of these are of the `contphasetype`class, then they each output an object of the `contphasetype`class with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
 
-#### Example 6
+#### Example 7
 
 Let's run the functions on pair of continuous phase-type distributions
 
@@ -674,7 +811,7 @@ The initial distribution for the sum is $\begin{pmatrix}\alpha & \boldsymbol{0}\
 The probabilities for transition among the states $\{1,\dotsc,p\}$ is given by $S$. In the new Markov Chain we combine the absorption of the first Markov Chain with in the initialization of the second Markov Chain. This is why the upper right corner of the the new sub-transition matrix is given $s\beta$. This matrix has dimension $p\times q$ and for $i\in\{1,\dotsc,p\}$ and $j\in\{1,\dotsc,q\}$ the $(i,j)$'th entry is $s_i\beta_j$, which is the probability of exiting the first Markov Chain from state $i$ and entering the second Markov chain in state its $j$'th state. The probabilities for transition among the states $\{p+1,\dotsc,p+q\}$ are the same as transition amond the $q$ transient states underlying $\tau_2$, and is given by $T$.  
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `discphasetype`-class, then it outputs an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 7
+#### Example 8
 
 Suppose that 
 \begin{equation*}
@@ -712,7 +849,7 @@ Similarly to the discrete case the proof of this is constructing a Markov Jump P
 Similar consideration as in the discrete case show that one way of making such a Markov Jump Process is with initial distribution and subintensity matrix as stated in the theorem.
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `contphasetype`-class, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 8
+#### Example 9
 
 Suppose a random variable $E$ follows an exponential distribution with parameter $\lambda>0$. Then by comparing the distribution functions we see that that $E\sim PH_{1}(1,-\lambda)$. It now follows that if $E_1,\dotsc,E_n$ are independent exponentially distributed random variables with respective parameters $\lambda_1,\dotsc,\lambda_n$ then
 
@@ -763,7 +900,7 @@ If the given `a` is greater than the maximum of the absolute value of the diagon
 If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
 It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
 
-##### Example 9
+##### Example 10
 
 ```{r}
 (x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
@@ -794,7 +931,7 @@ The transformation also impacts the initial distribution, because initializing i
 
 In the `PhaseTypeGenetics` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
 
-##### Example 10
+##### Example 11
 
 ```{r}
 

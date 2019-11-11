@@ -29,6 +29,39 @@ for $n \geq 1$, where the first and second equality are due to the law of total 
 &= \pi T^{n-1} t.
 \end{align*}
 
+We also need to take possible defect sizes into account. So let $\tau \sim DPH_{p}(\pi,T)$ with defect size $\pi_{p+1}$, i.e.
+\begin{equation*}
+\tau \sim \begin{cases}
+1 & \text{ with probability $\pi_{p+1}$} \\
+DPH_{p}(\pi,T) & \text{ with probability $1- \pi_{p+1}$} .
+\end{cases}
+\end{equation*}
+Then we have that 
+\begin{align*}
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau \geq 1\}}= n)\\
+&= \mathbb{P}(\tau(\mathbb{1}_{\{\tau = 1\}} + \mathbb{1}_{\{\tau > 1\}}) = n)\\
+&= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)
+\end{align*}
+Due to the definition of $\tau$, we know that when $\tau > 1$, $\tau \sim DPH_{p}(\pi,T)$. Hence, from the previous computations
+\begin{equation*}
+\mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n) = \pi T^{n-1} t \quad \text{ for } n\geq 1.
+\end{equation*}
+On the other hand, 
+\begin{equation*}
+\mathbb{P}(\tau \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \mathbb{P}(1 \cdot \mathbb{1}_{\{\tau = 1\}} = n) = \begin{cases}
+\mathbb{P}(\tau = 1 )=\pi_{p+1}  & \text{ if } n=1\\
+0 & \text{ otherwise}.
+\end{cases}
+\end{equation*}
+This implies that 
+\begin{align*}
+\mathbb{P}(\tau= n) &= \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot \mathbb{1}_{\{\tau > 1\}} = n)\\
+&= \begin{cases}
+\pi T^{n-1} t + \pi_{p+1}  & \text{ if } n=1\\
+\pi T^{n-1} t & \text{ otherwise}.
+\end{cases}
+\end{align*}
+
 #### - in the continuous case
 Now let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
 Then the density for $\tau$ is given by the derivative of the distribution function (see next section)
@@ -76,5 +109,108 @@ F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) 
 
 ### The quantile function
 
+In this package, we used the inbuild function `uniroot` to find the quantile for a given probability $p$. Type `help("uniroot")` into your console to find out more about this function.
+
 ### Simulations
+
+For an object of type `discphasetype` with initital distribution $\pi$ and sub-intensity rate matrix $T$ the simulation is conducted roughly in the following way. 
+
+* The waiting time $\tau$ is set to be $1$, which corrsponds to immediate absorbtion.
+* The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
+* As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add one to the waiting time $\tau$, i.e. $\tau = \tau +1$, and the current state $X_t$ is sampled among all states $1,...,p+1$ according to the transition probabilites given in $T$ and the exit rates from $t$. 
+
+For an object of type `contphasetype` with initital distribution $\pi$ and sub-transition probability matrix $T$ the simulation is conducted roughly in the same way. 
+
+* The waiting time $\tau$ is set to be $0$, which corrsponds to immediate absorbtion.
+* The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
+* As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add an exponential distributed variable to the waiting time $\tau$, i.e. $\tau = \tau + \lambda$, where $\lambda \sim \text{Exp}(-T[X_t,X_t])$. Furthermore, the current state $X_t$ is sampled among all states $1,...,p+1$ (except for the previous state $X_{t-1}$) according to the rates given in $T$ and the exit rates from $t$.
+
+### Example 5
+
+We want to reproduce Figure 3.4 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the distributions of $T_{\text{MRCA}}$ and $T_{\text{Total}}$ for $n \in \{2,5,10,20,50,100\}$. The initial distributions and sub-intensity rate matrices are stored in the datasets `T_MRCA` and `T_Total` that are provided in the package.
+First, we compute the distribution of $T_{\text{MRCA}}$ 
+
+```{r}
+
+## Defining the vector of quantiles
+t.vec <- seq(0,4, by=0.1)
+
+## and the matrix holding all distributions
+dist.mat <- matrix(nrow = 6, ncol = length(t.vec))
+
+## Now we can compute the distributions
+for(x in t.vec){
+
+  dist.mat[2,which(t.vec ==x)] <- dphasetype(T_MRCA$n5,x)
+  dist.mat[3,which(t.vec ==x)] <- dphasetype(T_MRCA$n10,x)
+  dist.mat[4,which(t.vec ==x)] <- dphasetype(T_MRCA$n20,x)
+  dist.mat[5,which(t.vec ==x)] <- dphasetype(T_MRCA$n50,x)
+  dist.mat[6,which(t.vec ==x)] <- dphasetype(T_MRCA$n100,x)
+}
+
+## For n=2, the initial distribution is equal to 1 and 
+## the sub-intensity rate matrix is T.mat = -1. Hence,
+## the distribution is given by
+dist.mat[1,] <- exp(-t.vec)
+
+```
+
+Now that we have computed the distribution of $T_{\text{MRCA}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,4\}$, we are able to reproduce the first figure
+```{r}
+plot(t.vec, dist.mat[1,], type = "l", 
+     main = expression(paste("The distribution of ", T["MRCA"], 
+     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
+     ylab = expression(f[T[MRCA]](x)), xlim = c(0,4), ylim = c(0,1), 
+     frame.plot = F)
+
+points(t.vec, dist.mat[2,], type = "l")
+points(t.vec, dist.mat[3,], type = "l")
+points(t.vec, dist.mat[4,], type = "l")
+points(t.vec, dist.mat[5,], type = "l")
+points(t.vec, dist.mat[6,], type = "l")
+
+```
+
+Now, we can perform the same calculations for $T_{\text{Total}}$
+
+```{r}
+
+## Defining the vector of quantiles
+t.vec <- seq(0,15, by=0.1)
+
+## and the matrix holding all distributions
+dist.mat <- matrix(nrow = 6, ncol = length(t.vec))
+
+## Now we can compute the distributions
+for(x in t.vec){
+
+  dist.mat[2,which(t.vec ==x)] <- dphasetype(T_Total$n5,x)
+  dist.mat[3,which(t.vec ==x)] <- dphasetype(T_Total$n10,x)
+  dist.mat[4,which(t.vec ==x)] <- dphasetype(T_Total$n20,x)
+  dist.mat[5,which(t.vec ==x)] <- dphasetype(T_Total$n50,x)
+  dist.mat[6,which(t.vec ==x)] <- dphasetype(T_Total$n100,x)
+}
+
+## For n=2, the initial distribution is equal to 1 and 
+## the sub-intensity rate matrix is T.mat = -1/2. Hence,
+## the distribution is given by
+dist.mat[1,] <- exp(-t.vec/2)/2
+
+```
+
+Now that we have computed the distribution of $T_{\text{Total}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,15\}$, we are able to reproduce the second figure
+```{r}
+plot(t.vec, dist.mat[1,], type = "l", 
+     main = expression(paste("The distribution of ", T["Total"], 
+     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
+     ylab = expression(f[T[Total]](x)), xlim = c(0,15), ylim = c(0,0.5), 
+     frame.plot = F)
+
+points(t.vec, dist.mat[2,], type = "l")
+points(t.vec, dist.mat[3,], type = "l")
+points(t.vec, dist.mat[4,], type = "l")
+points(t.vec, dist.mat[5,], type = "l")
+points(t.vec, dist.mat[6,], type = "l")
+
+```
 

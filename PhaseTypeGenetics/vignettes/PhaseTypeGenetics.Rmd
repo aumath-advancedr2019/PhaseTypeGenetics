@@ -411,8 +411,44 @@ h
 \center __discretization__ \center
 
 ***
+### Discretization of a continuous phase-type distribution
 
-h
+In the `PhaseTypeGenetics` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
+
+#### The first transformation
+
+Let $T$ be a subintensity matrix, then for any $a$ greater than the maximum of the absolute value of the diagonal entries of $T$, 
+\begin{equation*}
+I+a^{-1}T
+\end{equation*}
+is a subtransition probability matrix. The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $a$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $I+a^{-1}T$.
+
+#### The second transformation
+
+The basis of this transformation is found in [HSB]. Let $X\sim PH(\alpha,T)$. Then for a $\lambda>0$ and a random variable $Y$ satisfying that 
+\begin{equation*}Y|X\sim\text{Poisson}(\lambda X),
+\end{equation*}
+is can be shown that
+\begin{equation*}Y+1\sim DPH(\alpha,(I-\lambda^{-1}T)^{-1}).
+\end{equation*}
+The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $\lambda$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $(I-\lambda^{-1}T)^{-1})$.
+
+#### Using the function
+
+The function takes three parameters: `object`, `a` and `lambda`.  
+`object` must be of the class `contphasetype` and `a` and `lambda` mus be numbers greater than 0. `a` and `lambda` are both `NULL` as default. You must give either an `a` parameter or a `lambda` parameter.  
+If the given `a` is greater than the maximum of the absolute value of the diagonal entries of the subintensity matrix of `object`, `discretization(object = object,a = a)` performs the first transformation of the object.
+If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
+It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
+
+##### Example 5
+
+```{r}
+(x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
+                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
+discretization(x_1, a = 12, lambda = 2)
+
+```
 
 ***
 \center __dphasetype, pphasetype, qphasetype & rphasetype__ \center
@@ -534,7 +570,7 @@ For an object of type `contphasetype` with initital distribution $\pi$ and sub-t
 * The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
 * As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add an exponential distributed variable to the waiting time $\tau$, i.e. $\tau = \tau + \lambda$, where $\lambda \sim \text{Exp}(-T[X_t,X_t])$. Furthermore, the current state $X_t$ is sampled among all states $1,...,p+1$ (except for the previous state $X_{t-1}$) according to the rates given in $T$ and the exit rates from $t$.
 
-### Example 5
+### Example 6
 
 We want to reproduce Figure 3.4 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the distributions of $T_{\text{MRCA}}$ and $T_{\text{Total}}$ for $n \in \{2,5,10,20,50,100\}$. The initial distributions and sub-intensity rate matrices are stored in the datasets `T_MRCA` and `T_Total` that are provided in the package.
 First, we compute the distribution of $T_{\text{MRCA}}$ 
@@ -693,7 +729,7 @@ Initializing $\{Y(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta
 is precisely the way to initialize the underlying $\{X_1(n)\}_{n\in\mathbb{N}}$ and $\{X_2(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.  
 This theorem is implemented in the `minima`- and `maxima`-functions. They take two phase-type objects as input and if both of these are of the `discphasetype`-class, then they each output an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 6
+#### Example 7
 
 Let's run the functions on pair of discrete phase-type distributions
 
@@ -760,7 +796,7 @@ Initializing $\{Z(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0
 is precisely the way to initialize the underlying $\{X_1(t)\}_{t\geq0}$ and $\{Y_1(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.   
 This result is implemented in the `phasemin` and `phasemax` functions. They take two phase-type objects as input and if both of these are of the `contphasetype`class, then they each output an object of the `contphasetype`class with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
 
-#### Example 7
+#### Example 8
 
 Let's run the functions on pair of continuous phase-type distributions
 
@@ -811,7 +847,7 @@ The initial distribution for the sum is $\begin{pmatrix}\alpha & \boldsymbol{0}\
 The probabilities for transition among the states $\{1,\dotsc,p\}$ is given by $S$. In the new Markov Chain we combine the absorption of the first Markov Chain with in the initialization of the second Markov Chain. This is why the upper right corner of the the new sub-transition matrix is given $s\beta$. This matrix has dimension $p\times q$ and for $i\in\{1,\dotsc,p\}$ and $j\in\{1,\dotsc,q\}$ the $(i,j)$'th entry is $s_i\beta_j$, which is the probability of exiting the first Markov Chain from state $i$ and entering the second Markov chain in state its $j$'th state. The probabilities for transition among the states $\{p+1,\dotsc,p+q\}$ are the same as transition amond the $q$ transient states underlying $\tau_2$, and is given by $T$.  
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `discphasetype`-class, then it outputs an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 8
+#### Example 9
 
 Suppose that 
 \begin{equation*}
@@ -849,7 +885,7 @@ Similarly to the discrete case the proof of this is constructing a Markov Jump P
 Similar consideration as in the discrete case show that one way of making such a Markov Jump Process is with initial distribution and subintensity matrix as stated in the theorem.
 This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `contphasetype`-class, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
-#### Example 9
+#### Example 10
 
 Suppose a random variable $E$ follows an exponential distribution with parameter $\lambda>0$. Then by comparing the distribution functions we see that that $E\sim PH_{1}(1,-\lambda)$. It now follows that if $E_1,\dotsc,E_n$ are independent exponentially distributed random variables with respective parameters $\lambda_1,\dotsc,\lambda_n$ then
 
@@ -869,45 +905,6 @@ where the $(i,j)$'th entry of $\Lambda_n$ is given by
 \center __RewTransDistribution__ \center
 
 ***
-
-### Discretization of a continuous phase-type distribution
-
-In the `PhaseTypeGenetics` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
-
-#### The first transformation
-
-Let $T$ be a subintensity matrix, then for any $a$ greater than the maximum of the absolute value of the diagonal entries of $T$, 
-\begin{equation*}
-I+a^{-1}T
-\end{equation*}
-is a subtransition probability matrix. The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $a$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $I+a^{-1}T$.
-
-#### The second transformation
-
-The basis of this transformation is found in [HSB]. Let $X\sim PH(\alpha,T)$. Then for a $\lambda>0$ and a random variable $Y$ satisfying that 
-\begin{equation*}Y|X\sim\text{Poisson}(\lambda X),
-\end{equation*}
-is can be shown that
-\begin{equation*}Y+1\sim DPH(\alpha,(I-\lambda^{-1}T)^{-1}).
-\end{equation*}
-The function is implemented so that `discretization` applied to a `contphasetype` object with initial distribution $\alpha$ and subintensity matrix $T$ and a given $\lambda$ returns a `discphasetype`object with initial distribution $\alpha$ and subtransition probability matrix $(I-\lambda^{-1}T)^{-1})$.
-
-#### Using the function
-
-The function takes three parameters: `object`, `a` and `lambda`.  
-`object` must be of the class `contphasetype` and `a` and `lambda` mus be numbers greater than 0. `a` and `lambda` are both `NULL` as default. You must give either an `a` parameter or a `lambda` parameter.  
-If the given `a` is greater than the maximum of the absolute value of the diagonal entries of the subintensity matrix of `object`, `discretization(object = object,a = a)` performs the first transformation of the object.
-If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
-It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
-
-##### Example 10
-
-```{r}
-(x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
-                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
-discretization(x_1, a = 12, lambda = 2)
-
-```
 
 ### Transformation via rewards
 
@@ -938,9 +935,12 @@ In the `PhaseTypeGenetics` we have implemented the function `RewTransDistributio
 (x_2 <-  contphasetype(initDist = c(.2,.7), 
                                 T.mat = matrix(c(-7,3,2,-4), nrow = 2)))
 
-RewTransDistribution(x_2,c(2,3))
-x_1
-RewTransDistribution(x_1,c(0,2,1,0))
+RewTransDistribution(x_2, c(2,3))
+
+(x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
+                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
+
+RewTransDistribution(x_1, c(0,2,1,0))
 
 ```
 

@@ -21,18 +21,21 @@
 #' is given by
 #' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
 #'
-#' @param x a positive quantile
-#' @param p a probability
-#' @param n number of observations
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
 #' these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
+#' @param x a single positive quantile or a vector of positive quantiles.
+#' @param p a single probability or a vector of probabilities.
+#' @param n number of observations
 #'
 #' @return \code{dphasetype} gives the density, \code{pphasetype}
 #' gives the distribution function, \code{qphasetype} gives the quantile
 #' function, and \code{rphasetype} simulates from the distribution.
-#' The length of the output is 1, except for \code{rphasetype}, which produces
+#' The length of the output is equal to the length of the input, i.e. for
+#' \code{dphasetype} and \code{pphasetype} the length of the output is equal to
+#' the length of the quantile vector \code{x}, for \code{qphasetype} the output is of
+#' the same length as the input vector \code{p}, and \code{rphasetype} produces
 #' an output of length \eqn{n}.
 #'
 #' @source Mogens Bladt and Bo Friis Nielsen (2017):
@@ -48,178 +51,189 @@
 #' ## "Coalescent Theory: An Introduction",
 #' ## Roberts and Company Publishers, Colorado.
 #'
-#' x.vec <- seq(0,4, by=0.1)
-#' dist <- matrix(nrow = 6, ncol = length(x.vec))
-#' for(x in x.vec){
+#' x <- seq(0,4, by=0.1)
+#' dist <- matrix(nrow = 6, ncol = length(x))
 #'
-#'  dist[2,which(x.vec ==x)] <- dphasetype(T_MRCA$n5,x)
-#'  dist[3,which(x.vec ==x)] <- dphasetype(T_MRCA$n10,x)
-#'  dist[4,which(x.vec ==x)] <- dphasetype(T_MRCA$n20,x)
-#'  dist[5,which(x.vec ==x)] <- dphasetype(T_MRCA$n50,x)
-#'  dist[6,which(x.vec ==x)] <- dphasetype(T_MRCA$n100,x)
-#' }
+#' dist[2,] <- dphasetype(T_MRCA$n5, x)
+#' dist[3,] <- dphasetype(T_MRCA$n10, x)
+#' dist[4,] <- dphasetype(T_MRCA$n20, x)
+#' dist[5,] <- dphasetype(T_MRCA$n50, x)
+#' dist[6,] <- dphasetype(T_MRCA$n100, x)
 #'
 #' ## For n=2, the initial distribution is initDist = 1 and the transition probability
 #' ## matrix is T.mat = -1, hence the distribution is given by
-#' dist[1,] <- exp(-x.vec)
+#' dist[1,] <- exp(-x)
 #'
-#' plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
+#' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
 #'      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[MRCA]](x)),
 #'      xlim = c(0,4), ylim = c(0,1), frame.plot = F)
-#' points(x.vec, dist[2,], type = "l")
-#' points(x.vec, dist[3,], type = "l")
-#' points(x.vec, dist[4,], type = "l")
-#' points(x.vec, dist[5,], type = "l")
-#' points(x.vec, dist[6,], type = "l")
+#' points(x, dist[2,], type = "l")
+#' points(x, dist[3,], type = "l")
+#' points(x, dist[4,], type = "l")
+#' points(x, dist[5,], type = "l")
+#' points(x, dist[6,], type = "l")
 #'
 #'
-#' x.vec <- seq(0,15, by=0.1)
-#' dist <- matrix(,nrow = 6, ncol = length(x.vec))
-#' for(x in x.vec){
+#' x <- seq(0,15, by=0.1)
+#' dist <- matrix(nrow = 6, ncol = length(x))
 #'
-#'  dist[2,which(x.vec ==x)] <- dphasetype(T_Total$n5,x)
-#'  dist[3,which(x.vec ==x)] <- dphasetype(T_Total$n10,x)
-#'  dist[4,which(x.vec ==x)] <- dphasetype(T_Total$n20,x)
-#'  dist[5,which(x.vec ==x)] <- dphasetype(T_Total$n50,x)
-#'  dist[6,which(x.vec ==x)] <- dphasetype(T_Total$n100,x)
-#' }
+#' dist[2,] <- dphasetype(T_Total$n5,x)
+#' dist[3,] <- dphasetype(T_Total$n10,x)
+#' dist[4,] <- dphasetype(T_Total$n20,x)
+#' dist[5,] <- dphasetype(T_Total$n50,x)
+#' dist[6,] <- dphasetype(T_Total$n100,x)
 #'
 #' ## For n=2, the initial distribution is initDist = 1 and the transition probability
 #' ## matrix is T.mat = -1/2, hence the distribution is given by
-#' dist[1,] <- exp(-x.vec/2)/2
+#' dist[1,] <- exp(-x/2)/2
 #'
-#' plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
+#' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
 #'     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[Total]](x)),
 #'     xlim = c(0,15), ylim = c(0,0.5), frame.plot = F)
-#' points(x.vec, dist[2,], type = "l")
-#' points(x.vec, dist[3,], type = "l")
-#' points(x.vec, dist[4,], type = "l")
-#' points(x.vec, dist[5,], type = "l")
-#' points(x.vec, dist[6,], type = "l")
+#' points(x, dist[2,], type = "l")
+#' points(x, dist[3,], type = "l")
+#' points(x, dist[4,], type = "l")
+#' points(x, dist[5,], type = "l")
+#' points(x, dist[6,], type = "l")
 #'
 #' ## Simulating ten total branch lengths
 #' ## for a sample of size 5
 #' rphasetype(T_Total$n5, n=10)
 #'
 #' @export
-dphasetype <- function(x, object){
+dphasetype <- function(object, x){
 
   UseMethod("dphasetype")
 }
 
 #' @export
-dphasetype.discphasetype <- function(x, object){
+dphasetype.discphasetype <- function(object, x){
 
-  if(x<1 | x%%1!=0){
-    return(0)
-  }else{
+  res <- NULL
+  for(l in x){
 
-  initDist = object$initDist
-  P.mat = object$P.mat
+    if(l<1 | l%%1!=0){
+
+      res[which(x==l)] <- 0
+    }else{
+
+      res[which(x==l)] <- sum(object$initDist%*%(object$P.mat %^%(l-1))%*%(diag(1, nrow = nrow(object$P.mat))-object$P.mat)) +
+                          (l==1)*(1-sum(object$initDist))
+    }
   }
-
- return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(initDist)))
+ return(res)
 }
 
 #' @export
-dphasetype.contphasetype <- function(x, object){
+dphasetype.contphasetype <- function(object, x){
 
-  if(x<0){
+  res <- NULL
+  for(l in x){
 
-    return(0)
+    if(l<0){
 
-  }else{
+      res[which(x==l)] <- 0
+    }else{
 
-  initDist = object$initDist
-  T.mat = object$T.mat
+      res[which(x==l)] <- -sum(object$initDist %*% expm(l * object$T.mat) %*% object$T.mat)
+    }
   }
-
-  return(-sum(initDist %*% expm(x * T.mat) %*% T.mat))
+  return(res)
 }
 
 #' @rdname dphasetype
 #' @export
-pphasetype <- function(x, object){
+pphasetype <- function(object, x){
 
   UseMethod("pphasetype")
 }
 
 #' @export
-pphasetype.discphasetype <- function(x, object){
+pphasetype.discphasetype <- function(object, x){
 
-  if(x<0){
+  res <- NULL
+  for(l in x){
 
-      return(0)
+    if(l<0){
 
-  }else{
+      res[which(x==l)] <- 0
+    }else{
 
-  x <- floor(x)
-  initDist = object$initDist
-  P.mat = object$P.mat
+      l <- floor(l)
+
+      res[which(x==l)] <- 1 - sum(object$initDist%*%(object$P.mat %^% l))
+    }
   }
-
-  return(1 - sum(initDist%*%(P.mat %^% x)))
+  return(res)
 }
 
 #' @export
-pphasetype.contphasetype <- function(x, object){
+pphasetype.contphasetype <- function(object, x){
 
-  if(x<0){
+  res <- NULL
+  for(l in x){
 
-    return(0)
+    if(l<0){
 
-  }else{
+      res[which(x==l)] <- 0
+    }else{
 
-  initDist = object$initDist
-  T.mat = object$T.mat
+      res[which(x==l)] <- 1 - sum(object$initDist %*% expm(l * object$T.mat))
+    }
   }
-
-  return(1 - sum(initDist %*% expm(x * T.mat)))
+  return(res)
 }
 
 #' @rdname dphasetype
 #' @export
-qphasetype <- function(p, object){
+qphasetype <- function(object, p){
 
   UseMethod("qphasetype")
 }
 
 #' @export
-qphasetype.discphasetype <- function(p, object){
+qphasetype.discphasetype <- function(object, p){
 
-  if( p<0 | p>1 ){
+  if( sum(p<0) >0 | sum(p>1) >0 ){
 
-    stop("Not a valid probability")
+    stop("Not a valid probability vector. One or more entries are less than 0 or bigger than 1.")
   }else{
 
-  m <- uniroot(function(y) pphasetype(object = object, x = y)- p, c(0, 400))
+    res <- NULL
+    for(l in p){
+
+      res[which(p==l)] <- uniroot(function(y) pphasetype(object = object, x = y)- l, c(0, 400))$root[1]
+    }
   }
-  return(round(m$root[1]))
+  return(round(res))
 }
 
 #' @export
-qphasetype.contphasetype <- function(p, object){
+qphasetype.contphasetype <- function(object, p){
 
-  if( p<0 | p>1 ){
+  if( sum(p<0) >0 | sum(p>1) >0 ){
 
-    stop("Not a valid probability")
+    stop("Not a valid probability vector. One or more entries are less than 0 or bigger than 1.")
   }else{
 
-  m <- uniroot(function(y) pphasetype(object = object, x = y)-p, c(0, 400))
-  }
-  return(m$root[1])
+    res <- NULL
+    for(l in p){
 
+      res[which(p==l)] <- uniroot(function(y) pphasetype(object = object, x = y)-l, c(0, 400))$root[1]
+    }
+  }
+  return(res)
 }
 
 #' @rdname dphasetype
 #' @export
-rphasetype <- function(n, object){
+rphasetype <- function(object, n){
 
   UseMethod("rphasetype")
 }
 
 #' @export
-rphasetype.discphasetype <- function(n, object){
+rphasetype.discphasetype <- function(object, n){
 
   n=floor(abs(n))
 
@@ -267,7 +281,7 @@ rphasetype.discphasetype <- function(n, object){
 }
 
 #' @export
-rphasetype.contphasetype <- function(n, object){
+rphasetype.contphasetype <- function(object, n){
 
   n=floor(abs(n))
 

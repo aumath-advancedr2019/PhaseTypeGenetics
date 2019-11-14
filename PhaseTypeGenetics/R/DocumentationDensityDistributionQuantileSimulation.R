@@ -110,7 +110,7 @@ dphasetype <- function(object,x){
 #' @export
 dphasetype.discphasetype <- function(object,x){
 
-  if(x<1 | !is.integer(x)){
+  if(x<1 | x%%1!=0){
     return(0)
   }else{
 
@@ -118,7 +118,7 @@ dphasetype.discphasetype <- function(object,x){
   P.mat = object$P.mat
   }
 
- return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(iniDist)))
+ return(sum(initDist%*%(P.mat %^%(x-1))%*%(diag(1, nrow = nrow(P.mat))-P.mat)) + (x==1)*(1-sum(initDist)))
 }
 
 #' @export

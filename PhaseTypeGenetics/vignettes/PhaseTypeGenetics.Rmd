@@ -40,7 +40,7 @@ All functions and applications are based on the theory developed in
 
 ## Applications in Population Genetics
 
-### Wright-Fisher model
+### The Wright-Fisher model
 
 We consider the Wright-Fisher model, i.e. generations are non-overlapping, the population size is fixed and each individual chose its parents uniformly at random. Let $N$ be the population size and $n$ the sample size. Furthermore, let $R_n$ be the number of generations until coalescent of any of the $n$ individuals. Then it holds that the time measured in number of generations $T_n = \tfrac{R_n}{n}$ is approximately exponentially distributed with a rate of $\binom{n}{2}$, 
 \begin{equation*}
@@ -506,7 +506,7 @@ summary(S_Total)
 \center __discretization__ \center
 
 ***
-### Discretization of a continuous phase-type distribution
+### Discretization of continuous phase-type distributions
 
 In the `PhaseTypeGenetics` package we have implemented two ways of transforming a subintensity matrix into a subtransition probability matrix. These we have implemented in the `dicretization` function.  
 
@@ -653,11 +653,14 @@ In this package, we used the inbuild function `uniroot` to find the quantile for
 
 ### Simulations
 
+#### - in the discrete case
 For an object of type `discphasetype` with initital distribution $\pi$ and sub-intensity rate matrix $T$ the simulation is conducted roughly in the following way. 
 
 * The waiting time $\tau$ is set to be $1$, which corrsponds to immediate absorbtion.
 * The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
 * As long as $X_t$ is differnt from the absorbing state $p+1$, $t\geq1$, we add one to the waiting time $\tau$, i.e. $\tau = \tau +1$, and the current state $X_t$ is sampled among all states $1,...,p+1$ according to the transition probabilites given in $T$ and the exit rates from $t$. 
+
+#### - in the continuous case
 
 For an object of type `contphasetype` with initital distribution $\pi$ and sub-transition probability matrix $T$ the simulation is conducted roughly in the same way. 
 
@@ -801,7 +804,9 @@ hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
 
 ***
 
-### Extremum of two independent discrete phase-type distributions
+### Extremum of two independent phase-type distributions
+
+#### - in the discrete case
 Consider $\tau_1\sim DPH_{p}(\alpha,S)$ and $\tau_2\sim DPH_{q}(\beta,T)$ independent. Then by Theorem 1.2.67 in [BN]
 \begin{equation*}
 \min(\tau_1,\tau_2)\sim DPH_{pq}(\alpha\otimes\beta,S\otimes T),
@@ -876,7 +881,8 @@ Plugging these into `minima` and `maxima` we get
   maxima(tau1,tau2) 
 ```
 
-### Extremum of two independent continuous phase-type distributions
+#### - in the continuous case
+
 Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then by Corollary 3.1.32 in [BN]
 \begin{equation*}
 \min(X,Y)\sim PH_{pq}(\alpha\otimes\beta,S\oplus T),
@@ -928,7 +934,7 @@ This result is implemented in the `phasemin` and `phasemax` functions. They take
 
 #### Example 11
 
-Let's run the functions on pair of continuous phase-type distributions
+Let's run the functions on a pair of continuous phase-type distributions
 
 ```{r}
 x_1 <- contphasetype(initDist = c(.12,.53,.24),
@@ -954,16 +960,174 @@ h
 
 ***
 
-h
+### Moments and factorial moments
+ 
+In this section, we consider the (factorial) moments of phase-type distributions. In the continuous case, we are able to compute the moments directly using the Laplace transform, but in the discrete case, we have to consider factorial moments instead.
 
+#### - in the discrete case
+
+Let $\tau \sim \text{DPH}(\pi,T)$. Then we have that the factorial moments are given by 
+\begin{equation*}
+\mathbb{E}[\tau(\tau -1) \cdots (\tau-k+1)] = k!\pi T^{k-1}(I-T)^{-k}e,
+\end{equation*}
+where $k\geq 1$. The proof of this equality is quite long and can be seen in [BN], Theorem 1.2.69. 
+
+#### - in the continuous case
+
+The Laplace transform can be useful when computing the mean and variance of different types of distributions. Especially in phase-type theory it simplifies these types of computations.\
+In general, the Laplace transform of a nonnegative random variable $\tau$ is defined as 
+\begin{equation*}
+L_{\tau}(s) = \mathbb{E}[e^{-s\tau}] = \int_{0}^{\infty} e^{-su} f_{\tau}(u) du,
+\end{equation*}
+where $f_{\tau}(u)$ is the density of the random variable $\tau$.
+Furthermore, the $n$'th derivative of the Laplace transform is given by
+\begin{align*}
+\frac{\partial^n}{\partial s^n} L_{\tau}(s) &= \frac{\partial^n}{\partial s^n}  \int_{0}^{\infty} e^{-su} f_{\tau}(u) du\\
+&= \int_{0}^{\infty} \frac{\partial^n}{\partial s^n} e^{-su} f_{\tau}(u) du\\
+&= \int_{0}^{\infty} (-u)^n e^{-su} f_{\tau}(u) du,
+\end{align*}
+where the second equality is due to Leibniz integration rule. When evaluating this derivative at $s=0$, we see that
+\begin{align*}
+\frac{\partial^n}{\partial s^n} L_{\tau}(0) =\int_{0}^{\infty} (-u)^n e^{-0 \cdot u} f_{\tau}(u) du =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du.
+\end{align*}
+We recognize this last intergal as the definition of the $n$'th moment of $\tau$, i.e.
+\begin{align*}
+\frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du = (-1)^n\mathbb{E}[\tau^n].
+\end{align*}
+Now we can apply this theory on continuous phase-type distributions.\
+As $f_{\tau}(u) = \pi e^{Tu} t$ when $\tau \sim \text{PH}(\pi, T)$, we have that
+\begin{align*}
+L_{\tau}(s) &= \int_{0}^{\infty} e^{-su} \pi e^{Tu} t \, du\\
+&= \pi\int_{0}^{\infty}  e^{-su I} e^{Tu}  du \, t\\
+&= \pi\int_{0}^{\infty}  e^{-(sI-T)u} du \,  t\\
+&= \pi \lim_{r \rightarrow \infty} \Big[ -(sI-T)^{-1}e^{-(sI-T)u} \Big]_0^{r}   t\\
+&= \pi \lim_{r \rightarrow \infty} \Big( (sI-T)^{-1}e^{-(sI-T)r}+(sI-T)^{-1}e^{-(sI-T)\cdot 0} \Big)   t\\
+&= \pi (sI-T)^{-1}   t,
+\end{align*}
+where we have used that $\lim_{r \rightarrow \infty} -(sI-T)^{-1}e^{-(sI-T)r} =0$, as the eigenvalues of $-(sI-T)$ are negative.\
+Now that we have found the Laplace transform, we can compute the derivative
+\begin{align*}
+\frac{\partial}{\partial s} L_{\tau}(s) &= \frac{\partial}{\partial s} \pi (sI-T)^{-1}t\\
+&= -\pi (sI-T)^{-2}t,\\
+\end{align*}
+the second derivative 
+\begin{align*}
+\frac{\partial^2}{\partial s^2} L_{\tau}(s) &= \frac{\partial^2}{\partial s^2} \pi (sI-T)^{-1}t\\
+&= 2\pi (sI-T)^{-3}t,\\
+\end{align*}
+or in general the $n$'th derivative
+\begin{align*}
+\frac{\partial^n}{\partial s^n} L_{\tau}(s) &= \frac{\partial^n}{\partial s^n} \pi (sI-T)^{-1}t\\
+&= (-1)^n n! \pi (sI-T)^{-n-1}t,\\
+\end{align*}
+where $n \geq 1$.\
+By evaluating the $n$'th derivative of the Laplace transform at $s=0$, we get that
+\begin{align*}
+\frac{\partial^n}{\partial s^n} L_{\tau}(0) &=  (-1)^n n! \pi (0 \cdot I-T)^{-n-1}t\\
+&= (-1)^n n! \pi (-T)^{-n-1}t\\
+&= (-1)^n n! \pi (-T)^{-n-1}(-T)e\\
+&= (-1)^n n! \pi (-T)^{-n}e,
+\end{align*}
+where we have used that $t=-Te$.\
+By combining this equality with the fact that $\frac{\partial^n}{\partial s^n} L_{\tau}(0) = (-1)^n\mathbb{E}[\tau^n]$ in general, we have that 
+\begin{align*}
+(-1)^n\mathbb{E}[\tau^n] = \frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n n! \pi (-T)^{-n}e,
+\end{align*}
+which shows that the $n$'th moment of $\tau$ is given as 
+\begin{align*}
+\mathbb{E}[\tau^n] =  n! \pi (-T)^{-n}e.
+\end{align*}
+
+#### Example 13
+
+The computation of the (factorial) moments of a phase-type distribution can be performed by the aid of the function `moments`. This function needs a phase-type distributed object (either discrete or continuous) and computes the $i$'th-order (factorial) moment or all moments up to the $i$'th-order (factorial) moment.\
+This function makes it easy to calculate the mean and variances of a given phase-type distribution (see also section *Mean and Variances*).\
+For $n=4$, the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ is continuous phase-type distributed with initial distribution $\pi = (1,0,0)$ and sub-intensity rate matrix
+\begin{equation*}
+T = \begin{pmatrix}
+-6 & 6 & 0\\
+0 & -3 & 3\\
+0 & 0 & -1
+\end{pmatrix}.
+\end{equation*}
+From the previous computations, we have that 
+\begin{equation*}
+\mathbb{E}[\tau_{\text{MRCA}}] =  \pi (-T)^{-1}e
+\end{equation*}
+and that 
+\begin{equation*}
+\mathbb{V}\text{ar}[\tau_{\text{MRCA}}] =  \mathbb{E}[\tau_{\text{MRCA}}^2]- \mathbb{E}[\tau_{\text{MRCA}}]^2 = 2 \pi (-T)^{-2}e - \big( \pi (-T)^{-1}e \big)^2.
+\end{equation*}
+
+```{r}
+initDist <- c(1,0,0)
+
+T.mat <- matrix(c(-6,6,0,
+                  0,-3,3,
+                  0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
+
+## Defining an object of type "contphasetype"
+TMRCA <- contphasetype(initDist, T.mat)
+## Computing all moments up to order 2
+m <- moments(TMRCA, i=2, all = TRUE)
+## We get the desired numbers
+m[1] 
+m[2] - m[1]^2 
+
+phmean(TMRCA)
+phvar(TMRCA)
+
+```
+
+For $n=4$ and $\theta=2$, the number of segregating sites $S_{\text{Total}}$ plus 1 is discrete phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and sub-transition probability matrix
+\begin{equation*}
+P = \begin{pmatrix}
+0.4 & 0.3 & 4/30 & 2/30\\
+0 & 0.5 & 2/9 & 1/9\\
+0 & 0 & 2/3 & 0\\
+0 & 0 & 0 & 2/3
+\end{pmatrix}.
+\end{equation*}
+Hence, it holds that
+\begin{equation*}
+\mathbb{E}[S_{\text{Total}}+1] = \pi (I-T)^{-1} e
+\end{equation*}
+$(k=1)$ and that 
+\begin{align*}
+\mathbb{V}\text{ar}[S_{\text{Total}}] &= \mathbb{E}[S_{\text{Total}}^2]- \mathbb{E}[S_{\text{Total}}]^2\\
+&= \mathbb{E}[S_{\text{Total}}^2]- \mathbb{E}[S_{\text{Total}}] +  \mathbb{E}[S_{\text{Total}}]- \mathbb{E}[S_{\text{Total}}]^2\\
+&= \mathbb{E}[S_{\text{Total}}^2- S_{\text{Total}}] +  \mathbb{E}[S_{\text{Total}}]- \mathbb{E}[S_{\text{Total}}]^2\\
+&= \mathbb{E}[S_{\text{Total}}(S_{\text{Total}}-1)] +  \mathbb{E}[S_{\text{Total}}]- \mathbb{E}[S_{\text{Total}}]^2\\
+&= 2\pi T(I-T)^{-2}e + \pi (I-T)^{-1} e - \big( \pi (I-T)^{-1} e\big)^2.
+\end{align*} 
+
+```{r}
+initDist <- c(1,0,0,0)
+
+P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+                  0, 0.5, 2/9, 1/9,
+                  0, 0, 2/3, 0,
+                  0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
+## Defining an object of type "discphasetype"
+S_Total <- discphasetype(initDist, P.mat)
+## Computing all moments up to order 2
+m <- moments(S_Total, i=2, all = TRUE)
+## We get the desired numbers
+m[1]
+m[2] + m[1] - m[1]^2 
+
+phmean(S_Total)
+phvar(S_Total)
+```
 
 ***
 \center __phsum__ \center
 
 ***
 
-### Sums of independent discrete phase-type distributions
+### Sums of independent phase-type distributions
 
+#### - in the discrete case
 Consider $\tau_1\sim DPH_{p}(\alpha,S)$ and $\tau_2\sim DPH_{q}(\beta,T)$ independent. Then by Theorem 1.2.65 in [BN]
 
 \begin{equation*}
@@ -1004,7 +1168,7 @@ and subtransition probability matrix
                0 & 0 & 0.2 & 0.7\end{pmatrix}
 \end{equation*}
 
-### Sums of independent continuous phase-type distributions
+#### - in the continuous case
 
 Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then by Theorem 3.1.26 in [BN]
 \begin{equation*}
@@ -1036,7 +1200,7 @@ where the $(i,j)$'th entry of $\Lambda_n$ is given by
 
 ***
 
-### Transformation via rewards
+### Transformation via rewards 
 
 Starting from a continuous phase-type distributed random variable $\tau\sim PH_p(\alpha,T)$, we can do what is called a reward-transformation of the underlying Markov Jump Process $\{X_t\}_{t\geq0}$. Formally we let $r=(r(1),\dotsc,r(p))$ be a vector of non-negative numbers(the reward vector) and write
 \begin{equation*}

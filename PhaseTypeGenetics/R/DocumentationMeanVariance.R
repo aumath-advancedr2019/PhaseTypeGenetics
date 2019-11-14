@@ -25,7 +25,7 @@
 #' To be able to use these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
 #'
-#' @return \code{mean} gives the mean and \code{var} gives the
+#' @return \code{phmean} gives the mean and \code{phvar} gives the
 #' variance of the phase-type distribution. The length of the output is 1.
 #'
 #' @source Mogens Bladt and Bo Friis Nielsen (2017):
@@ -67,11 +67,11 @@
 #' T_MRCA <- contphasetype(initDist, T.matMRCA)
 #' T_Total <- contphasetype(initDist, T.matTotal)
 #' ## Hence the means are given by
-#' VecOfMeansMRCA[3] <- mean(T_MRCA)
-#' VecOfMeansTotal[3] <- mean(T_Total)
+#' VecOfMeansMRCA[3] <- phmean(T_MRCA)
+#' VecOfMeansTotal[3] <- phmean(T_Total)
 #' ## and the variances are
-#' VecOfVarsMRCA[3] <- var(T_MRCA)
-#' VecOfVarsTotal[3] <-var(T_Total)
+#' VecOfVarsMRCA[3] <- phvar(T_MRCA)
+#' VecOfVarsTotal[3] <-phvar(T_Total)
 #'
 #' for (n in 4:20) {
 #'
@@ -85,8 +85,8 @@
 #'  ## Define an object of class "contphasetype"
 #'  obj <- contphasetype(initDist,T.mat)
 #'  ## Compute the mean and variance
-#'  VecOfMeansMRCA[n] <- mean(obj)
-#'  VecOfVarsMRCA[n] <- var(obj)
+#'  VecOfMeansMRCA[n] <- phmean(obj)
+#'  VecOfVarsMRCA[n] <- phvar(obj)
 #'
 #'  ## For T_total, we compute the same numbers
 #'  ## The subintensity rate matrix
@@ -98,8 +98,8 @@
 #'  ## Define an object of class "contphasetype"
 #'  obj <- contphasetype(initDist,T.mat)
 #'  ## Compute the mean and variance
-#'  VecOfMeansTotal[n] <- mean(obj)
-#'  VecOfVarsTotal[n] <- var(obj)
+#'  VecOfMeansTotal[n] <- phmean(obj)
+#'  VecOfVarsTotal[n] <- phvar(obj)
 #' }
 #'
 #' ## Plotting the means

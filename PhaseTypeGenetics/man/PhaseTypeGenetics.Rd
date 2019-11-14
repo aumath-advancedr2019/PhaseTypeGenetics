@@ -15,7 +15,7 @@ These functions are
 \item discphasetype
 \item dphasetype
 \item maxima
-\item mean
+\item phmean
 \item minima
 \item moments
 \item pphasetype
@@ -23,7 +23,7 @@ These functions are
 \item rphasetype
 \item phsum
 \item summary
-\item var
+\item phvar
 }
 Furthermore, the package includes some functions that are useful in
 connection to population genetics. These functions are
@@ -56,7 +56,7 @@ segregating sites and the tail statistics using phase-type theory.
 \item \code{\link{discphasetype}}
 \item \code{\link{dphasetype}}
 \item \code{\link{maxima}}
-\item \code{\link[=mean.discphasetype]{mean}}
+\item \code{\link{phmean}}
 \item \code{\link{minima}}
 \item \code{\link{moments}}
 \item \code{\link{pphasetype}}
@@ -64,7 +64,7 @@ segregating sites and the tail statistics using phase-type theory.
 \item \code{\link{rphasetype}}
 \item \code{\link{phsum}}
 \item \code{\link[=summary.discphasetype]{summary}}
-\item \code{\link{var}}.
+\item \code{\link{phvar}}.
 }
 }
 

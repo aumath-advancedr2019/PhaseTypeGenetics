@@ -61,13 +61,15 @@ VecOfVarsTotal <- replicate(20,0)
 ## For n=2, we have that the initial distribution is initDist = 1 and
 ## the transition probability matrix is T.mat = -1 for T_MRCA and
 ## T.mat = -1/2 for T_Total,
-## hence the mean is given by
-VecOfMeansMRCA[2] <- 1 ## -pi*T^(-1)* e = -1*(-1)*1 = 1
-VecOfMeansTotal[2] <- 2 ## -pi*T^(-1)* e = -1*(-1/2)^(-1)*1 = 2
+## hence
+TMRCA <- contphasetype(1,-1)
+TTotal <- contphasetype(1, -1/2)
+## The mean is now
+VecOfMeansMRCA[2] <- phmean(TMRCA)
+VecOfMeansTotal[2] <- phmean(TTotal)
 ## and the variance is
-VecOfVarsMRCA[2] <- 1 ## 2-1^2
-VecOfVarsTotal[2] <- 4 ## 8-2^2
-## as variance= E[X^2] - E[X]^2.
+VecOfVarsMRCA[2] <- phvar(TMRCA)
+VecOfVarsTotal[2] <- phvar(TTotal)
 
 # For n=3, we have that the initial distibrution is
 initDist = c(1,0)
@@ -76,14 +78,14 @@ T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
 T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
 ## for T_MRCA and T_Total, respectively.
 ## Defining two objects of class "contphasetype"
-T_MRCA <- contphasetype(initDist, T.matMRCA)
-T_Total <- contphasetype(initDist, T.matTotal)
+TMRCA <- contphasetype(initDist, T.matMRCA)
+TTotal <- contphasetype(initDist, T.matTotal)
 ## Hence the means are given by
-VecOfMeansMRCA[3] <- phmean(T_MRCA)
-VecOfMeansTotal[3] <- phmean(T_Total)
+VecOfMeansMRCA[3] <- phmean(TMRCA)
+VecOfMeansTotal[3] <- phmean(TTotal)
 ## and the variances are
-VecOfVarsMRCA[3] <- phvar(T_MRCA)
-VecOfVarsTotal[3] <-phvar(T_Total)
+VecOfVarsMRCA[3] <- phvar(TMRCA)
+VecOfVarsTotal[3] <-phvar(TTotal)
 
 for (n in 4:20) {
 

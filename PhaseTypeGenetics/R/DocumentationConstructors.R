@@ -39,7 +39,7 @@
 #'                    0,-3,3,
 #'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 #'
-#' T_MRCA <- contphasetype(initDist, T.mat)
+#' TMRCA <- contphasetype(initDist, T.mat)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with

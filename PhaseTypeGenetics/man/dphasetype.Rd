@@ -27,9 +27,9 @@ quantile function or random generation should be computed. To be able to use
 these function,the object has to be of
 class \code{discphasetype} or \code{contphasetype}.}
 
-\item{x}{a positive quantile}
+\item{x}{a single positive quantile or a vector of positive quantiles.}
 
-\item{p}{a probability}
+\item{p}{a single probability or a vector of probabilities.}
 
 \item{n}{number of observations}
 }
@@ -37,7 +37,10 @@ class \code{discphasetype} or \code{contphasetype}.}
 \code{dphasetype} gives the density, \code{pphasetype}
 gives the distribution function, \code{qphasetype} gives the quantile
 function, and \code{rphasetype} simulates from the distribution.
-The length of the output is 1, except for \code{rphasetype}, which produces
+The length of the output is equal to the length of the input, i.e. for
+\code{dphasetype} and \code{pphasetype} the length of the output is equal to
+the length of the quantile vector \code{x}, for \code{qphasetype} the output is of
+the same length as the input vector \code{p}, and \code{rphasetype} produces
 an output of length \eqn{n}.
 }
 \description{
@@ -69,16 +72,14 @@ is given by
 ## "Coalescent Theory: An Introduction",
 ## Roberts and Company Publishers, Colorado.
 
-x.vec <- seq(0,4, by=0.1)
-dist <- matrix(nrow = 6, ncol = length(x.vec))
-for(x in x.vec){
+x <- seq(0,4, by=0.1)
+dist <- matrix(nrow = 6, ncol = length(x))
 
- dist[2,which(x.vec ==x)] <- dphasetype(T_MRCA$n5,x)
- dist[3,which(x.vec ==x)] <- dphasetype(T_MRCA$n10,x)
- dist[4,which(x.vec ==x)] <- dphasetype(T_MRCA$n20,x)
- dist[5,which(x.vec ==x)] <- dphasetype(T_MRCA$n50,x)
- dist[6,which(x.vec ==x)] <- dphasetype(T_MRCA$n100,x)
-}
+dist[2,] <- dphasetype(T_MRCA$n5, x)
+dist[3,] <- dphasetype(T_MRCA$n10, x)
+dist[4,] <- dphasetype(T_MRCA$n20, x)
+dist[5,] <- dphasetype(T_MRCA$n50, x)
+dist[6,] <- dphasetype(T_MRCA$n100, x)
 
 ## For n=2, the initial distribution is initDist = 1 and the transition probability
 ## matrix is T.mat = -1, hence the distribution is given by

@@ -83,41 +83,39 @@ dist[6,] <- dphasetype(T_MRCA$n100, x)
 
 ## For n=2, the initial distribution is initDist = 1 and the transition probability
 ## matrix is T.mat = -1, hence the distribution is given by
-dist[1,] <- exp(-x.vec)
+dist[1,] <- exp(-x)
 
-plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
+plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[MRCA]](x)),
      xlim = c(0,4), ylim = c(0,1), frame.plot = F)
-points(x.vec, dist[2,], type = "l")
-points(x.vec, dist[3,], type = "l")
-points(x.vec, dist[4,], type = "l")
-points(x.vec, dist[5,], type = "l")
-points(x.vec, dist[6,], type = "l")
+points(x, dist[2,], type = "l")
+points(x, dist[3,], type = "l")
+points(x, dist[4,], type = "l")
+points(x, dist[5,], type = "l")
+points(x, dist[6,], type = "l")
 
 
-x.vec <- seq(0,15, by=0.1)
-dist <- matrix(,nrow = 6, ncol = length(x.vec))
-for(x in x.vec){
+x <- seq(0,15, by=0.1)
+dist <- matrix(nrow = 6, ncol = length(x))
 
- dist[2,which(x.vec ==x)] <- dphasetype(T_Total$n5,x)
- dist[3,which(x.vec ==x)] <- dphasetype(T_Total$n10,x)
- dist[4,which(x.vec ==x)] <- dphasetype(T_Total$n20,x)
- dist[5,which(x.vec ==x)] <- dphasetype(T_Total$n50,x)
- dist[6,which(x.vec ==x)] <- dphasetype(T_Total$n100,x)
-}
+dist[2,] <- dphasetype(T_Total$n5,x)
+dist[3,] <- dphasetype(T_Total$n10,x)
+dist[4,] <- dphasetype(T_Total$n20,x)
+dist[5,] <- dphasetype(T_Total$n50,x)
+dist[6,] <- dphasetype(T_Total$n100,x)
 
 ## For n=2, the initial distribution is initDist = 1 and the transition probability
 ## matrix is T.mat = -1/2, hence the distribution is given by
-dist[1,] <- exp(-x.vec/2)/2
+dist[1,] <- exp(-x/2)/2
 
-plot(x.vec, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
+plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[Total]](x)),
     xlim = c(0,15), ylim = c(0,0.5), frame.plot = F)
-points(x.vec, dist[2,], type = "l")
-points(x.vec, dist[3,], type = "l")
-points(x.vec, dist[4,], type = "l")
-points(x.vec, dist[5,], type = "l")
-points(x.vec, dist[6,], type = "l")
+points(x, dist[2,], type = "l")
+points(x, dist[3,], type = "l")
+points(x, dist[4,], type = "l")
+points(x, dist[5,], type = "l")
+points(x, dist[6,], type = "l")
 
 ## Simulating ten total branch lengths
 ## for a sample of size 5

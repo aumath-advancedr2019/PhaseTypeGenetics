@@ -952,8 +952,146 @@ Plugging these into `minima` and `maxima` we get
 \center __phmean & phvar__ \center
 
 ***
-h
 
+### Mean and variance
+ 
+The expression for the mean and variance of a phase-type distribution follows directly from the expression of the (factorial) moments (See section *Moments and factorial moments*). 
+
+#### - in the discrete case
+
+Let $\tau \sim \text{DPH}(\pi,T)$. Then the factorial moments are given by 
+\begin{equation*}
+\mathbb{E}[\tau(\tau -1) \cdots (\tau-k+1)] = k!\pi T^{k-1}(I-T)^{-k}e.
+\end{equation*}
+From this equality it follows that
+\begin{equation*}
+\mathbb{E}[\tau] = \pi (I-T)^{-1} e
+\end{equation*}
+and that 
+\begin{align*}
+\mathbb{V}\text{ar}[\tau] &= \mathbb{E}[\tau^2]- \mathbb{E}[\tau]^2\\
+&= \mathbb{E}[\tau^2]- \mathbb{E}[\tau] +  \mathbb{E}[\tau]- \mathbb{E}[\tau]^2\\
+&= \mathbb{E}[\tau^2- \tau] +  \mathbb{E}[\tau]- \mathbb{E}[\tau]^2\\
+&= \mathbb{E}[\tau(\tau-1)] +  \mathbb{E}[\tau]- \mathbb{E}[\tau]^2\\
+&= 2\pi T(I-T)^{-2}e + \pi (I-T)^{-1} e - \big( \pi (I-T)^{-1} e\big)^2.
+\end{align*} 
+
+#### - in the continuous case
+
+Let $\tau \sim \text{PH}(\pi,T)$. Then the $n$'th order moment of $\tau$ is given as 
+\begin{align*}
+\mathbb{E}[\tau^n] =  n! \pi (-T)^{-n}e.
+\end{align*}
+From this equation it follows that
+\begin{equation*}
+\mathbb{E}[\tau] =  \pi (-T)^{-1}e
+\end{equation*}
+and that 
+\begin{equation*}
+\mathbb{V}\text{ar}[\tau] =  \mathbb{E}[\tau^2]- \mathbb{E}[\tau]^2 = 2 \pi (-T)^{-2}e - \big( \pi (-T)^{-1}e \big)^2.
+\end{equation*}
+
+#### Example 12
+
+We want to reproduce Figure 3.3 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the
+dependence of $\mathbb{E}[\tau_{\text{MRCA}}]$ and $\mathbb{E}[\tau_{\text{Total}}]$ on the sample size $n$.\
+We begin with a sample size of $n=2$. In that case, the initial distribution is $\pi=1$ and the sub-transition probability matrix is equal to -1 for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ and $-\tfrac{1}{2}$ for the total branch length $\tau_{\text{Total}}$. Therefore, the means are given as
+\begin{equation*}
+\mathbb{E}[\tau_{\text{MRCA}}] =  \pi (-T)^{-1}e = 1 (-(-1))^{-1} 1 = 1
+\end{equation*}
+and 
+\begin{equation*}
+\mathbb{E}[\tau_{\text{Total}}] =  \pi (-T)^{-1}e = 1 (-(-\tfrac{1}{2}))^{-1} 1 = 2
+\end{equation*}
+while the variances are 
+\begin{equation*}
+\mathbb{V}\text{ar}[\tau_{\text{MRCA}}] =  2 \pi (-T)^{-2}e - \big( \pi (-T)^{-1}e \big)^2 = 2 \cdot 1 \cdot (-(-1))^{-2} \cdot 1 - 1^2 = 2-1 = 1
+\end{equation*}
+and 
+\begin{equation*}
+\mathbb{V}\text{ar}[\tau_{\text{Total}}] = 2 \pi (-T)^{-2}e - \big( \pi (-T)^{-1}e \big)^2 = 2 \cdot 1 \cdot (-(-\tfrac{1}{2}))^{-2} \cdot 1 - 2^2 = 8-4 = 4.
+\end{equation*}
+For a sample size of $n\geq 3$, we can compute the mean and variances using the functions `phmean` and `phvar`, respectively.
+
+```{r}
+## We define vectors holding the means and variances
+VecOfMeansMRCA <- replicate(20,0)
+VecOfVarsMRCA <- replicate(20,0)
+VecOfMeansTotal <- replicate(20,0)
+VecOfVarsTotal <- replicate(20,0)
+
+## For n=2, 
+VecOfMeansMRCA[2] <- 1 
+VecOfMeansTotal[2] <- 2 
+## and 
+VecOfVarsMRCA[2] <- 1 
+VecOfVarsTotal[2] <- 4 
+
+## For n=3,
+initDist = c(1,0)
+## and 
+T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
+T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
+
+## Defining two objects of class "contphasetype"
+TMRCA <- contphasetype(initDist, T.matMRCA)
+TTotal <- contphasetype(initDist, T.matTotal)
+## Hence the means are given by
+VecOfMeansMRCA[3] <- phmean(TMRCA)
+VecOfMeansTotal[3] <- phmean(TTotal)
+## and the variances are
+VecOfVarsMRCA[3] <- phvar(TMRCA)
+VecOfVarsTotal[3] <-phvar(TTotal)
+
+## For n>3, 
+for (n in 4:20) {
+  
+  ## For T_MRCA
+  ## The initial distribution
+  initDist <- c(1,replicate(n-2,0))
+  ## The subi-ntensity rate matrix
+  T.mat <- diag(choose(n:3,2))
+  T.mat <- cbind(replicate(n-2,0),T.mat)
+  T.mat <- rbind(T.mat, replicate(n-1,0))
+  diag(T.mat) <- -choose(n:2,2)
+  ## Define an object of class "contphasetype"
+  obj <- contphasetype(initDist,T.mat)
+  ## Compute the mean and variance
+  VecOfMeansMRCA[n] <- phmean(obj)
+  VecOfVarsMRCA[n] <- phvar(obj)
+
+  ## For T_total,
+  ## the sub-intensity rate matrix is
+  T.mat <- diag((n-1):2)
+  T.mat <- cbind(replicate(n-2,0),T.mat)
+  T.mat <- rbind(T.mat, replicate(n-1,0))
+  diag(T.mat) <- -((n-1):1)
+  T.mat <- 1/2*T.mat
+  ## Define an object of class "contphasetype"
+  obj <- contphasetype(initDist,T.mat)
+  ## Compute the mean and variance
+  VecOfMeansTotal[n] <- phmean(obj)
+  VecOfVarsTotal[n] <- phvar(obj)
+}
+
+## Plotting the means
+plot(x = 1:20, VecOfMeansMRCA, type = "l", main = expression(paste("The dependence of ",E(T[MRCA])," and ", E(T[Total]), " on the sample size")), 
+     cex.main = 0.9, xlab = "n", ylab = "Expectation",
+     xlim = c(0,25), ylim = c(0,8), frame.plot = F)
+points(x= 1:20, VecOfMeansTotal, type = "l")
+
+text(23,tail(VecOfMeansMRCA, n=1),labels = expression(E(T[MRCA])))
+text(23,tail(VecOfMeansTotal, n=1),labels = expression(E(T[Total])))
+
+## And plotting the variances
+plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA])," and ", Var(T[Total]), " on the sample size")), 
+     cex.main = 0.9, xlab = "n", ylab = "Variance",
+     xlim = c(0,25), ylim = c(0,7), frame.plot = F)
+points(x= 1:20, VecOfVarsTotal, type = "l")
+
+text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))
+text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
+```
 
 ***
 \center __moments__ \center
@@ -1041,7 +1179,7 @@ which shows that the $n$'th moment of $\tau$ is given as
 #### Example 13
 
 The computation of the (factorial) moments of a phase-type distribution can be performed by the aid of the function `moments`. This function needs a phase-type distributed object (either discrete or continuous) and computes the $i$'th-order (factorial) moment or all moments up to the $i$'th-order (factorial) moment.\
-This function makes it easy to calculate the mean and variances of a given phase-type distribution (see also section *Mean and Variances*).\
+This function makes it easy to calculate the mean and variances of a given phase-type distribution (see also section *Mean and variance*).\
 For $n=4$, the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ is continuous phase-type distributed with initial distribution $\pi = (1,0,0)$ and sub-intensity rate matrix
 \begin{equation*}
 T = \begin{pmatrix}
@@ -1081,7 +1219,7 @@ phvar(TMRCA)
 
 For $n=4$ and $\theta=2$, the number of segregating sites $S_{\text{Total}}$ plus 1 is discrete phase-type distributed with initial distribution $\pi = (1,0,0,0)$ and sub-transition probability matrix
 \begin{equation*}
-P = \begin{pmatrix}
+T = \begin{pmatrix}
 0.4 & 0.3 & 4/30 & 2/30\\
 0 & 0.5 & 2/9 & 1/9\\
 0 & 0 & 2/3 & 0\\
@@ -1092,7 +1230,7 @@ Hence, it holds that
 \begin{equation*}
 \mathbb{E}[S_{\text{Total}}+1] = \pi (I-T)^{-1} e
 \end{equation*}
-$(k=1)$ and that 
+and that 
 \begin{align*}
 \mathbb{V}\text{ar}[S_{\text{Total}}] &= \mathbb{E}[S_{\text{Total}}^2]- \mathbb{E}[S_{\text{Total}}]^2\\
 &= \mathbb{E}[S_{\text{Total}}^2]- \mathbb{E}[S_{\text{Total}}] +  \mathbb{E}[S_{\text{Total}}]- \mathbb{E}[S_{\text{Total}}]^2\\

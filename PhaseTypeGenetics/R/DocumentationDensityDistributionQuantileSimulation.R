@@ -21,13 +21,13 @@
 #' is given by
 #' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
 #'
+#' @param x a positive quantile
+#' @param p a probability
+#' @param n number of observations
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
 #' these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
-#' @param x a positive quantile
-#' @param p a probability
-#' @param n number of observations
 #'
 #' @return \code{dphasetype} gives the density, \code{pphasetype}
 #' gives the distribution function, \code{qphasetype} gives the quantile
@@ -102,13 +102,13 @@
 #' rphasetype(T_Total$n5, n=10)
 #'
 #' @export
-dphasetype <- function(object,x){
+dphasetype <- function(x, object){
 
   UseMethod("dphasetype")
 }
 
 #' @export
-dphasetype.discphasetype <- function(object,x){
+dphasetype.discphasetype <- function(x, object){
 
   if(x<1 | x%%1!=0){
     return(0)
@@ -122,7 +122,7 @@ dphasetype.discphasetype <- function(object,x){
 }
 
 #' @export
-dphasetype.contphasetype <- function(object, x){
+dphasetype.contphasetype <- function(x, object){
 
   if(x<0){
 
@@ -139,13 +139,13 @@ dphasetype.contphasetype <- function(object, x){
 
 #' @rdname dphasetype
 #' @export
-pphasetype <- function(object,x){
+pphasetype <- function(x, object){
 
   UseMethod("pphasetype")
 }
 
 #' @export
-pphasetype.discphasetype <- function(object,x){
+pphasetype.discphasetype <- function(x, object){
 
   if(x<0){
 
@@ -162,7 +162,7 @@ pphasetype.discphasetype <- function(object,x){
 }
 
 #' @export
-pphasetype.contphasetype <- function(object, x){
+pphasetype.contphasetype <- function(x, object){
 
   if(x<0){
 
@@ -179,13 +179,13 @@ pphasetype.contphasetype <- function(object, x){
 
 #' @rdname dphasetype
 #' @export
-qphasetype <- function(object, p){
+qphasetype <- function(p, object){
 
   UseMethod("qphasetype")
 }
 
 #' @export
-qphasetype.discphasetype <- function(object, p){
+qphasetype.discphasetype <- function(p, object){
 
   if( p<0 | p>1 ){
 
@@ -198,7 +198,7 @@ qphasetype.discphasetype <- function(object, p){
 }
 
 #' @export
-qphasetype.contphasetype <- function(object, p){
+qphasetype.contphasetype <- function(p, object){
 
   if( p<0 | p>1 ){
 
@@ -213,13 +213,13 @@ qphasetype.contphasetype <- function(object, p){
 
 #' @rdname dphasetype
 #' @export
-rphasetype <- function(object, n){
+rphasetype <- function(n, object){
 
   UseMethod("rphasetype")
 }
 
 #' @export
-rphasetype.discphasetype <- function(object, n){
+rphasetype.discphasetype <- function(n, object){
 
   n=floor(abs(n))
 
@@ -267,7 +267,7 @@ rphasetype.discphasetype <- function(object, n){
 }
 
 #' @export
-rphasetype.contphasetype <- function(object,n){
+rphasetype.contphasetype <- function(n, object){
 
   n=floor(abs(n))
 

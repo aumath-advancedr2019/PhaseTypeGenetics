@@ -120,8 +120,21 @@
 #'
 #' text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))
 #' text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
+#'
 #' @export
-mean.discphasetype <- function(object){
+phmean <- function(object,...){
+
+  UseMethod("phmean")
+}
+
+#' @export
+phmean.default <- function(object,...){
+
+  mean(object,...)
+}
+
+#' @export
+phmean.discphasetype <- function(object){
 
   initDist <- object$initDist
   P.mat <- object$P.mat
@@ -130,9 +143,8 @@ mean.discphasetype <- function(object){
 
 }
 
-#' @rdname mean.discphasetype
 #' @export
-mean.contphasetype <- function(object){
+phmean.contphasetype <- function(object){
 
   initDist = object$initDist
   T.mat= object$T.mat
@@ -140,35 +152,21 @@ mean.contphasetype <- function(object){
   return(sum(initDist%*%solve(-T.mat)))
 }
 
-#' @rdname mean.discphasetype
+#' @rdname phmean
 #' @export
-var <- function(object,...){
+phvar <- function(object,...){
 
-  UseMethod("var")
+  UseMethod("phvar")
 }
 
 #' @export
-var.default <- function(x, y=NULL, na.rm = FALSE, use){
+phvar.default <- function(object,...){
 
-  if (missing(use))
-    use <- if (na.rm)
-      "na.or.complete"
-  else "everything"
-  na.method <- pmatch(use, c("all.obs", "complete.obs",
-                             "pairwise.complete.obs", "everything", "na.or.complete"))
-  if (is.na(na.method))
-    stop("invalid 'use' argument")
-  if (is.data.frame(x))
-    x <- as.matrix(x)
-  else stopifnot(is.atomic(x))
-  if (is.data.frame(y))
-    y <- as.matrix(y)
-  else stopifnot(is.atomic(y))
-  .Call(C_cov, x, y, na.method, FALSE)
+  var(object,...)
 }
 
 #' @export
-var.discphasetype <- function(object){
+phvar.discphasetype <- function(object){
 
   initDist = object$initDist
   P.mat = object$P.mat
@@ -180,7 +178,7 @@ var.discphasetype <- function(object){
 }
 
 #' @export
-var.contphasetype <- function(object){
+phvar.contphasetype <- function(object){
 
   initDist = object$initDist
   T.mat = object$T.mat

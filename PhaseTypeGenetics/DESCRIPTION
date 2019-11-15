@@ -21,5 +21,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    partitions
+    partitions,
+    plot3D
 VignetteBuilder: knitr

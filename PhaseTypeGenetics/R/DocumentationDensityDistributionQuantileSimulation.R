@@ -308,7 +308,7 @@ rphasetype.contphasetype <- function(object, n){
 
   # We make the rows of the intensity matrix corresponding to the transient states from
   # the subintensity matrix
-  IntenseMat <- cbind(T.mat, 1-rowSums(T.mat))
+  IntenseMat <- cbind(T.mat, -rowSums(T.mat))
 
   # Now we simulate the Markov Jump Process until absorption in 'p+1'
   for(i in 1:n){

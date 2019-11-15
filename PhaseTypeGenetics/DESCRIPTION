@@ -1,7 +1,7 @@
 Package: PhaseTypeGenetics
 Type: Package
 Title: The phase-type distribution with applications in population genetics
-Version: 0.1.0
+Version: 0.2.1
 Authors@R: c(
     person("Krarup", "Peter", email = "peter.krarup@post.au.dk", role = c("cre", "aut")),
     person("Steinbach", "Jette", email = "jette.steinbach@post.au.dk", role = "aut"))

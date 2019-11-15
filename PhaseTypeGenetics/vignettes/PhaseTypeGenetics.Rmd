@@ -38,6 +38,49 @@ All functions and applications are based on the theory developed in
 
 ## Defining phase-type distributions
 
+This package is based on discrete and continuous phase-type distributions. In order to introduce the user to this topic and establish the notation that will be used troughout this vignette, we will give a short definition on both types of phase-type distributions.
+
+### The discrete phase-type distribution
+
+Let $\{X_t\}_{t \in \mathbb{N}}$ be a Markov chain with state space equal to $\{1,2,...,p,p+1\}$. The states $1,2,...,p$ are assumed to be transient, while the last state $p+1$ is absorbing. Then we can define the transition matrix 
+\begin{equation*}
+P = \begin{pmatrix}
+T & t \\
+\boldsymbol{0} & 1
+\end{pmatrix},
+\end{equation*}
+where $T$ is a $p \times p$ sub-transition matrix holding the probabilities for jumping between all transient states and $t$ is a $p$-dimensional column vector holding the exit probabilities (the probabilites for absorbtion). As all rows in the transition matrix $P$ have to sum to one, we can compute $t$ from the sub-transition matrix $T$,
+\begin{equation*}
+Te +t = e \quad \Rightarrow \quad t=e-Te = (I-T)e
+\end{equation*}
+where $e = (1,...,1)^T$ is a $p$-dimensional vector of ones.\
+Now we let $\pi_i = \mathbb{P}(X_0 =i)$ be the initial probability for the process to start in state $i$ and $\pi = (\pi_1,...,\pi_p)$ be the initial distribution. As we do not want the process to start in the absorbing state, we assume that $\pi_1+\cdots +\pi_p=1$.\
+Finally, we let $\tau = \inf\{t \geq 1 \mid X_t = p+1\}$ be the waiting time until absorbtion in the last state of the Markov chain $\{X_t\}_{t \in \mathbb{N}}$. Then we say that $\tau$ is discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, 
+\begin{equation*}
+\tau \sim \text{DPH}_p (\pi,T).
+\end{equation*}
+
+### The continuous phase-type distribution
+
+The continuous phase-type distribution is defined in a corresponding way.\
+Let $\{X_t\}_{t \geq 0}$ be a Markov jump process with state space equal to $\{1,2,...,p,p+1\}$ (here, the time is continuous). As in the discrete case, the states $1,2,...,p$ are assumed to be transient, while the last state $p+1$ is absorbing. Then we can rewrite the intensity rate matrix to be of the form
+\begin{equation*}
+\Lambda = \begin{pmatrix}
+T & t \\
+\boldsymbol{0} & 0
+\end{pmatrix},
+\end{equation*}
+where $T$ is a $p \times p$ sub-intensity matrix holding the rates for jumping between all transient states and $t$ is a $p$-dimensional column vector holding the exit rates. As all rows in an intensity rate matrix have to sum to zero, we can compute $t$ from the sub-intensity matrix $T$,
+\begin{equation*}
+Te +t = \boldsymbol{0} \quad \Rightarrow \quad t=-Te 
+\end{equation*}
+where $e = (1,...,1)^T$ is a $p$-dimensional vector of ones.\
+Now we define the initial distribution. Let $\pi_i = \mathbb{P}(X_0 =i)$ be the initial probability for the process to start in state $i$ and $\pi = (\pi_1,...,\pi_p)$ be the initial distribution. As we do not want the process to start in the absorbing state, we assume that $\pi_1+\cdots +\pi_p=1$.\
+As before, we let $\tau = \inf\{t > 0 \mid X_t = p+1\}$ be the waiting time until absorbtion in the last state. Then we say that $\tau$ is phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, 
+\begin{equation*}
+\tau \sim \text{PH}_p (\pi,T).
+\end{equation*}
+
 ## Applications in Population Genetics
 
 ### The Wright-Fisher model

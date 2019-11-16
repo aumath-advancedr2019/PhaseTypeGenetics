@@ -45,10 +45,10 @@
 #' m <- moments(TMRCA, i=2, all = TRUE)
 #' ## We get the desired numbers
 #' m[1]
-#' mean(TMRCA)
+#' phmean(TMRCA)
 #'
 #' m[2] - m[1]^2
-#' var(TMRCA)
+#' phvar(TMRCA)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with initital distribution
@@ -64,10 +64,10 @@
 #' m <- moments(S_Total, i=2, all = TRUE)
 #' ## We get the desired numbers
 #' m[1]
-#' mean(S_Total)
+#' phmean(S_Total)
 #'
 #' m[2] + m[1] - m[1]^2
-#' var(S_Total)
+#' phvar(S_Total)
 #'
 #' @export
 moments <- function(object, i, all = FALSE){

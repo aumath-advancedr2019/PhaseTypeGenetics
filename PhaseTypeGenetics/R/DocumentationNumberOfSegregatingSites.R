@@ -57,7 +57,7 @@
 #'        xlab = "k", ylab = "n", zlab = "P(S=k)",
 #'        main = "The probability function of the number of segregating sites",
 #'        sub = expression(paste("The mutation parameter is ", theta,"= 2")),
-#'        cex.main = 0.9, colkey = F, zlim = c(0,0.4))
+#'        cex.main = 0.9, colkey = FALSE, zlim = c(0,0.4))
 #'
 #' @export
 dSegregatingSites <- function(n, theta, k, plot =FALSE){

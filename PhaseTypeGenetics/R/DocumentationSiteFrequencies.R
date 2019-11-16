@@ -49,7 +49,7 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
 
   if(n < 2) stop("Not a valid sample size. n must be greater than 2.")
   if(lambda < 0) stop("Not a valid mutation rate. lambda must be nonnegative!")
-  if(i <1 | i>n-1) stop("i must be between 1 and n-1")
+  if((!is.null(i) & i <1 )| (!is.null(i) & i>n-1)) stop("i must be between 1 and n-1")
   if(!is.logical(nSegSites)) stop("nSegSites must be a logical value")
   if(!is.logical(tailStat)) stop("tailStat must be a logical value")
 

@@ -447,7 +447,9 @@ for $\theta = 2$.
 
 The function `BlockCountProcess` is the first example of a function that is intended for the use in population genetics. It computes the state space and the corresponding rate matrix for the block counting process for a given sample size $n$ in the standard coalescent model.\
 For any given sample size $n\geq 1$ there is one or more possible coalescent trees.
-Each coalescent event in these trees correspond to a state of the block counting process, and each state is represented by a $n-1$ dimensional vector, say $S_i$ for $i\in\{1,...,s\}$, where $s$ is the number of states in the state space. Each entry $j$ in the vector $S_i$ corresponds to the number of branches giving rise to $j$ descendants. Due to this definition, $S_1$ is always of the form $(n,0,...,0)$ and $S_2$ is always given by the vector $(n-2,1,...,0)$. This is due to the fact that in the first state $S_1$, no coalescent events have taken place and we still consider all $n$ individuals, i.e. $n$ descendants. In the second state $S_2$, two of the individuals have coalesced. Hence, there are $n-2$ branches giving rise to $n-2$ descendants and one branch giving rise to $2$ descendants.
+Each coalescent event in these trees correspond to a state of the block counting process, and each state is represented by a $n-1$ dimensional vector, say $S_i$ for $i\in\{1,...,s\}$, where $s$ is the number of states in the state space. Each entry $j$ in the vector $S_i$ corresponds to the number of branches giving rise to $j$ descendants. Due to this definition, $S_1$ is always of the form $(n,0,...,0)$ and $S_2$ is always given by the vector $(n-2,1,...,0)$. This is due to the fact that in the first state $S_1$, no coalescent events have taken place and we still consider all $n$ individuals, i.e. $n$ descendants. In the second state $S_2$, two of the individuals have coalesced. Hence, there are $n-2$ branches giving rise to $n-2$ descendants and one branch giving rise to $2$ descendants.\
+\
+Note that this function uses the package `partitions`. Make sure to install this package to be able to use the function.
 
 #### Example 5
 
@@ -514,11 +516,11 @@ An object of class `contphasetype` is then obtained in the following way.
 ```{r}
 initDist <- c(1,0,0)
 
-T.mat <- matrix(c(-6,6,0,
+Tmat <- matrix(c(-6,6,0,
                   0,-3,3,
                   0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 
-obj <- contphasetype(initDist, T.mat)
+obj <- contphasetype(initDist, Tmat)
 
 summary(obj)
 ```
@@ -582,8 +584,9 @@ It is also possible to give both an `a` and a `lambda`. `discretization(object =
 ##### Example 7
 
 ```{r}
-(x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
-                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
+x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
+                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4))
+
 discretization(x_1, a = 12, lambda = 2)
 
 ```
@@ -806,6 +809,8 @@ The function `dSegregatingSites` is another example of a function intended for t
 \end{equation*}
 
 The function `dSegregatingSites` provides a special feature. If `plot=TRUE`, the function plots the density of the total number of segregating sites $S_{\text{Total}}$ for the given values of $k$.
+
+Note that this function is based on the package `partitions`. Make sure to install that package to be able to use `dSegregatingSites`.
 
 #### Example 9
 
@@ -1073,12 +1078,12 @@ VecOfVarsTotal[2] <- 4
 ## For n=3,
 initDist = c(1,0)
 ## and 
-T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
-T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
+TmatMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
+TmatTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
 
 ## Defining two objects of class "contphasetype"
-TMRCA <- contphasetype(initDist, T.matMRCA)
-TTotal <- contphasetype(initDist, T.matTotal)
+TMRCA <- contphasetype(initDist, TmatMRCA)
+TTotal <- contphasetype(initDist, TmatTotal)
 ## Hence the means are given by
 VecOfMeansMRCA[3] <- phmean(TMRCA)
 VecOfMeansTotal[3] <- phmean(TTotal)
@@ -1093,25 +1098,25 @@ for (n in 4:20) {
   ## The initial distribution
   initDist <- c(1,replicate(n-2,0))
   ## The subi-ntensity rate matrix
-  T.mat <- diag(choose(n:3,2))
-  T.mat <- cbind(replicate(n-2,0),T.mat)
-  T.mat <- rbind(T.mat, replicate(n-1,0))
-  diag(T.mat) <- -choose(n:2,2)
+  Tmat <- diag(choose(n:3,2))
+  Tmat <- cbind(replicate(n-2,0),Tmat)
+  Tmat <- rbind(Tmat, replicate(n-1,0))
+  diag(Tmat) <- -choose(n:2,2)
   ## Define an object of class "contphasetype"
-  obj <- contphasetype(initDist,T.mat)
+  obj <- contphasetype(initDist,Tmat)
   ## Compute the mean and variance
   VecOfMeansMRCA[n] <- phmean(obj)
   VecOfVarsMRCA[n] <- phvar(obj)
 
   ## For T_total,
   ## the sub-intensity rate matrix is
-  T.mat <- diag((n-1):2)
-  T.mat <- cbind(replicate(n-2,0),T.mat)
-  T.mat <- rbind(T.mat, replicate(n-1,0))
-  diag(T.mat) <- -((n-1):1)
-  T.mat <- 1/2*T.mat
+  Tmat <- diag((n-1):2)
+  Tmat <- cbind(replicate(n-2,0),Tmat)
+  Tmat <- rbind(Tmat, replicate(n-1,0))
+  diag(Tmat) <- -((n-1):1)
+  Tmat <- 1/2*Tmat
   ## Define an object of class "contphasetype"
-  obj <- contphasetype(initDist,T.mat)
+  obj <- contphasetype(initDist,Tmat)
   ## Compute the mean and variance
   VecOfMeansTotal[n] <- phmean(obj)
   VecOfVarsTotal[n] <- phvar(obj)
@@ -1243,12 +1248,12 @@ and that
 ```{r}
 initDist <- c(1,0,0)
 
-T.mat <- matrix(c(-6,6,0,
+Tmat <- matrix(c(-6,6,0,
                   0,-3,3,
                   0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 
 ## Defining an object of type "contphasetype"
-TMRCA <- contphasetype(initDist, T.mat)
+TMRCA <- contphasetype(initDist, Tmat)
 ## Computing all moments up to order 2
 m <- moments(TMRCA, i=2, all = TRUE)
 ## We get the desired numbers
@@ -1285,12 +1290,12 @@ and that
 ```{r}
 initDist <- c(1,0,0,0)
 
-P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+Pmat <- matrix(c(0.4, 0.3, 4/30, 2/30,
                   0, 0.5, 2/9, 1/9,
                   0, 0, 2/3, 0,
                   0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 ## Defining an object of type "discphasetype"
-S_Total <- discphasetype(initDist, P.mat)
+S_Total <- discphasetype(initDist, Pmat)
 ## Computing all moments up to order 2
 m <- moments(S_Total, i=2, all = TRUE)
 ## We get the desired numbers

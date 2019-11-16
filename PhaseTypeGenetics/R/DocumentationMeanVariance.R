@@ -108,7 +108,7 @@
 #' plot(x = 1:20, VecOfMeansMRCA, type = "l", main = expression(paste("The dependence of ",E(T[MRCA]),"
 #'     and ", E(T[Total]), " on the sample size")), cex.main = 0.9, xlab = "n",
 #'     ylab = "Expectation",
-#'     xlim = c(0,25), ylim = c(0,8), frame.plot = F)
+#'     xlim = c(0,25), ylim = c(0,8), frame.plot = FALSE)
 #' points(x= 1:20, VecOfMeansTotal, type = "l")
 #'
 #' text(23,tail(VecOfMeansMRCA, n=1),labels = expression(E(T[MRCA])))
@@ -117,7 +117,7 @@
 #' ## And plotting the variances
 #' plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA]),
 #'      " and ", Var(T[Total]), " on the sample size")), cex.main = 0.9, xlab = "n", ylab = "Variance",
-#'     xlim = c(0,25), ylim = c(0,7), frame.plot = F)
+#'     xlim = c(0,25), ylim = c(0,7), frame.plot = FALSE)
 #' points(x= 1:20, VecOfVarsTotal, type = "l")
 #'
 #' text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))

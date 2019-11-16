@@ -68,7 +68,7 @@
 #'
 #' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
 #'      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[MRCA]](x)),
-#'      xlim = c(0,4), ylim = c(0,1), frame.plot = F)
+#'      xlim = c(0,4), ylim = c(0,1), frame.plot = FALSE)
 #' points(x, dist[2,], type = "l")
 #' points(x, dist[3,], type = "l")
 #' points(x, dist[4,], type = "l")
@@ -91,7 +91,7 @@
 #'
 #' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
 #'     " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "x", ylab = expression(f[T[Total]](x)),
-#'     xlim = c(0,15), ylim = c(0,0.5), frame.plot = F)
+#'     xlim = c(0,15), ylim = c(0,0.5), frame.plot = FALSE)
 #' points(x, dist[2,], type = "l")
 #' points(x, dist[3,], type = "l")
 #' points(x, dist[4,], type = "l")

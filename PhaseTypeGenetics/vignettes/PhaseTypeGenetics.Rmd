@@ -747,7 +747,7 @@ plot(t.vec, dist.mat[1,], type = "l",
      main = expression(paste("The distribution of ", T["MRCA"], 
      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
      ylab = expression(f[T[MRCA]](t)), xlim = c(0,4), ylim = c(0,1), 
-     frame.plot = F)
+     frame.plot = FALSE)
 
 points(t.vec, dist.mat[2,], type = "l")
 points(t.vec, dist.mat[3,], type = "l")
@@ -787,7 +787,7 @@ plot(t.vec, dist.mat[1,], type = "l",
      main = expression(paste("The distribution of ", T["Total"], 
      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
      ylab = expression(f[T[Total]](t)), xlim = c(0,15), ylim = c(0,0.5), 
-     frame.plot = F)
+     frame.plot = FALSE)
 
 points(t.vec, dist.mat[2,], type = "l")
 points(t.vec, dist.mat[3,], type = "l")
@@ -1123,7 +1123,7 @@ for (n in 4:20) {
 ## Plotting the means
 plot(x = 1:20, VecOfMeansMRCA, type = "l", main = expression(paste("The dependence of ",E(T[MRCA])," and ", E(T[Total]), " on the sample size")), 
      cex.main = 0.9, xlab = "n", ylab = "Expectation",
-     xlim = c(0,25), ylim = c(0,8), frame.plot = F)
+     xlim = c(0,25), ylim = c(0,8), frame.plot = FALSE)
 points(x= 1:20, VecOfMeansTotal, type = "l")
 
 text(23,tail(VecOfMeansMRCA, n=1),labels = expression(E(T[MRCA])))
@@ -1132,7 +1132,7 @@ text(23,tail(VecOfMeansTotal, n=1),labels = expression(E(T[Total])))
 ## And plotting the variances
 plot(x = 1:20, VecOfVarsMRCA, type = "l", main = expression(paste("The dependence of ",Var(T[MRCA])," and ", Var(T[Total]), " on the sample size")), 
      cex.main = 0.9, xlab = "n", ylab = "Variance",
-     xlim = c(0,25), ylim = c(0,7), frame.plot = F)
+     xlim = c(0,25), ylim = c(0,7), frame.plot = FALSE)
 points(x= 1:20, VecOfVarsTotal, type = "l")
 
 text(23,tail(VecOfVarsMRCA, n=1),labels = expression(Var(T[MRCA])))

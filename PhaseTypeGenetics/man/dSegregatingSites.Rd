@@ -67,7 +67,7 @@ plot3D::hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
        xlab = "k", ylab = "n", zlab = "P(S=k)",
        main = "The probability function of the number of segregating sites",
        sub = expression(paste("The mutation parameter is ", theta,"= 2")),
-       cex.main = 0.9, colkey = F, zlim = c(0,0.4))
+       cex.main = 0.9, colkey = FALSE, zlim = c(0,0.4))
 
 }
 \seealso{

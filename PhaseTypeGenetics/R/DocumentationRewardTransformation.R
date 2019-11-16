@@ -41,7 +41,7 @@
 #' ## different states
 #' r.vec <- c(4,2,1,0)
 #' ## Hence,
-#' RewTransDistribution(T_MRCA,r.vec)
+#' RewTransDistribution(TMRCA,r.vec)
 #'
 #' @export
 

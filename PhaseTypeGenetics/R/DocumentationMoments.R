@@ -2,12 +2,12 @@
 #'
 #' Computing (factorial) moments of a given order of phase-type distributed random variables.
 #'
-#' In the discrete case \eqn{( \tau ~ DPH(\pi,P) )}, the factorial moments are given by
-#' \deqn{E[\tau(\tau-1) ··· (\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e,}
-#' where \eqn{\pi} is the initial distribution and \eqn{P} is the subtransition probability matrix.
-#' For \eqn{\tau ~ PH(\pi, T)}, the \eqn{i}'th-order moment is defined as
-#' \deqn{E[\tau^i] = i! \pi (-T)^(-i) e,}
-#' where \eqn{\pi} is again the inital distribution and \eqn{T} is the subintensity rate matrix.
+#' In the discrete case \eqn{( \tau ~ DPH(initDist,P) )}, the factorial moments are given by
+#' \deqn{E[\tau(\tau-1) ··· (\tau-i+1)] = i! initDist P^(i-1) (I-P)^(-i) e,}
+#' where \code{initDist} is the initial distribution and \eqn{P} is the sub-transition probability matrix.
+#' For \eqn{\tau ~ PH(initDist, T)}, the \eqn{i}'th-order moment is defined as
+#' \deqn{E[\tau^i] = i! initDist (-T)^(-i) e,}
+#' where \code{initDist} is again the inital distribution and \eqn{T} is the subintensity rate matrix.
 #' In both cases, \eqn{e} is a vector with one in each entry.
 #'
 #' @param object either a continuous phase-type distributed object of class \code{contphasetype} or

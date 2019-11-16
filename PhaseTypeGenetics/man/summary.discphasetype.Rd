@@ -27,7 +27,8 @@ For objects of class \code{discphasetype} or \code{contphasetype},
 subtransition/subintensity matrix of the phase-type distribution.
 }
 \examples{
-
+## Summarising the distribution for the total branch length
+## for a sample of size n=10
 summary(T_Total$n10)
 
 }

@@ -40,12 +40,12 @@ The details of the reward transformation can be found in Mogens Bladt and Bo Fri
 ## is phase-type distributed with initial distribution
 initDist <- c(1,0,0,0)
 ## and subintensity rate matrix
-T.mat <- matrix(c(-6,6,0,0,
+Tmat <- matrix(c(-6,6,0,0,
                   0,-3,2,1,
                   0,0,-1,0,
                   0,0,0,-1), nrow = 4, byrow = TRUE)
 ## Defining an object of type "contphasetype"
-T_MRCA <- contphasetype(initDist, T.mat)
+TMRCA <- contphasetype(initDist, Tmat)
 ## In order to obtain the distribution of the total
 ## length of all branches giving rise to singeltons,
 ## we have to give the following rewards to the
@@ -53,4 +53,5 @@ T_MRCA <- contphasetype(initDist, T.mat)
 r.vec <- c(4,2,1,0)
 ## Hence,
 RewTransDistribution(T_MRCA,r.vec)
+
 }

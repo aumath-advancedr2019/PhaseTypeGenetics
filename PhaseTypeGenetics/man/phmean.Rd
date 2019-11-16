@@ -10,9 +10,9 @@ Mogens Bladt and Bo Friis Nielsen (2017):
 Probability Theory and Stochastic Modelling (Springer), Volume 81.
 }
 \usage{
-phmean(object, ...)
+phmean(object)
 
-phvar(object, ...)
+phvar(object)
 }
 \arguments{
 \item{object}{an object for which the mean or variance should be computed.

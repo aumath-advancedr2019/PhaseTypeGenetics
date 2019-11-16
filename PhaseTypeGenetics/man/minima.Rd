@@ -10,9 +10,9 @@ Mogens Bladt and Bo Friis Nielsen (2017):
 Probability Theory and Stochastic Modelling (Springer), Volume 81.
 }
 \usage{
-minima(...)
+minima(object1, object2)
 
-maxima(...)
+maxima(object1, object2)
 }
 \arguments{
 \item{object1, object2}{two objects of class \code{discphasetype}

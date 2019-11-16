@@ -4,13 +4,18 @@
 \name{T_MRCA}
 \alias{T_MRCA}
 \title{The time to the most recent common ancestor (MRCA) for a sample size of n = 5,10,20,50 and 100.}
-\format{A list containing 5 objects of type \code{contphasetype}.}
+\format{A list containing 5 objects of type link{\code{contphasetype}}.
+The first object holds the initial distribution and sub-intensity rate matrix
+for the time to the most recent common ancestor (MRCA) for a sample of size n=5.
+The second object holds the initial distribution and sub-intensity rate matrix
+for the time to the most recent common ancestor for a sample of size n=10, etc. Each of the five
+objects can be acquired in the usual way ($n5, $n10, $n20, $n50 and $n100).}
 \usage{
 T_MRCA
 }
 \description{
 A dataset containing the initial distributions and subintensity rate matrices
-for the time to the most recent common ancestor (T_MRCA) 
+for the time to the most recent common ancestor (T_MRCA)
 for a sample size of n in {5,10,20,50,100}.
 }
 \keyword{datasets}

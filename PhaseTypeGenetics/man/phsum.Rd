@@ -9,7 +9,7 @@ Mogens Bladt and Bo Friis Nielsen (2017):
 Probability Theory and Stochastic Modelling (Springer), Volume 81.
 }
 \usage{
-phsum(...)
+phsum(object1, object2)
 }
 \arguments{
 \item{object1, object2}{two objects of class \code{discphasetype}

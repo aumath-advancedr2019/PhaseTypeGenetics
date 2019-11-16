@@ -17,7 +17,7 @@ discretization(object, a = NULL, lambda = NULL)
 \item{a}{a constant that is larger than the maximum of all diagonal
 entries of the subintensity rate matrix}
 
-\item{lambda}{the mutation rate at the locus}
+\item{lambda}{the positive mutation rate at the locus}
 }
 \value{
 Depending on the input, the function returns the discretized phase-type

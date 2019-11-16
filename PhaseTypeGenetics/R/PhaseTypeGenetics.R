@@ -68,6 +68,9 @@
 #' \item \code{\link{RewTransDistribution}}
 #' \item \code{\link{SiteFrequencies}}.
 #' }
+#' Note that the functions \code{\link{BlockCountProcess}}, \code{\link{SiteFrequencies}}
+#' and \code{\link{dSegregatingSites}} make use of the package 'partitions'.
+#' Make sure to install this package to be able to use the functions.
 #'
 #' @docType package
 #' @name PhaseTypeGenetics

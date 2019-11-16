@@ -21,7 +21,7 @@ phase-type distribution. If the sum of all entries in the initial distribution
 is less than one, it also prints the defect size \code{(1-sum(initDist))}.
 }
 \description{
-This \code{summary} function is a \code{\link{method}} that depends on the \code{\link{class}} of the argument.
+This \code{summary} function is a method that depends on the \code{\link{class}} of the argument.
 For objects of class \code{discphasetype} or \code{contphasetype},
 \code{summary} prints the inital distribution and the
 subtransition/subintensity matrix of the phase-type distribution.

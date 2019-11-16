@@ -16,9 +16,9 @@ Theoretical Population Biology, 127, pp. 16-32.
 dSegregatingSites(n, theta, k, plot = FALSE)
 }
 \arguments{
-\item{n}{the sample size}
+\item{n}{the sample size (n >= 1)}
 
-\item{theta}{the mutation parameter}
+\item{theta}{the mutation parameter (theta > 0)}
 
 \item{k}{a nonnegative number or a nonnegative vector}
 
@@ -63,8 +63,7 @@ Res.mat <- cbind(Res.mat, dSegregatingSites(n = n, theta = theta, k = k.vec))
 ## "Coalescent Theory: An Introduction",
 ## Roberts and Company Publishers, Colorado.
 ## by using the package plot3D.
-library(plot3D)
-hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+plot3D::hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
        xlab = "k", ylab = "n", zlab = "P(S=k)",
        main = "The probability function of the number of segregating sites",
        sub = expression(paste("The mutation parameter is ", theta,"= 2")),

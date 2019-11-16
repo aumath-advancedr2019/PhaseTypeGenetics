@@ -14,21 +14,21 @@ RewTransDistribution(object, rewards)
 \arguments{
 \item{object}{a continuous phase-type distributed object of class \code{contphasetype}.}
 
-\item{rewards}{a non-negative reward vector. The length of the reward vector 
+\item{rewards}{a non-negative reward vector. The length of the reward vector
 should be equal to the number of rows of the subintensity rate matrix \code{T.mat}.}
 }
 \value{
-The function returns the reward transformed phase-type distribution, 
+The function returns the reward transformed phase-type distribution,
 which is again an object of type \code{contphasetype}.
 }
 \description{
 Reward transforming a continuous phase-type disctribution with initial distribution
-\code{initDist} and subintensity rate matrix \code{T.mat}.
+\code{initDist} and sub-intensity rate matrix \code{T.mat}.
 }
 \details{
 It is possible to assign a linear (nonnegative) reward to each of the transient states
 of the Markov jump process underlying the phase-type distribution under consideration.
-More precisely, a reward is earned in each transient state and that reward is 
+More precisely, a reward is earned in each transient state and that reward is
 proportional to the time spent in the state. By assigning rewards, the original
 phase-type distribution is transformed into another continuous phase-type distribution.
 The details of the reward transformation can be found in Mogens Bladt and Bo Friis Nielsen (2017):
@@ -39,7 +39,7 @@ The details of the reward transformation can be found in Mogens Bladt and Bo Fri
 ## The time to the most recent common ancestor (T_MRCA)
 ## is phase-type distributed with initial distribution
 initDist <- c(1,0,0,0)
-## and subintensity rate matrix 
+## and subintensity rate matrix
 T.mat <- matrix(c(-6,6,0,0,
                   0,-3,2,1,
                   0,0,-1,0,
@@ -48,7 +48,7 @@ T.mat <- matrix(c(-6,6,0,0,
 T_MRCA <- contphasetype(initDist, T.mat)
 ## In order to obtain the distribution of the total
 ## length of all branches giving rise to singeltons,
-## we have to give the following rewards to the 
+## we have to give the following rewards to the
 ## different states
 r.vec <- c(4,2,1,0)
 ## Hence,

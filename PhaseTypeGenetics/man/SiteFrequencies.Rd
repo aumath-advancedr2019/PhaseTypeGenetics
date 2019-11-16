@@ -13,9 +13,9 @@ SiteFrequencies(n, lambda, i = NULL, nSegSites = FALSE,
   tailStat = FALSE)
 }
 \arguments{
-\item{n}{the sample size}
+\item{n}{the sample size (>=3)}
 
-\item{lambda}{the mutation rate}
+\item{lambda}{the nonnegative mutation rate}
 
 \item{i}{either the number of the site frequency that should be considered
 or the number of the first term of the tail statistic. In both cases \eqn{1 <= i <= n-1}.}

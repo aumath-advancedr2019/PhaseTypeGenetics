@@ -42,17 +42,17 @@
 #' ## distributed with initial distribution
 #' initDist <- c(1,0,0,0)
 #' ## and subintensity rate matrix
-#' T.mat <- matrix(c(-1.5, 1.5, 0, 0,
+#' Tmat <- matrix(c(-1.5, 1.5, 0, 0,
 #'                   0, -1, 2/3, 1/3,
 #'                   0, 0, -0.5, 0,
 #'                   0, 0, 0, -0.5), nrow = 4, byrow = TRUE)
 #'
-#' T_Total <- contphasetype(initDist,T.mat)
+#' TTotal <- contphasetype(initDist,Tmat)
 #'
 #' ## Hence, for theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with the same initial
 #' ## distribution and subtransition probability matrix
-#' discretization(T_Total, lambda=1)$P.mat
+#' discretization(TTotal, lambda=1)$P.mat
 #'
 #' @export
 discretization <- function(object, a=NULL, lambda=NULL){

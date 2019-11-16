@@ -51,7 +51,7 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
   if(lambda < 0) stop("Not a valid mutation rate. lambda must be nonnegative!")
   if(i <1 | i>n-1) stop("i must be between 1 and n-1")
   if(!is.logical(nSegSites)) stop("nSegSites must be a logical value")
-  if(!is.logical(tailstat)) stop("tailStat must be a logical value")
+  if(!is.logical(tailStat)) stop("tailStat must be a logical value")
 
   ## For a given number n of samples, we find the state
   ## space and the corresponding rate matrix for the block

@@ -36,33 +36,38 @@
 #' ## phase-type distributed with initital distribution
 #' initDist <- c(1,0,0)
 #' ## and sub-intensity rate matrix
-#' T.mat <- matrix(c(-6,6,0,
+#' Tmat <- matrix(c(-6,6,0,
 #'                    0,-3,3,
 #'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 #' ## Defining an object of type "contphasetype"
-#' T_MRCA <- contphasetype(initDist, T.mat)
+#' TMRCA <- contphasetype(initDist, Tmat)
 #' ## Computing all moments up to order 2
-#' m <- moments(T_MRCA, i=2, all = TRUE)
+#' m <- moments(TMRCA, i=2, all = TRUE)
 #' ## We get the desired numbers
-#' m[1] == mean(T_MRCA)
-#' m[2] - m[1]^2 == var(T_MRCA)
+#' m[1]
+#' mean(TMRCA)
+#'
+#' m[2] - m[1]^2
+#' var(TMRCA)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
-#' ## discrete phase-type distributed with
-#' ## initital distribution
+#' ## discrete phase-type distributed with initital distribution
 #' initDist <- c(1,0,0,0)
 #' ## and sub-transition probability matrix
-#' P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+#' Pmat <- matrix(c(0.4, 0.3, 4/30, 2/30,
 #'                    0, 0.5, 2/9, 1/9,
 #'                    0, 0, 2/3, 0,
 #'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 #' ## Defining an object of type "discphasetype"
-#' S_Total <- discphasetype(initDist, P.mat)
+#' S_Total <- discphasetype(initDist, Pmat)
 #' ## Computing all moments up to order 2
 #' m <- moments(S_Total, i=2, all = TRUE)
 #' ## We get the desired numbers
-#' m[1] == mean(S_Total)
-#' m[2] + m[1] - m[1]^2 == var(S_Total)
+#' m[1]
+#' mean(S_Total)
+#'
+#' m[2] + m[1] - m[1]^2
+#' var(S_Total)
 #'
 #' @export
 moments <- function(object, i, all = FALSE){

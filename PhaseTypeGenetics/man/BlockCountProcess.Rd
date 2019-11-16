@@ -7,7 +7,7 @@
 BlockCountProcess(n)
 }
 \arguments{
-\item{n}{the sample size}
+\item{n}{the sample size (>=3)}
 }
 \value{
 The function returns a list containing the subintensity

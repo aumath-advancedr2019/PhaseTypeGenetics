@@ -27,11 +27,11 @@ quantile function or random generation should be computed. To be able to use
 these function,the object has to be of
 class \code{discphasetype} or \code{contphasetype}.}
 
-\item{x}{a single positive quantile or a vector of positive quantiles.}
+\item{x}{a single nonnegative quantile or a vector of nonnegative quantiles.}
 
 \item{p}{a single probability or a vector of probabilities.}
 
-\item{n}{number of observations}
+\item{n}{the number of observations (n>=1).}
 }
 \value{
 \code{dphasetype} gives the density, \code{pphasetype}

@@ -15,9 +15,7 @@ License: Unlimited
 Date: 5 11 2019
 Encoding: UTF-8
 Depends: 
-  R (>= 2.10),
-  expm
-  stats
+  R (>= 2.10)
 LazyData: true
 RoxygenNote: 6.1.1
 Imports:

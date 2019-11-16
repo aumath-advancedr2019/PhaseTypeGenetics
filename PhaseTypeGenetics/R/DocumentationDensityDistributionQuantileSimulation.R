@@ -343,7 +343,7 @@ rphasetype.contphasetype <- function(object, n){
       x <- initState
       while(x != p + 1){
 
-        tau[i] <- tau[i] + rexp(1, rate = -IntenseMat[x,x])
+        tau[i] <- tau[i] + stats::rexp(1, rate = -IntenseMat[x,x])
         x <- sample((1:(p+1))[-x], size = 1, prob = IntenseMat[x,-x] )
 
       }

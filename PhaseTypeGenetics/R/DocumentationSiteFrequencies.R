@@ -45,11 +45,10 @@
 #' @seealso \code{\link{dSegregatingSites}}
 #'
 #' @export
-SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
+SiteFrequencies <- function(n,lambda, i=NULL, nSegSites=FALSE, tailStat = FALSE){
 
   if(n < 2) stop("Not a valid sample size. n must be greater than 2.")
   if(lambda < 0) stop("Not a valid mutation rate. lambda must be nonnegative!")
-  if((!is.null(i) & i <1 )| (!is.null(i) & i>n-1)) stop("i must be between 1 and n-1")
   if(!is.logical(nSegSites)) stop("nSegSites must be a logical value")
   if(!is.logical(tailStat)) stop("tailStat must be a logical value")
 
@@ -85,7 +84,9 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
     ## segregating sites by using the descretization:
     newobj <- discretization(obj, a=NULL, lambda=lambda)
 
-  }else if(tailStat){
+  }else if(tailStat & !is.null(i)){
+
+    if(i < 1 | i > n-1) stop("i must be between 1 and n-1")
 
     ## In order to find the distribution for the tail
     ## statistic, we need a reward vector that
@@ -94,6 +95,9 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
       r.vec <- res$StateSpace.mat[,(n-1)]
 
     }else{
+
+      if(i < 1 | i > n-1) stop("i must be between 1 and n-1")
+
       r.vec <- rowSums(res$StateSpace.mat[,i:(n-1)])
     }
 
@@ -109,7 +113,7 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
 
   }else if(nSegSites == FALSE & tailStat == FALSE & is.null(i)==FALSE){
 
-    if(i <1 | i>n-1) stop("i must be between 1 and n-1")
+    if(i < 1 | i > n-1) stop("i must be between 1 and n-1")
 
     ## In order to find the distribution for the site
     ## frequency xi_i, we need a reward vector that

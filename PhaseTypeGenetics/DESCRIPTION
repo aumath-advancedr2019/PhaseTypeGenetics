@@ -1,7 +1,7 @@
 Package: PhaseTypeGenetics
 Type: Package
 Title: The phase-type distribution with applications in population genetics
-Version: 0.2.1
+Version: 0.3.1
 Authors@R: c(
     person("Krarup", "Peter", email = "peter.krarup@post.au.dk", role = "aut"),
     person("Steinbach", "Jette", email = "jette.steinbach@post.au.dk", role = c("cre", "aut")))
@@ -14,13 +14,18 @@ Description: The package provides several
 License: Unlimited
 Date: 5 11 2019
 Encoding: UTF-8
+Depends: 
+  R (>= 2.10),
+  expm
+  stats
 LazyData: true
 RoxygenNote: 6.1.1
 Imports:
-    expm
+    expm,
+    stats
 Suggests: 
     knitr,
-    rmarkdown,
     partitions,
-    plot3D
+    plot3D,
+    rmarkdown
 VignetteBuilder: knitr

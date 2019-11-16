@@ -15,8 +15,8 @@
 #' for a given sample size \eqn{n}, a mutation parameter \eqn{\theta} and
 #' a nonnegative vector of quantiles \eqn{k}.
 #'
-#' @param n the sample size
-#' @param lambda the mutation rate
+#' @param n the sample size (>=3)
+#' @param lambda the nonnegative mutation rate
 #' @param i either the number of the site frequency that should be considered
 #' or the number of the first term of the tail statistic. In both cases \eqn{1 <= i <= n-1}.
 #' @param nSegSites a logical value indicating whether the function should compute
@@ -47,8 +47,11 @@
 #' @export
 SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
 
-  if(n < 3) stop("Not a valid sample size. n must be greater than two.")
+  if(n < 2) stop("Not a valid sample size. n must be greater than 2.")
   if(lambda < 0) stop("Not a valid mutation rate. lambda must be nonnegative!")
+  if(i <1 | i>n-1) stop("i must be between 1 and n-1")
+  if(!is.logical(nSegSites)) stop("nSegSites must be a logical value")
+  if(!is.logical(tailstat)) stop("tailStat must be a logical value")
 
   ## For a given number n of samples, we find the state
   ## space and the corresponding rate matrix for the block
@@ -83,8 +86,6 @@ SiteFrequencies <- function(n,lambda,i=NULL, nSegSites=FALSE, tailStat = FALSE){
     newobj <- discretization(obj, a=NULL, lambda=lambda)
 
   }else if(tailStat){
-
-    if(i <1 | i>n-1) stop("i must be between 1 and n-1")
 
     ## In order to find the distribution for the tail
     ## statistic, we need a reward vector that

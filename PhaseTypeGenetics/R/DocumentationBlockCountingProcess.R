@@ -12,7 +12,7 @@
 #' descendents. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
 #' and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)}.
 #'
-#' @param n the sample size
+#' @param n the sample size (>=3)
 #'
 #' @return The function returns a list containing the subintensity
 #' rate matrix \code{Rate.mat} and the state space matrix \code{StateSpace.mat}.
@@ -26,6 +26,8 @@
 #'
 #' @export
 BlockCountProcess <- function(n){
+
+  if(n < 2) stop("Invalid sample size! n must be greater than 2.")
   ##----------------------------------------------------
   ## Possible states
   ##----------------------------------------------------

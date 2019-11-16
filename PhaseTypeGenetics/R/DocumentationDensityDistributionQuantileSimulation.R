@@ -25,9 +25,9 @@
 #' quantile function or random generation should be computed. To be able to use
 #' these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
-#' @param x a single positive quantile or a vector of positive quantiles.
+#' @param x a single nonnegative quantile or a vector of nonnegative quantiles.
 #' @param p a single probability or a vector of probabilities.
-#' @param n number of observations
+#' @param n the number of observations (n>=1).
 #'
 #' @return \code{dphasetype} gives the density, \code{pphasetype}
 #' gives the distribution function, \code{qphasetype} gives the quantile
@@ -44,6 +44,8 @@
 #'
 #' @seealso \code{\link{dnorm}}, \code{\link{dt}},
 #' \code{\link{dexp}}.
+#'
+#' @importFrom expm %^%
 #'
 #' @examples
 #'
@@ -107,6 +109,7 @@ dphasetype <- function(object, x){
 }
 
 #' @export
+#' @importFrom expm %^%
 dphasetype.discphasetype <- function(object, x){
 
   res <- NULL
@@ -114,6 +117,8 @@ dphasetype.discphasetype <- function(object, x){
 
     if(l<1 | l%%1!=0){
 
+      warning("One or more quantiles are less than 1 or not natural numbers.\n
+              The corresponding probabilities are set to 0.")
       res[which(x==l)] <- 0
     }else{
 
@@ -132,10 +137,12 @@ dphasetype.contphasetype <- function(object, x){
 
     if(l<0){
 
+      warning("One or more quantiles are negative. The corresponding probabilities are set to 0.")
       res[which(x==l)] <- 0
+
     }else{
 
-      res[which(x==l)] <- -sum(object$initDist %*% expm(l * object$T.mat) %*% object$T.mat)
+      res[which(x==l)] <- -sum(object$initDist %*% expm::expm(l * object$T.mat) %*% object$T.mat)
     }
   }
   return(res)
@@ -149,17 +156,19 @@ pphasetype <- function(object, x){
 }
 
 #' @export
+#' @importFrom expm %^%
 pphasetype.discphasetype <- function(object, x){
 
   res <- NULL
   for(l in x){
 
-    if(l<0){
+    if(l<1 | l%%1!=0){
 
+      warning("One or more quantiles are less than 1 or not natural numbers.\n
+              The corresponding probabilities are set to 0.")
       res[which(x==l)] <- 0
-    }else{
 
-      l <- floor(l)
+    }else{
 
       res[which(x==l)] <- 1 - sum(object$initDist%*%(object$P.mat %^% l))
     }
@@ -175,10 +184,12 @@ pphasetype.contphasetype <- function(object, x){
 
     if(l<0){
 
+      warning("One or more quantiles are negative. The corresponding probabilities are set to 0.")
       res[which(x==l)] <- 0
+
     }else{
 
-      res[which(x==l)] <- 1 - sum(object$initDist %*% expm(l * object$T.mat))
+      res[which(x==l)] <- 1 - sum(object$initDist %*% expm::expm(l * object$T.mat))
     }
   }
   return(res)
@@ -197,12 +208,13 @@ qphasetype.discphasetype <- function(object, p){
   if( sum(p<0) >0 | sum(p>1) >0 ){
 
     stop("Not a valid probability vector. One or more entries are less than 0 or bigger than 1.")
-  }else{
+
+    }else{
 
     res <- NULL
     for(l in p){
 
-      res[which(p==l)] <- uniroot(function(y) pphasetype(object = object, x = y)- l, c(0, 400))$root[1]
+      res[which(p==l)] <- stats::uniroot(function(y) pphasetype(object = object, x = y)- l, c(0, 400))$root[1]
     }
   }
   return(round(res))
@@ -219,7 +231,7 @@ qphasetype.contphasetype <- function(object, p){
     res <- NULL
     for(l in p){
 
-      res[which(p==l)] <- uniroot(function(y) pphasetype(object = object, x = y)-l, c(0, 400))$root[1]
+      res[which(p==l)] <- stats::uniroot(function(y) pphasetype(object = object, x = y)-l, c(0, 400))$root[1]
     }
   }
   return(res)
@@ -234,6 +246,12 @@ rphasetype <- function(object, n){
 
 #' @export
 rphasetype.discphasetype <- function(object, n){
+
+  if(n != floor(abs(n))){
+
+    warning(paste("The proviede number n is either negative or not a natural number.\n
+                   The function will generate ", floor(abs(n)), "simulations instead."))
+  }
 
   n=floor(abs(n))
 
@@ -255,7 +273,7 @@ rphasetype.discphasetype <- function(object, n){
   # If the defect is positive immediate absorption needs to be a possibility
   # for that we generate n uniform(0,1) variables
   if(defect < 1){
-    u <- runif(n)
+    u <- stats::runif(n)
   }
 
   # We make the rows of the transition matrix corresponding to
@@ -283,6 +301,11 @@ rphasetype.discphasetype <- function(object, n){
 #' @export
 rphasetype.contphasetype <- function(object, n){
 
+  if(n != floor(abs(n))){
+
+  warning(paste("The proviede number n is either negative or not a natural number.\n
+                 The function will generate ", floor(abs(n)), "simulations instead."))
+  }
   n=floor(abs(n))
 
   ## Extracting the initial distribution
@@ -303,7 +326,7 @@ rphasetype.contphasetype <- function(object, n){
   # If the defect is positive immediate absorption needs to be a possibility
   # for that we generate n uniform(0,1) variables
   if(defect < 1){
-    u <- runif(n)
+    u <- stats::runif(n)
   }
 
   # We make the rows of the intensity matrix corresponding to the transient states from

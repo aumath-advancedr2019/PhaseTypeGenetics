@@ -67,16 +67,21 @@
 #' maxima(T_Total1, T_Total2)
 #'
 #' @export
-minima <- function(...) UseMethod("minima")
+minima <- function(object1,object2){
+
+  UseMethod("minima")
+}
 
 #' @export
-minima.default <- function(...){
+minima.default <- function(object1,object2){
 
-  min(...)
+  min(object1,object2)
 }
 
 #' @export
 minima.discphasetype <- function(object1,object2){
+
+  if(class(object1) != "discphasetype"| class(object2) != "discphasetype") stop("Invalid objects! object1 and object2 must be of class 'discphasetype'.")
 
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -93,6 +98,8 @@ minima.discphasetype <- function(object1,object2){
 #' @export
 minima.contphasetype <- function(object1,object2){
 
+  if(class(object1) != "contphasetype"| class(object2) != "contphasetype") stop("Invalid objects! object1 and object2 must be of class 'contphasetype'.")
+
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat
   initDist2 = object2$initDist
@@ -108,16 +115,21 @@ minima.contphasetype <- function(object1,object2){
 
 #' @rdname minima
 #' @export
-maxima <- function(...) UseMethod("maxima")
+maxima <- function(object1,object2){
+
+  UseMethod("maxima")
+}
 
 #' @export
-maxima.default <- function(...){
+maxima.default <- function(object1,object2){
 
-  max(...)
+  max(object1,object2)
 }
 
 #' @export
 maxima.discphasetype <- function(object1,object2){
+
+  if(class(object1) != "discphasetype"| class(object2) != "discphasetype") stop("Invalid objects! object1 and object2 must be of class 'discphasetype'.")
 
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -138,6 +150,8 @@ maxima.discphasetype <- function(object1,object2){
 
 #' @export
 maxima.contphasetype <- function(object1,object2){
+
+  if(class(object1) != "contphasetype"| class(object2) != "contphasetype") stop("Invalid objects! object1 and object2 must be of class 'contphasetype'.")
 
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat

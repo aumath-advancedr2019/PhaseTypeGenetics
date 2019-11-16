@@ -3,7 +3,7 @@
 #' Computing (factorial) moments of a given order of phase-type distributed random variables.
 #'
 #' In the discrete case \eqn{( \tau ~ DPH(\pi,P) )}, the factorial moments are given by
-#' \deqn{E[\tau(\tau-1)*...*(\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e,}
+#' \deqn{E[\tau(\tau-1) ··· (\tau-i+1)] = i! \pi P^(i-1) (I-P)^(-i) e,}
 #' where \eqn{\pi} is the initial distribution and \eqn{P} is the subtransition probability matrix.
 #' For \eqn{\tau ~ PH(\pi, T)}, the \eqn{i}'th-order moment is defined as
 #' \deqn{E[\tau^i] = i! \pi (-T)^(-i) e,}
@@ -65,21 +65,23 @@
 #' m[2] + m[1] - m[1]^2 == var(S_Total)
 #'
 #' @export
-moments <- function(...){
+moments <- function(object, i, all = FALSE){
 
   UseMethod("moments")
 }
 
 #' @export
-moments.default <- function(...){
+moments.default <- function(object, i, all = FALSE){
 
   print("The package ‘moments’ can be used to compute sample moments of specified order.")
 }
 
 #' @export
+#' @importFrom expm %^%
 moments.discphasetype <- function(object, i, all = FALSE){
 
-  if(i < 1 ) stop("Not a valid order. The number i has to be positive!")
+  if(i < 1 ) stop("Invalid order. The number i has to be positive!")
+  if(!is.logical(all)) stop(" 'all' must be a logical value")
 
   initDist = object$initDist
   P.mat = object$P.mat
@@ -101,9 +103,11 @@ moments.discphasetype <- function(object, i, all = FALSE){
 }
 
 #' @export
+#' @importFrom expm %^%
 moments.contphasetype <- function(object, i, all = FALSE){
 
-  if(i < 1 ) stop("Not a valid order. The number i has to be positive!")
+  if(i < 1 ) stop("Invalid order. The number i has to be positive!")
+  if(!is.logical(all)) stop(" 'all' must be a logical value")
 
   initDist = object$initDist
   T.mat = object$T.mat

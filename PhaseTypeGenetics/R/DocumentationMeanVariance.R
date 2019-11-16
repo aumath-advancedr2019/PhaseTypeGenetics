@@ -124,15 +124,15 @@
 #' text(23,tail(VecOfVarsTotal, n=1),labels = expression(Var(T[Total])))
 #'
 #' @export
-phmean <- function(object,...){
+phmean <- function(object){
 
   UseMethod("phmean")
 }
 
 #' @export
-phmean.default <- function(object,...){
+phmean.default <- function(object){
 
-  mean(object,...)
+  mean(object, na.rm = TRUE)
 }
 
 #' @export
@@ -167,18 +167,19 @@ phmean.contphasetype <- function(object){
 
 #' @rdname phmean
 #' @export
-phvar <- function(object,...){
+phvar <- function(object){
 
   UseMethod("phvar")
 }
 
 #' @export
-phvar.default <- function(object,...){
+phvar.default <- function(object){
 
-  var(object,...)
+  stats::var(object, na.rm = TRUE)
 }
 
 #' @export
+#' @importFrom expm %^%
 phvar.discphasetype <- function(object){
 
   initDist = object$initDist
@@ -199,6 +200,7 @@ phvar.discphasetype <- function(object){
 }
 
 #' @export
+#' @importFrom expm %^%
 phvar.contphasetype <- function(object){
 
   initDist = object$initDist

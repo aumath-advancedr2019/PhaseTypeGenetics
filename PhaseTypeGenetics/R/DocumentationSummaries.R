@@ -1,6 +1,6 @@
 #' Summaries of phase-type distributed objects
 #'
-#' This \code{summary} function is a \code{\link{method}} that depends on the \code{\link{class}} of the argument.
+#' This \code{summary} function is a method that depends on the \code{\link{class}} of the argument.
 #' For objects of class \code{discphasetype} or \code{contphasetype},
 #' \code{summary} prints the inital distribution and the
 #' subtransition/subintensity matrix of the phase-type distribution.

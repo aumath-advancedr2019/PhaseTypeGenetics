@@ -21,7 +21,7 @@
 #' @param object a continuous phase-type distributed object of class \code{contphasetype}.
 #' @param a a constant that is larger than the maximum of all diagonal
 #' entries of the subintensity rate matrix
-#' @param lambda the mutation rate at the locus
+#' @param lambda the positive mutation rate at the locus
 #'
 #' @return Depending on the input, the function returns the discretized phase-type
 #' disctribution with subtransition probability matrix equal to either
@@ -57,24 +57,27 @@
 #' @export
 discretization <- function(object, a=NULL, lambda=NULL){
 
-  if(class(object) != "contphasetype") stop("The object has to be of type contphasetype")
+  if(class(object) != "contphasetype") stop("Invalid object! The object has to be of class 'contphasetype'.")
 
   if(is.null(lambda)){
 
-    if(is.null(a) | a < max(diag(object$T.mat)) ){stop("Not a valid constant a")}
+    if(is.null(a) | a < max(diag(object$T.mat)) ){stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")}
 
     res <- discphasetype(initDist = object$initDist,
                   P.mat = diag(nrow = nrow(object$T.mat))+1/a*object$T.mat)
 
   }else if(is.null(a)){
 
-    if(is.null(lambda)){stop("Not a valid mutation rate")}
+    if(is.null(lambda) | lambda <= 0){stop("Not a valid mutation rate. lambda has to be positive.")}
 
     res <- discphasetype(initDist = object$initDist,
                          P.mat = solve(diag(nrow = nrow(object$T.mat))-lambda^(-1)*object$T.mat))
 
 
   }else{
+
+    if(lambda <= 0){stop("Not a valid mutation rate. lambda has to be positive.")}
+    if(a < max(diag(object$T.mat)) )stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")
 
     res <- list(a = discphasetype(initDist = object$initDist,
                                   P.mat = diag(nrow = nrow(object$T.mat))+1/a*object$T.mat),

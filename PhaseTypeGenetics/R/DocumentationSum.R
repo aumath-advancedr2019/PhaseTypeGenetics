@@ -56,19 +56,21 @@
 #' ## obtained directly from the reward transformation)
 #'
 #' @export
-phsum <- function(...){
+phsum <- function(object1,object2){
 
   UseMethod("phsum")
 }
 
 #' @export
-phsum.default <- function(x,...){
+phsum.default <- function(object1,object2){
 
-  sum(x,...)
+  sum(object1,object2)
 }
 
 #' @export
 phsum.discphasetype <- function(object1,object2){
+
+  if(class(object1) != "discphasetype"| class(object2) != "discphasetype") stop("Invalid objects! object1 and object2 must be of class 'discphasetype'.")
 
   initDist1 = object1$initDist
   P.mat1 = object1$P.mat
@@ -87,6 +89,7 @@ phsum.discphasetype <- function(object1,object2){
 #' @export
 phsum.contphasetype <- function(object1,object2){
 
+  if(class(object1) != "contphasetype"| class(object2) != "contphasetype") stop("Invalid objects! object1 and object2 must be of class 'contphasetype'.")
   initDist1 = object1$initDist
   T.mat1 = object1$T.mat
   initDist2 = object2$initDist

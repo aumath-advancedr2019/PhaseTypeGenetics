@@ -7,8 +7,8 @@
 #' transformation and the discretization. For more information on this topic see
 #' Hobolth et al. (2019): \emph{Phase-type distributions in population genetics}.
 #'
-#' @param n the sample size
-#' @param theta the mutation parameter
+#' @param n the sample size (n >= 1)
+#' @param theta the mutation parameter (theta > 0)
 #' @param k a nonnegative number or a nonnegative vector
 #' @param plot a logical value indicating whether the function should
 #' plot the density of the total number of segregating sites for the
@@ -28,6 +28,8 @@
 #' Theoretical Population Biology, 127, pp. 16-32.
 #'
 #' @seealso \code{\link{SiteFrequencies}}, \code{\link{dphasetype}}.
+#'
+#' @importFrom expm %^%
 #'
 #' @examples
 #'
@@ -51,8 +53,7 @@
 #' ## "Coalescent Theory: An Introduction",
 #' ## Roberts and Company Publishers, Colorado.
 #' ## by using the package plot3D.
-#' library(plot3D)
-#' hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+#' plot3D::hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
 #'        xlab = "k", ylab = "n", zlab = "P(S=k)",
 #'        main = "The probability function of the number of segregating sites",
 #'        sub = expression(paste("The mutation parameter is ", theta,"= 2")),
@@ -61,8 +62,14 @@
 #' @export
 dSegregatingSites <- function(n, theta, k, plot =FALSE){
 
-  if(n < 1) stop("Invalid sample size. n has to be positive!")
+  if(n < 1) stop("Invalid sample size. n has to be greater than or equal to 1.")
+  if(n != floor(n)) warning(paste("The proviede sample size n is not a natural number.\n
+                   The function will use n= ", floor(n), " instead."))
+  n = floor(n)
+
+  if(theta <=0 ) stop("Invalid mutation parameter. Theta must be greater than 0.")
   if(sum(k<0)>0) stop("Invalid vector of quantiles. k has to be nonnegative!")
+  if(!is.logical(plot)) stop(" 'plot' must be a logical value")
 
   if(n==1){
 
@@ -99,16 +106,23 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
     ## diagonal
     Tmat <- diag(1/r.vec)%*%Tmat
 
-    obj <- contphasetype(pi.vec, Tmat)
-
     ## Now we can compute the distribution of the number of
     ## segregating sites by using the descretization:
     P.mat <- solve(diag(nrow = nrow(Tmat))-(2/theta)*Tmat)
 
     res <- NULL
+
     for (i in k) {
 
-      res[which(k==i)] <- pi.vec%*%(P.mat%^%i)%*%(1-rowSums(P.mat))
+      if(i%%1!=0){
+
+        warning("One or more quantiles are not natural numbers.\n
+              The corresponding probabilities are set to 0.")
+        res[which(k==i)] <- 0
+      }else{
+
+        res[which(k==i)] <- pi.vec%*%(P.mat%^%i)%*%(1-rowSums(P.mat))
+      }
     }
   }
 

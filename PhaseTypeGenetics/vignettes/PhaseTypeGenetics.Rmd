@@ -25,6 +25,8 @@ knitr::opts_chunk$set(
 library(PhaseTypeGenetics)
 ```
 
+This vignette gives an overview of the package `PhaseTypeGenetics` without showing the mathematical details. For a more thorough explanation including mathematical proofs, we refer to the second vignette *PhaseTypeGenetics_Mathematical_Details*.
+
 ## Introduction to PhaseTypeGenetics
 The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.\
 
@@ -36,51 +38,6 @@ All functions and applications are based on the theory developed in
 * and [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
   \emph{Phase-type distributions in population genetics}. 
   Theoretical Population Biology, 127, pp. 16-32.
-
-## Defining phase-type distributions
-
-This package is based on discrete and continuous phase-type distributions. In order to introduce the user to this topic and establish the notation that will be used throughout this vignette, we will give a short definition on both types of phase-type distributions.
-
-### The discrete phase-type distribution
-
-Let $\{X_t\}_{t \in \mathbb{N}}$ be a Markov chain with state space equal to $\{1,2,...,p,p+1\}$. The states $1,2,...,p$ are assumed to be transient, while the last state $p+1$ is absorbing. Then we can define the transition matrix 
-\begin{equation*}
-P = \begin{pmatrix}
-T & t \\
-\boldsymbol{0} & 1
-\end{pmatrix},
-\end{equation*}
-where $T$ is a $p \times p$ sub-transition matrix holding the probabilities for jumping between all transient states and $t$ is a $p$-dimensional column vector holding the exit probabilities (the probabilities for absorption). As all rows in the transition matrix $P$ have to sum to one, we can compute $t$ from the sub-transition matrix $T$,
-\begin{equation*}
-Te +t = e \quad \Rightarrow \quad t=e-Te = (I-T)e
-\end{equation*}
-where $e = (1,...,1)^T$ is a $p$-dimensional vector of ones.\
-Now we let $\pi_i = \mathbb{P}(X_0 =i)$ be the initial probability for the process to start in state $i$ and $\pi = (\pi_1,...,\pi_p)$ be the initial distribution. As we do not want the process to start in the absorbing state, we assume that $\pi_1+\cdots +\pi_p=1$.\
-Finally, we let $\tau = \inf\{t \geq 1 \mid X_t = p+1\}$ be the waiting time until absorption in the last state of the Markov chain $\{X_t\}_{t \in \mathbb{N}}$. Then we say that $\tau$ is discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, 
-\begin{equation*}
-\tau \sim \text{DPH}_p (\pi,T).
-\end{equation*}
-
-### The continuous phase-type distribution
-
-The continuous phase-type distribution is defined in a corresponding way.\
-Let $\{X_t\}_{t \geq 0}$ be a Markov jump process with state space equal to $\{1,2,...,p,p+1\}$ (here, the time is continuous). As in the discrete case, the states $1,2,...,p$ are assumed to be transient, while the last state $p+1$ is absorbing. Then we can rewrite the intensity rate matrix to be of the form
-\begin{equation*}
-\Lambda = \begin{pmatrix}
-T & t \\
-\boldsymbol{0} & 0
-\end{pmatrix},
-\end{equation*}
-where $T$ is a $p \times p$ sub-intensity matrix holding the rates for jumping between all transient states and $t$ is a $p$-dimensional column vector holding the exit rates. As all rows in an intensity rate matrix have to sum to zero, we can compute $t$ from the sub-intensity matrix $T$,
-\begin{equation*}
-Te +t = \boldsymbol{0} \quad \Rightarrow \quad t=-Te 
-\end{equation*}
-where $e = (1,...,1)^T$ is a $p$-dimensional vector of ones.\
-Now we define the initial distribution. Let $\pi_i = \mathbb{P}(X_0 =i)$ be the initial probability for the process to start in state $i$ and $\pi = (\pi_1,...,\pi_p)$ be the initial distribution. As we do not want the process to start in the absorbing state, we assume that $\pi_1+\cdots +\pi_p=1$.\
-As before, we let $\tau = \inf\{t > 0 \mid X_t = p+1\}$ be the waiting time until absorption in the last state. Then we say that $\tau$ is phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, 
-\begin{equation*}
-\tau \sim \text{PH}_p (\pi,T).
-\end{equation*}
 
 ## Applications in Population Genetics
 
@@ -604,17 +561,11 @@ This package includes some functions that compute the basic properties of phase-
 In the following, let $\tau= \inf\{t\geq 1 \mid X_t = p+1\}$ be discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, $\tau \sim DPH_{p}(\pi,T)$.\
 Then the density for $\tau$ is given by
 \begin{align*}
-\mathbb{P}(\tau= n) &= \sum_{i=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)\mathbb{P}(X_{n-1}=i)\\
-&= \sum_{i=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i) \sum_{j=1}^{p} \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
-&= \sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)  \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
+\mathbb{P}(\tau= n) = \pi T^{n-1} t.
 \end{align*}
-for $n \geq 1$, where the first and second equality are due to the law of total probability. Now we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution. Furthermore, the probability $\mathbb{P}(\tau=n \mid X_{n-1}=i)$ for the process to be absorbed at time $n$, given that the process is in state $i$ at time $n-1$ is given by the $i$'th entry of the exit probability vector $t = \boldsymbol{e} - T \boldsymbol{e}$. Finally, the probability $\mathbb{P}(X_{n-1}=i \mid X_0 =j )$ for the process to be in state $i$ at time $n-1$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $n-1$) is given by the $(j,i)$'th element of sub-transition probability matrix $T^{n-1}$. Hence, we have that  
+for $n \geq 1$, where $t=(I-T)\boldsymbol{e}$.
 \begin{align*}
-\mathbb{P}(\tau= n) &= \sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}(\tau=n \mid X_{n-1}=i)  \mathbb{P}(X_{n-1}=i \mid X_0 =j ) \mathbb{P}(X_0=j)\\
-&= \sum_{i=1}^{p} \sum_{j=1}^{p} t_i (T^{n-1} )_{ji} \pi_j\\
-&= \sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j (T^{n-1} )_{ji} t_i\\
-&= \pi T^{n-1} t.
-\end{align*}
+
 
 We also need to take possible defect sizes into account. So let $\tau \sim DPH_{p}(\pi,T)$ with defect size $\pi_{p+1}$, i.e.
 \begin{equation*}
@@ -625,25 +576,7 @@ DPH_{p}(\pi,T) & \text{ with probability $1- \pi_{p+1}$} .
 \end{equation*}
 Then we have that 
 \begin{align*}
-\mathbb{P}(\tau= n) &= \mathbb{P}(\tau \cdot 1\kern-.35em1_{\{\tau \geq 1\}}= n)\\
-&= \mathbb{P}(\tau(1\kern-.35em1_{\{\tau = 1\}} + 1\kern-.35em1_{\{\tau > 1\}}) = n)\\
-&= \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n)
-\end{align*}
-Due to the definition of $\tau$, we know that when $\tau > 1$, $\tau \sim DPH_{p}(\pi,T)$. Hence, from the previous computations
-\begin{equation*}
-\mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n) = \pi T^{n-1} t \quad \text{ for } n\geq 1.
-\end{equation*}
-On the other hand, 
-\begin{equation*}
-\mathbb{P}(\tau \cdot 1\kern-.35em1_{\{\tau = 1\}} = n) = \mathbb{P}(1 \cdot 1\kern-.35em1_{\{\tau = 1\}} = n) = \begin{cases}
-\mathbb{P}(\tau = 1 )=\pi_{p+1}  & \text{ if } n=1\\
-0 & \text{ otherwise}.
-\end{cases}
-\end{equation*}
-This implies that 
-\begin{align*}
-\mathbb{P}(\tau= n) &= \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau = 1\}} = n) + \mathbb{P}(\tau\cdot 1\kern-.35em1_{\{\tau > 1\}} = n)\\
-&= \begin{cases}
+\mathbb{P}(\tau= n) = \begin{cases}
 \pi T^{n-1} t + \pi_{p+1}  & \text{ if } n=1\\
 \pi T^{n-1} t & \text{ otherwise}.
 \end{cases}
@@ -651,14 +584,11 @@ This implies that
 
 #### - in the continuous case
 Now let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
-Then the density for $\tau$ is given by the derivative of the distribution function (see next section)
+Then the density for $\tau$ is given by 
 \begin{align*}
-f(u) &= \frac{\partial}{\partial u} F(u)\\
-&= \frac{\partial}{\partial u} 1-\pi e^{Tu} \boldsymbol{e} \\
-&= -\pi e^{Tu}T \boldsymbol{e}\\
-&= \pi e^{Tu}t
+f(u) = \pi e^{Tu}t
 \end{align*}
-for $u \geq 0$, where we have used that $t = -T \boldsymbol{e}$.
+for $u \geq 0$, where $t = -T\boldsymbol{e}$.
 
 ### The distribution function
 
@@ -666,33 +596,17 @@ for $u \geq 0$, where we have used that $t = -T \boldsymbol{e}$.
 Let again $\tau= \inf\{t\geq 1 \mid X_t = p+1\}$ be discrete phase-type distributed with initial distribution $\pi$ and sub-transition probability matrix $T$, $\tau \sim DPH_{p}(\pi,T)$.\
 Then the distribution function for $\tau$ is given by
 \begin{align*}
-F_{\tau}(n) = \mathbb{P}(\tau \leq n) &= 1- \mathbb{P}(\tau > n)\\
-&= 1-\sum_{i=1}^{p} \mathbb{P}( X_{n}=i)\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)
+F_{\tau}(n) = 1- \pi T^{n}\boldsymbol{e}
 \end{align*}
-for $n \geq 1$, where the fourth equality is due to the law of total probability. As before, we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution, and that the probability $\mathbb{P}(X_{n}=i \mid X_0 =j )$ for the process to be in state $i$ at time $n$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $n$) is given by the $(j,i)$'th element of sub-transition probability matrix $T^{n}$. Hence, we have that  
-\begin{align*}
-F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} (T^{n})_{ji}\pi_j\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j(T^{n})_{ji}\\
-&= 1- \pi T^{n}\boldsymbol{e}.
-\end{align*}
+for $n \geq 1$.
 
 #### - in the continuous case
 As before, let $\tau= \inf\{t > 0 \mid X_t = p+1\}$ be continuous phase-type distributed with initial distribution $\pi$ and sub-intensity rate matrix $T$, $\tau \sim PH_{p}(\pi,T)$.\
 Then the distribution function for $\tau$ is given by
 \begin{align*}
- F_{\tau}(u) = \mathbb{P}(\tau \leq u) &= 1- \mathbb{P}(\tau > u)\\
-&= 1-\sum_{i=1}^{p} \mathbb{P}( X_{u}=i)\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{u}=i \mid X_0 =j) \mathbb{P}( X_0 =j)
+ F_{\tau}(u) = 1- \pi e^{Tu}\boldsymbol{e}
 \end{align*}
-for $u \geq 0$, where the fourth equality is due to the law of total probability. As in the discrete case, we observe that the probability $\mathbb{P}(X_0=j)$ for the Markov jump process $(X_t)_{t\geq 0}$ to start in $j$ is equal to the $j$'th entry of the initial distribution, and that the probability $\mathbb{P}(X_{u}=i \mid X_0 =j )$ for the process to be in state $i$ at time $u$ given that the process started in state $j$ (or equivalently the probability of going from state $j$ to state $i$ in time $u$) is given by the $(j,i)$'th element of sub-transition probability matrix $e^{Tu}$. Hence, we have that  
-\begin{align*}
-F_{\tau}(n) &= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \mathbb{P}( X_{n}=i \mid X_0 =j) \mathbb{P}( X_0 =j)\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} (e^{Tu})_{ji}\pi_j\\
-&= 1-\sum_{i=1}^{p} \sum_{j=1}^{p} \pi_j(e^{Tu})_{ji}\\
-&= 1- \pi e^{Tu}\boldsymbol{e}.
-\end{align*}
+for $u \geq 0$.
 
 ### The quantile function
 
@@ -723,38 +637,38 @@ First, we compute the distribution of $T_{\text{MRCA}}$
 ```{r}
 
 ## Defining the vector of quantiles
-t.vec <- seq(0,4, by=0.1)
+t_vec <- seq(0,4, by=0.1)
 
 ## and the matrix holding all distributions
-dist_Mat <- matrix(nrow = 6, ncol = length(t.vec))
+dist_Mat <- matrix(nrow = 6, ncol = length(t_vec))
 
 ## Now we can compute the distributions
-dist_Mat[2,] <- dphasetype(T_MRCA$n5, t.vec)
-dist_Mat[3,] <- dphasetype(T_MRCA$n10, t.vec)
-dist_Mat[4,] <- dphasetype(T_MRCA$n20, t.vec)
-dist_Mat[5,] <- dphasetype(T_MRCA$n50, t.vec)
-dist_Mat[6,] <- dphasetype(T_MRCA$n100, t.vec)
+dist_Mat[2,] <- dphasetype(T_MRCA$n5, t_vec)
+dist_Mat[3,] <- dphasetype(T_MRCA$n10, t_vec)
+dist_Mat[4,] <- dphasetype(T_MRCA$n20, t_vec)
+dist_Mat[5,] <- dphasetype(T_MRCA$n50, t_vec)
+dist_Mat[6,] <- dphasetype(T_MRCA$n100, t_vec)
 
 ## For n=2, the initial distribution is equal to 1 and 
 ## the sub-intensity rate matrix is T_Mat = -1. Hence,
 ## the distribution is given by
-dist_Mat[1,] <- exp(-t.vec)
+dist_Mat[1,] <- exp(-t_vec)
 
 ```
 
 Now that we have computed the distribution of $T_{\text{MRCA}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,4\}$, we are able to reproduce the first figure
 ```{r}
-plot(t.vec, dist_Mat[1,], type = "l", 
+plot(t_vec, dist_Mat[1,], type = "l", 
      main = expression(paste("The distribution of ", T["MRCA"], 
      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
      ylab = expression(f[T[MRCA]](t)), xlim = c(0,4), ylim = c(0,1), 
      frame.plot = FALSE)
 
-points(t.vec, dist_Mat[2,], type = "l")
-points(t.vec, dist_Mat[3,], type = "l")
-points(t.vec, dist_Mat[4,], type = "l")
-points(t.vec, dist_Mat[5,], type = "l")
-points(t.vec, dist_Mat[6,], type = "l")
+points(t_vec, dist_Mat[2,], type = "l")
+points(t_vec, dist_Mat[3,], type = "l")
+points(t_vec, dist_Mat[4,], type = "l")
+points(t_vec, dist_Mat[5,], type = "l")
+points(t_vec, dist_Mat[6,], type = "l")
 
 ```
 
@@ -763,38 +677,38 @@ Now, we can perform the same calculations for $T_{\text{Total}}$
 ```{r}
 
 ## Defining the vector of quantiles
-t.vec <- seq(0,15, by=0.1)
+t_vec <- seq(0,15, by=0.1)
 
 ## and the matrix holding all distributions
-dist_Mat <- matrix(nrow = 6, ncol = length(t.vec))
+dist_Mat <- matrix(nrow = 6, ncol = length(t_vec))
 
 ## Now we can compute the distributions
-dist_Mat[2,] <- dphasetype(T_Total$n5, t.vec)
-dist_Mat[3,] <- dphasetype(T_Total$n10, t.vec)
-dist_Mat[4,] <- dphasetype(T_Total$n20, t.vec)
-dist_Mat[5,] <- dphasetype(T_Total$n50, t.vec)
-dist_Mat[6,] <- dphasetype(T_Total$n100, t.vec)
+dist_Mat[2,] <- dphasetype(T_Total$n5, t_vec)
+dist_Mat[3,] <- dphasetype(T_Total$n10, t_vec)
+dist_Mat[4,] <- dphasetype(T_Total$n20, t_vec)
+dist_Mat[5,] <- dphasetype(T_Total$n50, t_vec)
+dist_Mat[6,] <- dphasetype(T_Total$n100, t_vec)
 
 ## For n=2, the initial distribution is equal to 1 and 
 ## the sub-intensity rate matrix is T_Mat = -1/2. Hence,
 ## the distribution is given by
-dist_Mat[1,] <- exp(-t.vec/2)/2
+dist_Mat[1,] <- exp(-t_vec/2)/2
 
 ```
 
 Now that we have computed the distribution of $T_{\text{Total}}$ for all $n\in \{2,5,10,20,50,100\}$ and $t \in \{0,...,15\}$, we are able to reproduce the second figure
 ```{r}
-plot(t.vec, dist_Mat[1,], type = "l", 
+plot(t_vec, dist_Mat[1,], type = "l", 
      main = expression(paste("The distribution of ", T["Total"], 
      " for n=2,5,10,20,50,100")), cex.main = 0.9, xlab = "t", 
      ylab = expression(f[T[Total]](t)), xlim = c(0,15), ylim = c(0,0.5), 
      frame.plot = FALSE)
 
-points(t.vec, dist_Mat[2,], type = "l")
-points(t.vec, dist_Mat[3,], type = "l")
-points(t.vec, dist_Mat[4,], type = "l")
-points(t.vec, dist_Mat[5,], type = "l")
-points(t.vec, dist_Mat[6,], type = "l")
+points(t_vec, dist_Mat[2,], type = "l")
+points(t_vec, dist_Mat[3,], type = "l")
+points(t_vec, dist_Mat[4,], type = "l")
+points(t_vec, dist_Mat[5,], type = "l")
+points(t_vec, dist_Mat[6,], type = "l")
 
 ```
 
@@ -868,48 +782,8 @@ K=\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T\\
                   0 & S & 0\\
                   0 & 0 & T\end{pmatrix},
 \end{equation*}
-and $s=\boldsymbol{e}-S\boldsymbol{e}$, $t=\boldsymbol{e}-T\boldsymbol{e}$ are the vectors of exit-probabilities from $S$ and $T$ respectively.  
-The proof is as follows. Let $\{X_1(n)\}_{n\in\mathbb{N}}$ denote the Markov chain underlying $\tau_1$. The transition probability matrix of this Markov chain is
-\begin{equation*}
-P_1=\begin{pmatrix}S & s\\ 0 & 1\end{pmatrix}.
-\end{equation*}
-Let $\{X_2(n)\}_{n\in\mathbb{N}}$ denote the Markov chain underlying $\tau_2$. The transition probability matrix of this Markov chain is
-\begin{equation*}
-P_2=\begin{pmatrix}T & t\\ 0 & 1\end{pmatrix}.
-\end{equation*}
-$\{Y(n)\}_{n\in\mathbb{N}}=\{(X_1(n),X_2(n))\}_{n\in\mathbb{N}}$ is a Markov Chain on the (lexicographically ordered) product space of the respective state spaces with transition probability matrix
-\begin{equation*}
-P_1\otimes P_2=\begin{pmatrix}S\otimes P_2 & s\otimes P_2 \\
-                                0\otimes P_2 & 1\otimes P_2\end{pmatrix}
-                =\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T & s\otimes t\\
-                                S\otimes 0 & S\otimes 1 & s\otimes 0 & s\otimes 1\\
-                                0\otimes T & 0\otimes t & 1\otimes T & 1\otimes t\\
-                                0\otimes 0 & 0\otimes 1 & 1\otimes 0 & 1\otimes 1
-                \end{pmatrix}
-                =\begin{pmatrix}S\otimes T & S\otimes t & s\otimes T & s\otimes t\\
-                                0 & S & 0 & s\\
-                                0 & 0 & T & t\\
-                                0 & 0 & 0 & 1
-                \end{pmatrix}.
-\end{equation*}
-We can write 
-\begin{equation*}
-\max(\tau_1,\tau_2)=\inf\{n\in\mathbb{N}:X_1(n)=p+1\text{ and } X_2(n)=q+1\}=\inf\{n\in\mathbb{N}:Y(n)=(p+1,q+1)\},
-\end{equation*}
-meaning that $\max(\tau_1,\tau_2)$ is exactly the stopping for absorption of $\{Y(n)\}_{n\in\mathbb{N}}$ which shows the sub-transition matrix for $\max(\tau_1,\tau_2)$.
-From $\{Y(n)\}_{n\in\mathbb{N}}$ we can make yet another Markov chain $\{Z(n)\}_{n\in\mathbb{N}}$ by setting
-\begin{equation*}Z(n)=\begin{cases}Y(n),& \text{ if } X_1(n)\leq p \text{ and } X_2(n)\leq q,\\
-                    (p+1,1),& \text{otherwise}\end{cases}.
-\end{equation*}
-Then $\{Z(n)\}_{n\in\mathbb{N}}$ is a Markov Chain with transition probability matrix
-\begin{equation*}\begin{pmatrix}S\otimes T & r\\
-                 0 & 1\end{pmatrix},\end{equation*}
-where $r=e-(S\otimes T)e$. We can write 
-\begin{equation*}\min(\tau_1,\tau_2)=\inf\{n\in\mathbb{N}:X_1(n)>p\text{ and } X_2(n)>q\}=\inf\{n\in\mathbb{N}:Z(n)=(p+1,1)\},
-\end{equation*}meaning that $\min(\tau_1,\tau_2)$ is exactly the stopping for absorption of $\{Z(n)\}_{n\in\mathbb{N}}$ which shows the sub-transition matrix for $\min(\tau_1,\tau_2)$.  
-Initializing $\{Y(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0 & 0\end{pmatrix}$ and $\{Z(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha\otimes\beta & 0\end{pmatrix}$,
-is precisely the way to initialize the underlying $\{X_1(n)\}_{n\in\mathbb{N}}$ and $\{X_2(n)\}_{n\in\mathbb{N}}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.  
-This theorem is implemented in the `minima`- and `maxima`-functions. They take two phase-type objects as input and if both of these are of the `discphasetype`-class, then they each output an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+and $s=\boldsymbol{e}-S\boldsymbol{e}$, $t=\boldsymbol{e}-T\boldsymbol{e}$ are the exit probability vectors of $S$ and $T$, respectively. \
+This theorem is implemented in the `minima` and `maxima` functions. They take two phase-type objects as input and if both of these are of class `discphasetype`, then they each output an object of class `discphasetype` with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
 #### Example 10
 
@@ -943,41 +817,8 @@ where
                   0 & S & 0\\
                   0 & 0 & T\end{pmatrix},
 \end{equation*}
-and $s=-S\boldsymbol{e}$ as well as $t=-T\boldsymbol{e}$ are the vectors of exit-rates from $S$ and $T$, respectively, and $\oplus$ is the Kronecker sum given by $A \oplus B =A\otimes I_{\text{dim}(B)} + I_{\text{dim}(A)}\otimes B$.\
-The proof is as follows. Let $\{X_1(t)\}_{t\geq0}$ denote the Markov Jump Process underlying $X$. The rate matrix of this Markov Jump Process is
-\begin{equation*}
-Q_1=\begin{pmatrix}S & s\\ 0 & 0\end{pmatrix}.
-\end{equation*}
-Let $\{Y_1(t)\}_{t\geq0}$ denote the Markov Jump Process underlying $Y$. The rate matrix of this Markov Jump Process is
-\begin{equation*}
-Q_2=\begin{pmatrix}T & t\\ 0 & 0\end{pmatrix}.
-\end{equation*}
-$\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}$ is a Markov Jump Process on the (lexicographically ordered) product space of the respective state spaces with rate matrix
-\begin{equation*}Q_1\oplus Q_2=\begin{pmatrix}S\oplus T & I\otimes t & s\otimes I & 0\\
-                                0 & S & 0 & s\\
-                                0 & 0 & T & t\\
-                                0 & 0 & 0 & 0
-                \end{pmatrix}.
-\end{equation*}
-We can write 
-\begin{equation*}\max(X,Y)=\inf\{t\geq0\in\mathbb{N}:X_1(t)=p+1\text{ and } Y_1(t)=q+1\}=\inf\{t\geq0:Z(t)=(p+1,q+1)\},
-\end{equation*}
-meaning that $\max(X,Y)$ is exactly the stopping time for absorption of $\{Z(t)\}_{t\geq0}$ which shows the sub-intensity matrix for $\max(X,Y)$.
-From $\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}$ we can make yet another Markov Jump Process $\{W(t)\}_{t\geq0}$ by setting
-\begin{equation*W(t)=\begin{cases}Y(t),& \text{ if } X_1(t)\leq p \text{ and } Y_1(t)\leq q,\\
-                    (p+1,1),& \text{otherwise}\end{cases}.
-\end{equation*}
-Then $\{W(t)\}_{t\geq0}$ is a Markov Jump Process with rate matrix
-\begin{equation*\begin{pmatrix}S\oplus T & r\\
-                 0 & 1\end{pmatrix},
-\end{equation*}
-where $r=e-(S\oplus T)e$. We can write 
-\begin{equation*}\min(X,Y)=\inf\{t\geq0:X_1(t)>p\text{ and } Y_1(t)>q\}=\inf\{t\geq0:W(t)=(p+1,1)\},
-\end{equation*} 
-meaning that $\min(X,Y)$ is exactly the stopping time for absorption of $\{W(t)\}_{t\geq0}$ which shows the sub-intensity matrix for $\min(X,Y)$.  
-Initializing $\{Z(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0 & 0 & 0\end{pmatrix}$ and $\{W(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha\otimes\beta & 0\end{pmatrix}$,
-is precisely the way to initialize the underlying $\{X_1(t)\}_{t\geq0}$ and $\{Y_1(t)\}_{t\geq0}$ with $\begin{pmatrix}\alpha & 0\end{pmatrix}$ and $\begin{pmatrix}\beta & 0\end{pmatrix}$ respectively.   
-This result is implemented in the `phasemin` and `phasemax` functions. They take two phase-type objects as input and if both of these are of the `contphasetype`class, then they each output an object of the `contphasetype`class with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
+and $s=-S\boldsymbol{e}$ as well as $t=-T\boldsymbol{e}$ are the exit rate vectors from $S$ and $T$, respectively, and $\oplus$ is the Kronecker sum given by $A \oplus B =A\otimes I_{\text{dim}(B)} + I_{\text{dim}(A)}\otimes B$.\ 
+This result is implemented in the `minima` and `maxima` functions. They take two phase-type objects as input and if both of these are of type `contphasetype`, then they each output an object of class `contphasetype` with parameters calculated from the parameters of the given objects in accordance with the above theorem. 
 
 #### Example 11
 
@@ -1167,13 +1008,11 @@ L_{\tau}(s) = \mathbb{E}[e^{-s\tau}] = \int_{0}^{\infty} e^{-su} f_{\tau}(u) du,
 where $f_{\tau}(u)$ is the density of the random variable $\tau$.
 Furthermore, the $n$'th derivative of the Laplace transform is given by
 \begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(s) &= \frac{\partial^n}{\partial s^n}  \int_{0}^{\infty} e^{-su} f_{\tau}(u) du\\
-&= \int_{0}^{\infty} \frac{\partial^n}{\partial s^n} e^{-su} f_{\tau}(u) du\\
-&= \int_{0}^{\infty} (-u)^n e^{-su} f_{\tau}(u) du,
+\frac{\partial^n}{\partial s^n} L_{\tau}(s) = \int_{0}^{\infty} (-u)^n e^{-su} f_{\tau}(u) du.
 \end{align*}
-where the second equality is due to Leibniz integration rule. When evaluating this derivative at $s=0$, we see that
+When evaluating this derivative at $s=0$, we see that
 \begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(0) =\int_{0}^{\infty} (-u)^n e^{-0 \cdot u} f_{\tau}(u) du =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du.
+\frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du.
 \end{align*}
 We recognize this last integral as the definition of the $n$'th moment of $\tau$, i.e.
 \begin{align*}
@@ -1182,14 +1021,8 @@ We recognize this last integral as the definition of the $n$'th moment of $\tau$
 Now we can apply this theory on continuous phase-type distributions.\
 As $f_{\tau}(u) = \pi e^{Tu} t$ when $\tau \sim \text{PH}(\pi, T)$, we have that
 \begin{align*}
-L_{\tau}(s) &= \int_{0}^{\infty} e^{-su} \pi e^{Tu} t \, du\\
-&= \pi\int_{0}^{\infty}  e^{-su I} e^{Tu}  du \, t\\
-&= \pi\int_{0}^{\infty}  e^{-(sI-T)u} du \,  t\\
-&= \pi \lim_{r \rightarrow \infty} \Big[ -(sI-T)^{-1}e^{-(sI-T)u} \Big]_0^{r}   t\\
-&= \pi \lim_{r \rightarrow \infty} \Big( (sI-T)^{-1}e^{-(sI-T)r}+(sI-T)^{-1}e^{-(sI-T)\cdot 0} \Big)   t\\
-&= \pi (sI-T)^{-1}   t,
+L_{\tau}(s) = \pi (sI-T)^{-1}   t.
 \end{align*}
-where we have used that $\lim_{r \rightarrow \infty} -(sI-T)^{-1}e^{-(sI-T)r} =0$, as the eigenvalues of $-(sI-T)$ are negative.\
 Now that we have found the Laplace transform, we can compute the derivative
 \begin{align*}
 \frac{\partial}{\partial s} L_{\tau}(s) &= \frac{\partial}{\partial s} \pi (sI-T)^{-1}t\\
@@ -1208,12 +1041,8 @@ or in general the $n$'th derivative
 where $n \geq 1$.\
 By evaluating the $n$'th derivative of the Laplace transform at $s=0$, we get that
 \begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(0) &=  (-1)^n n! \pi (0 \cdot I-T)^{-n-1}t\\
-&= (-1)^n n! \pi (-T)^{-n-1}t\\
-&= (-1)^n n! \pi (-T)^{-n-1}(-T)e\\
-&= (-1)^n n! \pi (-T)^{-n}e,
+\frac{\partial^n}{\partial s^n} L_{\tau}(0) = (-1)^n n! \pi (-T)^{-n}e.
 \end{align*}
-where we have used that $t=-Te$.\
 By combining this equality with the fact that $\frac{\partial^n}{\partial s^n} L_{\tau}(0) = (-1)^n\mathbb{E}[\tau^n]$ in general, we have that 
 \begin{align*}
 (-1)^n\mathbb{E}[\tau^n] = \frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n n! \pi (-T)^{-n}e,
@@ -1314,17 +1143,11 @@ phvar(S_Total)
 
 #### - in the discrete case
 Consider $\tau_1\sim DPH_{p}(\alpha,S)$ and $\tau_2\sim DPH_{q}(\beta,T)$ independent. Then by Theorem 1.2.65 in [BN]
-
 \begin{equation*}
 \tau_1+\tau_2\sim DPH_{p+q}\bigg(\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix},\begin{pmatrix}S & s\beta \\ \boldsymbol{0} & T\end{pmatrix}\bigg),
 \end{equation*}
 where $s=\boldsymbol{e}-S\boldsymbol{e}$ is the vector of exit-probabilities from $S$.\
-
-The proof of this is that we take the two underlying Markov Chains and knit them together to form a new Markov Chain that first has to behave as the Markov Chain corresponding to $\tau_1$ until it is absorbed and from then on behave as the Markov Chain corresponding to $\tau_2$. The waiting time for absorption in this new Markov Chain then has the same distribution as $\tau_1+\tau_2$.  
-Formally the way we make this new Markov Chain is that the state space is $\{1,\dotsc,p+q+1\}$ and we make the states $\{1,\dotsc,p\}$ correspond to the $p$ transient states in the Markov Chain underlying $\tau_1$ and the states $\{p+1,\dotsc,p+q\}$ correspond to the $q$ transient states in the Markov Chain underlying $\tau_2$.  
-The initial distribution for the sum is $\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix}$ because then we will initialize in one of the states $\{1,\dotsc,p\}$ and the probability is that of the transient states for $\tau_1$.\  
-The probabilities for transition among the states $\{1,\dotsc,p\}$ is given by $S$. In the new Markov Chain we combine the absorption of the first Markov Chain with in the initialization of the second Markov Chain. This is why the upper right corner of the the new sub-transition matrix is given $s\beta$. This matrix has dimension $p\times q$ and for $i\in\{1,\dotsc,p\}$ and $j\in\{1,\dotsc,q\}$ the $(i,j)$'th entry is $s_i\beta_j$, which is the probability of exiting the first Markov Chain from state $i$ and entering the second Markov chain in state its $j$'th state. The probabilities for transition among the states $\{p+1,\dotsc,p+q\}$ are the same as transition among the $q$ transient states underlying $\tau_2$, and is given by $T$.  
-This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `discphasetype`-class, then it outputs an object of the `discphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+This theorem is implemented in the function `phsum`. It takes two phase-type distributed objects as input and if both of these are of type `discphasetype`, then it outputs an object of class `discphasetype` with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
 #### Example 14
 
@@ -1359,10 +1182,8 @@ Consider $X\sim PH_{p}(\alpha,S)$ and $Y\sim PH_{q}(\beta,T)$ independent. Then 
 \begin{equation*}
 X+Y\sim PH_{p+q}\bigg(\begin{pmatrix}\alpha & \boldsymbol{0}\end{pmatrix},\begin{pmatrix}S & s\beta \\ \boldsymbol{0} & T\end{pmatrix}\bigg),
 \end{equation*}
-where $s=-S\boldsymbol{e}$ is the vector of exit-rates from $S$.  
-Similarly to the discrete case the proof of this is constructing a Markov Jump Process behaves as the Markov Jump Process underlying $X$ until it is absorbed and from then on behaves as the Markov Jump Process underlying $Y$.  
-Similar consideration as in the discrete case show that one way of making such a Markov Jump Process is with initial distribution and sub-intensity matrix as stated in the theorem.
-This theorem is implemented in the `phsum`-function. It takes two phase-type objects as input and if both of these are of the `contphasetype`-class, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
+where $s=-S\boldsymbol{e}$ is the vector of exit-rates from $S$.\
+This theorem is also implemented in function `phsum`. It takes two phase-type distributed objects as input and if both of these are of class `contphasetype`, then it outputs an object of the `contphasetype`-class with parameters calculated from the parameters of the given objects in accordance with the above theorem.
 
 #### Example 15
 
@@ -1387,11 +1208,11 @@ where the $(i,j)$'th entry of $\Lambda_n$ is given by
 
 ### Transformation via rewards 
 
-Starting from a continuous phase-type distributed random variable $\tau\sim PH_p(\alpha,T)$, we can do what is called a reward-transformation of the underlying Markov Jump Process $\{X_t\}_{t\geq0}$. Formally we let $r=(r(1),\dotsc,r(p))$ be a vector of non-negative numbers(the reward vector) and write
+Starting from a continuous phase-type distributed random variable $\tau\sim PH_p(\alpha,T)$, we can do what is called a reward-transformation of the underlying Markov Jump Process $\{X_t\}_{t\geq0}$. Formally we let $r=(r(1),\dotsc,r(p))$ be a vector of non-negative numbers (the reward vector) and write
 \begin{equation*}
 Y=\int_{0}^{\tau}r(X_t)\text{d}t.
 \end{equation*}
-Mogens Bladt and Bo Friis Nielsen([BN] Theorem 3.1.33) prove that the random variable $Y$ follows a continuous phase-type distribution.  
+Mogens Bladt and Bo Friis Nielsen ([BN], Theorem 3.1.33) prove that the random variable $Y$ follows a continuous phase-type distribution.  
 $Y$ should be interpreted as
 \begin{equation*}Y=\sum_{i=1}^{p}r(i)Z_i,
 \end{equation*}

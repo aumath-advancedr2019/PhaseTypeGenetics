@@ -9,25 +9,32 @@
 #' to a state of the block counting process. Furthermore, each state is
 #' represented by a \eqn{(n-1)}- dimensional row vector, where each entry \eqn{i}
 #' corresponds to the number of branches giving rise to \eqn{i}
-#' descendents. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
-#' and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)}.
+#' descendants. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
+#' and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)} eqn{(n >= 3)}.
 #'
-#' @param n the sample size (>=3)
+#' @param n the sample size (>=1)
 #'
-#' @return The function returns a list containing the subintensity
-#' rate matrix \code{Rate.mat} and the state space matrix \code{StateSpace.mat}.
+#' @return The function returns a list containing the sub-intensity
+#' rate matrix \code{Rate_Mat} and the state space matrix \code{StateSpace_Mat}.
 #' In the latter, each row corresponds to a state and each state is a
 #' \eqn{(n-1)}-dimensional row vector.
 #'
 #' @examples
 #' a <- BlockCountProcess(4)
-#' a$Rate.mat
-#' a$StateSpace.mat
+#' a$Rate_Mat
+#' a$StateSpace_Mat
 #'
 #' @export
 BlockCountProcess <- function(n){
 
-  if(n < 2) stop("Invalid sample size! n must be greater than 2.")
+  if(n < 1) stop("Invalid sample size! n must be greater than 0.")
+  if(n != floor(n)) warning(paste("The proviede sample size n is not a natural number.\n
+                   The function will use n= ", floor(n), " instead."))
+  n = floor(n)
+
+  if(n==1) return(list(Rate_Mat = matrix(0), StateSpace_Mat = matrix(0)))
+  if(n==2) return(list(Rate_Mat = matrix(1), StateSpace_Mat = matrix(2)))
+
   ##----------------------------------------------------
   ## Possible states
   ##----------------------------------------------------
@@ -37,10 +44,10 @@ BlockCountProcess <- function(n){
   Partition.mat <- partitions::parts(n)
   ## Rewriting the partitions as (a1,...,an)/
   ## Definition of the state space matrix
-  StateSpace.mat <- t(apply(Partition.mat, 2,tabulate, nbins = n))
+  StateSpace_Mat <- t(apply(Partition.mat, 2,tabulate, nbins = n))
 
   ## Reordering
-  StateSpace.mat <- StateSpace.mat[order(rowSums(StateSpace.mat),decreasing=TRUE),]
+  StateSpace_Mat <- StateSpace_Mat[order(rowSums(StateSpace_Mat),decreasing=TRUE),]
   ## Because of this ordering we can't 'go back', i.e.
   ## below the diagonal the entries are always zero
 
@@ -53,7 +60,7 @@ BlockCountProcess <- function(n){
     for (j in (i+1):d){
       # cat(i," state i",StSpM[i,])
       # cat(" ",j," state j",StSpM[j,])
-      cvec <- StateSpace.mat[i,]-StateSpace.mat[j,]
+      cvec <- StateSpace_Mat[i,]-StateSpace_Mat[j,]
       # cat(" cvec",cvec)
       ## Two branches are merged, i.e. removed from state i
       check1 <- sum(cvec[cvec>0])==2
@@ -63,7 +70,7 @@ BlockCountProcess <- function(n){
       # cat(" check2",check2)
       if (check1 & check2){
         ## Size(s) of the block(s) and the corresponding rates
-        tmp <- StateSpace.mat[i,which(cvec>0)]
+        tmp <- StateSpace_Mat[i,which(cvec>0)]
         RateM[i,j] <- ifelse(length(tmp)==1,tmp*(tmp-1)/2,prod(tmp))
       }
 
@@ -73,7 +80,7 @@ BlockCountProcess <- function(n){
   for (i in 1:d){
     RateM[i,i] <- -sum(RateM[i,])
   }
-  return(list(Rate.mat = RateM[-nrow(RateM), -ncol(RateM)],
-              StateSpace.mat = StateSpace.mat[-nrow(StateSpace.mat),
-                                              -ncol(StateSpace.mat)]))
+  return(list(Rate_Mat = RateM[-nrow(RateM), -ncol(RateM)],
+              StateSpace_Mat = StateSpace_Mat[-nrow(StateSpace_Mat),
+                                              -ncol(StateSpace_Mat)]))
 }

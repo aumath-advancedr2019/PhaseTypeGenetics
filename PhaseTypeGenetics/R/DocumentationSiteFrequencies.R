@@ -3,7 +3,7 @@
 #' Finding the distribution of the site frequencies, the number of
 #' segregating sites and the tail statistics using phase-type distributions.
 #'
-#' This function can be used to compute the distribution of the site frequencies
+#' This function can be used to compute the discrete phase-type representation of the site frequencies
 #' \eqn{\xi_i + 1}, for all \eqn{i} in eqn{{1,...,n-1}}, the total number of segregating sites \eqn{S_{Total} + 1}
 #' and the tail statistic \eqn{S_{i+} + 1}.
 #' The reason for adding one to the site frequency is that the support for

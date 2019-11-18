@@ -1,30 +1,30 @@
-#' Discretizing a continuous phase-type disctribution
+#' Discretizing a continuous phase-type distribution
 #'
 #' Discretizes a continuous phase-type distribution with initial distribution
-#' \code{initDist} and subintensity rate matrix \code{T.mat}.
+#' \code{initDist} and sub-intensity rate matrix \code{T_Mat}.
 #'
 #' The relation between continuous and discrete phase-type distributions
-#' is given in the following way. If \eqn{T} is the subintensity rate matrix of a continuous
-#' phase-type distribution with representation \eqn{PH(pi,T)}, then there exists
-#' a constant \eqn{a>0} such that \eqn{P := I + 1/a * T} is a subtransition
-#' probability matrix and \eqn{DPH(pi, P)} is a representation for a discrete
+#' is given in the following way. If \eqn{T} is the sub-intensity rate matrix of a continuous
+#' phase-type distribution with representation \eqn{PH(initDist,T)}, then there exists
+#' a constant \eqn{a>0} such that \eqn{P := I + 1/a * T} is a sub-transition
+#' probability matrix and \eqn{DPH(initDist, P)} is a representation for a discrete
 #' phase-type distribution. This holds for any \eqn{a} larger than the maximum of
-#' all diagonal entries in \eqn{T}, as all entries in a subtransition
+#' all diagonal entries in \eqn{T}, as all entries in a sub-transition
 #' probability matrix have to be between zero and one.
 #' It even holds that for a genealogical model where the total
-#' branch length \eqn{\tau ~ PH(pi, T)} and the mutation rate at the locus is \eqn{\lambda = \theta/2},
-#' the number of segregating sites \eqn{S} plus one is discrete phase-type distributed
-#' with inital distribution \eqn{pi} and subtransition probability matrix
+#' branch length \eqn{\tau ~ PH(initDist, T)} and the mutation rate at the locus is \eqn{\lambda = \theta/2},
+#' that the number of segregating sites \eqn{S_{Total}} plus one is discrete phase-type distributed
+#' with initial distribution \eqn{initDist} and sub-transition probability matrix
 #' \eqn{P = (I-\lambda^{-1} * T)^{-1}}, i.e.
-#' \deqn{S + 1 ~ DPH(pi, P).}
+#' \deqn{S + 1 ~ DPH(initDist, P).}
 #'
 #' @param object a continuous phase-type distributed object of class \code{contphasetype}.
 #' @param a a constant that is larger than the maximum of all diagonal
-#' entries of the subintensity rate matrix
-#' @param lambda the positive mutation rate at the locus
+#' entries of the sub-intensity rate matrix.
+#' @param lambda the positive mutation rate at the locus.
 #'
 #' @return Depending on the input, the function returns the discretized phase-type
-#' disctribution with subtransition probability matrix equal to either
+#' distribution with sub-transition probability matrix equal to either
 #' \deqn{P := I + 1/a * T }
 #' (if \eqn{a} is provided) or
 #' \deqn{P = (I-lambda^{-1} * T)^{-1}}
@@ -41,7 +41,7 @@
 #' ## For n=4, the total branch length is phase-type
 #' ## distributed with initial distribution
 #' initDist <- c(1,0,0,0)
-#' ## and subintensity rate matrix
+#' ## and sub-intensity rate matrix
 #' Tmat <- matrix(c(-1.5, 1.5, 0, 0,
 #'                   0, -1, 2/3, 1/3,
 #'                   0, 0, -0.5, 0,
@@ -51,7 +51,7 @@
 #'
 #' ## Hence, for theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with the same initial
-#' ## distribution and subtransition probability matrix
+#' ## distribution and sub-transition probability matrix
 #' discretization(TTotal, lambda=1)$P.mat
 #'
 #' @export

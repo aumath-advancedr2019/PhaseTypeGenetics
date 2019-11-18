@@ -1,5 +1,5 @@
 ---
-title: "PhaseTypeGenetics"
+title: "PhaseTypeGenetics - An overview"
 author: "Jette Steinbach and Peter Krarup"
 date: "11 11 2019"
 output: 

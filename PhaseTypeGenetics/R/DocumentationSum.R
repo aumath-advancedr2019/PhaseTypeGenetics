@@ -3,7 +3,7 @@
 #' The sum of two independent discrete or continuous
 #' phase-type distributed variables with initial distributions
 #' \code{initDist1} and \code{initDist2} as well as sub-transition/sub-intensity
-#' matrices equal to \code{P_Mat1}/\code{T.mat1} and  \code{P_Mat2}/\code{T.mat2}.
+#' matrices equal to \code{P_Mat1}/\code{T_Mat1} and  \code{P_Mat2}/\code{T_Mat2}.
 #'
 #' In the discrete case, the sum of two phase-type distributed
 #' variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} is

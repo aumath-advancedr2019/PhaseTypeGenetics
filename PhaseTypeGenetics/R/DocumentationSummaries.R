@@ -30,13 +30,13 @@ summary.discphasetype <- function(object){
 
     print(object$initDist)
     cat("and subtransition matrix \n")
-    print(object$P.mat)
+    print(object$P_Mat)
   }else{
 
     print(object$initDist[1:10])
     cat("...\n")
     cat("and subtransition matrix \n")
-    print(object$P.mat[1:10,1:10])
+    print(object$P_Mat[1:10,1:10])
     cat("... \n")
     cat("(Showing only the first ten entries)\n")
   }
@@ -56,13 +56,13 @@ summary.contphasetype <- function(object){
 
     print(object$initDist)
     cat("and subintensity matrix \n")
-    print(object$T.mat)
+    print(object$T_Mat)
   }else{
 
     print(object$initDist[1:10])
     cat("... \n")
     cat("and subintensity matrix \n")
-    print(object$T.mat[1:10,1:10])
+    print(object$T_Mat[1:10,1:10])
     cat("... \n")
     cat("(Showing only the first ten entries)\n")
   }

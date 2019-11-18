@@ -7,7 +7,7 @@
 #' where \code{initDist} is the initial distribution and \eqn{P} is the sub-transition probability matrix.
 #' For \eqn{\tau ~ PH(initDist, T)}, the \eqn{i}'th-order moment is defined as
 #' \deqn{E[\tau^i] = i! initDist (-T)^(-i) e,}
-#' where \code{initDist} is again the inital distribution and \eqn{T} is the subintensity rate matrix.
+#' where \code{initDist} is again the initial distribution and \eqn{T} is the sub-intensity rate matrix.
 #' In both cases, \eqn{e} is a vector with one in each entry.
 #'
 #' @param object either a continuous phase-type distributed object of class \code{contphasetype} or
@@ -33,14 +33,14 @@
 #' ## and variance of a phase-type distribution
 #'
 #' ## For n=4, the time to the most recent common ancestor is
-#' ## phase-type distributed with initital distribution
+#' ## phase-type distributed with initial distribution
 #' initDist <- c(1,0,0)
 #' ## and sub-intensity rate matrix
-#' Tmat <- matrix(c(-6,6,0,
+#' T_Mat <- matrix(c(-6,6,0,
 #'                    0,-3,3,
 #'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 #' ## Defining an object of type "contphasetype"
-#' TMRCA <- contphasetype(initDist, Tmat)
+#' TMRCA <- contphasetype(initDist, T_Mat)
 #' ## Computing all moments up to order 2
 #' m <- moments(TMRCA, i=2, all = TRUE)
 #' ## We get the desired numbers
@@ -51,15 +51,15 @@
 #' phvar(TMRCA)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
-#' ## discrete phase-type distributed with initital distribution
+#' ## discrete phase-type distributed with initial distribution
 #' initDist <- c(1,0,0,0)
 #' ## and sub-transition probability matrix
-#' Pmat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+#' P_Mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
 #'                    0, 0.5, 2/9, 1/9,
 #'                    0, 0, 2/3, 0,
 #'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 #' ## Defining an object of type "discphasetype"
-#' S_Total <- discphasetype(initDist, Pmat)
+#' S_Total <- discphasetype(initDist, P_Mat)
 #' ## Computing all moments up to order 2
 #' m <- moments(S_Total, i=2, all = TRUE)
 #' ## We get the desired numbers

@@ -2,30 +2,30 @@
 #'
 #' Density, distribution function, quantile function and simulations for
 #' the phase-type distribution with initial distribution equal to
-#' \code{initDist} and subtransition/subintensity matrix equal to
-#' \code{P.mat}/\code{T.mat}.
+#' \code{initDist} and sub-transition/sub-intensity matrix equal to
+#' \code{P_Mat}/\code{T_Mat}.
 #'
 #' In the discrete case, the phase-type distribution has density
-#' \deqn{f(x) = initDist (P.mat ^ (x-1))t + (x=1)(1-sum(initDist)), }
-#' for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
+#' \deqn{f(x) = initDist (P_Mat ^ (x-1))t + (x=1)(1-sum(initDist)), }
+#' for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P_Mat} is the sub-transition
 #' probability matrix and \code{t = (I-P)e}. Furthermore, the distribution function
 #' is given by
-#' \deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
+#' \deqn{F(x) = 1- initDist (P_Mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
 #' If the quantile \eqn{x} is a
 #' real number, the function will round the number down in order to obtain a
 #' natural number.
 #' In the continuous case, the phase-type distribution has density
-#' \deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 , }
-#' where \code{initDist} is the initial distribution, \code{T.mat} is the subintensity
+#' \deqn{f(x) = initDist expm(x T_Mat) t, for x \ge 0 , }
+#' where \code{initDist} is the initial distribution, \code{T_Mat} is the sub-intensity
 #' rate matrix and \code{t = -Te}. Furthermore, the distribution function
 #' is given by
-#' \deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
+#' \deqn{F(x) = 1- initDist expm(x T_Mat) e, for x \ge 0. }
 #'
 #' @param object an object for which the density, distribution function,
 #' quantile function or random generation should be computed. To be able to use
 #' these function,the object has to be of
 #' class \code{discphasetype} or \code{contphasetype}.
-#' @param x a single nonnegative quantile or a vector of nonnegative quantiles.
+#' @param x a single non-negative quantile or a vector of non-negative quantiles.
 #' @param p a single probability or a vector of probabilities.
 #' @param n the number of observations (n>=1).
 #'
@@ -62,8 +62,8 @@
 #' dist[5,] <- dphasetype(T_MRCA$n50, x)
 #' dist[6,] <- dphasetype(T_MRCA$n100, x)
 #'
-#' ## For n=2, the initial distribution is initDist = 1 and the transition probability
-#' ## matrix is T.mat = -1, hence the distribution is given by
+#' ## For n=2, the initial distribution is initDist = 1 and the sub-transition probability
+#' ## matrix is T_Mat = -1, hence the distribution is given by
 #' dist[1,] <- exp(-x)
 #'
 #' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
@@ -85,8 +85,8 @@
 #' dist[5,] <- dphasetype(T_Total$n50,x)
 #' dist[6,] <- dphasetype(T_Total$n100,x)
 #'
-#' ## For n=2, the initial distribution is initDist = 1 and the transition probability
-#' ## matrix is T.mat = -1/2, hence the distribution is given by
+#' ## For n=2, the initial distribution is initDist = 1 and the sub-transition probability
+#' ## matrix is T_Mat = -1/2, hence the distribution is given by
 #' dist[1,] <- exp(-x/2)/2
 #'
 #' plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],
@@ -122,7 +122,7 @@ dphasetype.discphasetype <- function(object, x){
       res[which(x==l)] <- 0
     }else{
 
-      res[which(x==l)] <- sum(object$initDist%*%(object$P.mat %^%(l-1))%*%(diag(1, nrow = nrow(object$P.mat))-object$P.mat)) +
+      res[which(x==l)] <- sum(object$initDist%*%(object$P_Mat %^%(l-1))%*%(diag(1, nrow = nrow(object$P_Mat))-object$P_Mat)) +
                           (l==1)*(1-sum(object$initDist))
     }
   }
@@ -142,7 +142,7 @@ dphasetype.contphasetype <- function(object, x){
 
     }else{
 
-      res[which(x==l)] <- -sum(object$initDist %*% expm::expm(l * object$T.mat) %*% object$T.mat)
+      res[which(x==l)] <- -sum(object$initDist %*% expm::expm(l * object$T_Mat) %*% object$T_Mat)
     }
   }
   return(res)
@@ -170,7 +170,7 @@ pphasetype.discphasetype <- function(object, x){
 
     }else{
 
-      res[which(x==l)] <- 1 - sum(object$initDist%*%(object$P.mat %^% l))
+      res[which(x==l)] <- 1 - sum(object$initDist%*%(object$P_Mat %^% l))
     }
   }
   return(res)
@@ -189,7 +189,7 @@ pphasetype.contphasetype <- function(object, x){
 
     }else{
 
-      res[which(x==l)] <- 1 - sum(object$initDist %*% expm::expm(l * object$T.mat))
+      res[which(x==l)] <- 1 - sum(object$initDist %*% expm::expm(l * object$T_Mat))
     }
   }
   return(res)
@@ -258,7 +258,7 @@ rphasetype.discphasetype <- function(object, n){
   ## Extracting the initial distribution
   ## and the subtransition matrix
   initDist = object$initDist
-  P.mat = object$P.mat
+  P_Mat = object$P_Mat
 
   # Calculate the number of transient states
   p <- length(initDist)
@@ -278,7 +278,7 @@ rphasetype.discphasetype <- function(object, n){
 
   # We make the rows of the transition matrix corresponding to
   # the transient states from the subtransition matrix
-  TransMat <- cbind(P.mat, 1-rowSums(P.mat))
+  TransMat <- cbind(P_Mat, 1-rowSums(P_Mat))
 
   # Now we simulate the Markov Chain until absorption in 'p+1'
   for(i in 1:n){
@@ -311,7 +311,7 @@ rphasetype.contphasetype <- function(object, n){
   ## Extracting the initial distribution
   ## and the subtransition matrix
   initDist = object$initDist
-  T.mat = object$T.mat
+  T_Mat = object$T_Mat
 
   # Calculate the number of transient states
   p <- length(initDist)
@@ -331,7 +331,7 @@ rphasetype.contphasetype <- function(object, n){
 
   # We make the rows of the intensity matrix corresponding to the transient states from
   # the subintensity matrix
-  IntenseMat <- cbind(T.mat, -rowSums(T.mat))
+  IntenseMat <- cbind(T_Mat, -rowSums(T_Mat))
 
   # Now we simulate the Markov Jump Process until absorption in 'p+1'
   for(i in 1:n){

@@ -2,24 +2,24 @@
 #'
 #' Mean and variance for both the discrete and continuous
 #' phase-type distribution with initial distribution equal to
-#' \code{initDist} and subtransition/subintensity matrix equal to
-#' \code{P.mat}/\code{T.mat}.
+#' \code{initDist} and sub-transition/sub-intensity matrix equal to
+#' \code{P_Mat}/\code{T_Mat}.
 #'
 #' In the discrete case, the phase-type distribution has mean
-#' \deqn{E[\tau] = initDist (I-P.mat)^{-1} e + 1 - initDist e,}
-#' where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
+#' \deqn{E[\tau] = initDist (I-P_Mat)^{-1} e + 1 - initDist e,}
+#' where \code{initDist} is the initial distribution, \code{P_Mat} is the sub-transition
 #' probability matrix and \code{e} is the vector having one in each entry.
 #' Furthermore, the variance can be calculated as
 #' \deqn{Var[\tau] = E[\tau(\tau-1)] + E[\tau] - E[\tau]^2,}
 #' where
-#' \deqn{E[\tau(\tau-1)] = 2 initDist P.mat (I-P.mat)^{-2} e + 1 - initDist e.}
+#' \deqn{E[\tau(\tau-1)] = 2 initDist P_Mat (I-P_Mat)^{-2} e + 1 - initDist e.}
 #' In the continuous case, the phase-type distribution has mean
-#' \deqn{E[\tau] = initDist (-T.mat)^{-1} e,}
-#' where \code{initDist} is the initial distribution and \code{T.mat} is the subintensity
+#' \deqn{E[\tau] = initDist (-T_Mat)^{-1} e,}
+#' where \code{initDist} is the initial distribution and \code{T_Mat} is the sub-intensity
 #' rate matrix. Furthermore, the variance can be calculated in the usual way
 #' \deqn{Var[tau] = E[tau^2] - E[tau]^2,}
 #' where
-#' \deqn{E[\tau^2] = 2 initDist (-T.mat)^{-2} e.}
+#' \deqn{E[\tau^2] = 2 initDist (-T_Mat)^{-2} e.}
 #'
 #' @param object an object for which the mean or variance should be computed.
 #' To be able to use these function,the object has to be of
@@ -47,8 +47,8 @@
 #' VecOfVarsTotal <- replicate(20,0)
 #'
 #' ## For n=2, we have that the initial distribution is initDist = 1 and
-#' ## the transition probability matrix is T.mat = -1 for T_MRCA and
-#' ## T.mat = -1/2 for T_Total,
+#' ## the sub-transition probability matrix is T_Mat = -1 for T_MRCA and
+#' ## T_Mat = -1/2 for T_Total,
 #' ## hence
 #' TMRCA <- contphasetype(1,-1)
 #' TTotal <- contphasetype(1, -1/2)
@@ -59,15 +59,15 @@
 #' VecOfVarsMRCA[2] <- phvar(TMRCA)
 #' VecOfVarsTotal[2] <- phvar(TTotal)
 #'
-#' # For n=3, we have that the initial distibrution is
+#' # For n=3, we have that the initial distribution is
 #' initDist = c(1,0)
-#' ## and the transition probability matrices are
-#' T.matMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
-#' T.matTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
+#' ## and the sub-transition probability matrices are
+#' T_Mat_MRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
+#' T_Mat_Total = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
 #' ## for T_MRCA and T_Total, respectively.
 #' ## Defining two objects of class "contphasetype"
-#' TMRCA <- contphasetype(initDist, T.matMRCA)
-#' TTotal <- contphasetype(initDist, T.matTotal)
+#' TMRCA <- contphasetype(initDist, T_Mat_MRCA)
+#' TTotal <- contphasetype(initDist, T_Mat_Total)
 #' ## Hence the means are given by
 #' VecOfMeansMRCA[3] <- phmean(TMRCA)
 #' VecOfMeansTotal[3] <- phmean(TTotal)
@@ -79,26 +79,26 @@
 #'
 #'  ## The initial distribution
 #'  initDist <- c(1,replicate(n-2,0))
-#'  ## The subintensity rate matrix
-#'  T.mat <- diag(choose(n:3,2))
-#'  T.mat <- cbind(replicate(n-2,0),T.mat)
-#'  T.mat <- rbind(T.mat, replicate(n-1,0))
-#'  diag(T.mat) <- -choose(n:2,2)
+#'  ## The sub-intensity rate matrix
+#'  T_Mat <- diag(choose(n:3,2))
+#'  T_Mat <- cbind(replicate(n-2,0),T_Mat)
+#'  T_Mat <- rbind(T_Mat, replicate(n-1,0))
+#'  diag(T_Mat) <- -choose(n:2,2)
 #'  ## Define an object of class "contphasetype"
-#'  obj <- contphasetype(initDist,T.mat)
+#'  obj <- contphasetype(initDist,T_Mat)
 #'  ## Compute the mean and variance
 #'  VecOfMeansMRCA[n] <- phmean(obj)
 #'  VecOfVarsMRCA[n] <- phvar(obj)
 #'
 #'  ## For T_total, we compute the same numbers
-#'  ## The subintensity rate matrix
-#'  T.mat <- diag((n-1):2)
-#'  T.mat <- cbind(replicate(n-2,0),T.mat)
-#'  T.mat <- rbind(T.mat, replicate(n-1,0))
-#'  diag(T.mat) <- -((n-1):1)
-#'  T.mat <- 1/2*T.mat
+#'  ## The sub-intensity rate matrix
+#'  T_Mat <- diag((n-1):2)
+#'  T_Mat <- cbind(replicate(n-2,0),T_Mat)
+#'  T_Mat <- rbind(T_Mat, replicate(n-1,0))
+#'  diag(T_Mat) <- -((n-1):1)
+#'  T_Mat <- 1/2*T_Mat
 #'  ## Define an object of class "contphasetype"
-#'  obj <- contphasetype(initDist,T.mat)
+#'  obj <- contphasetype(initDist,T_Mat)
 #'  ## Compute the mean and variance
 #'  VecOfMeansTotal[n] <- phmean(obj)
 #'  VecOfVarsTotal[n] <- phvar(obj)
@@ -139,14 +139,14 @@ phmean.default <- function(object){
 phmean.discphasetype <- function(object){
 
   initDist <- object$initDist
-  P.mat <- object$P.mat
+  P_Mat <- object$P_Mat
 
   if(length(initDist)==1){
 
-    return(initDist*(1-P.mat)^{-1} + 1 - initDist)
+    return(initDist*(1-P_Mat)^{-1} + 1 - initDist)
   }else{
 
-  return(sum(initDist%*%solve(diag(x=1, nrow = nrow(P.mat))-P.mat)) + 1 - sum(initDist))
+  return(sum(initDist%*%solve(diag(x=1, nrow = nrow(P_Mat))-P_Mat)) + 1 - sum(initDist))
   }
 }
 
@@ -154,14 +154,14 @@ phmean.discphasetype <- function(object){
 phmean.contphasetype <- function(object){
 
   initDist = object$initDist
-  T.mat= object$T.mat
+  T_Mat= object$T_Mat
 
   if(length(initDist)==1){
 
-    return(initDist*(-T.mat)^{-1})
+    return(initDist*(-T_Mat)^{-1})
   }else{
 
-    return(sum(initDist%*%solve(-T.mat)))
+    return(sum(initDist%*%solve(-T_Mat)))
   }
 }
 
@@ -183,18 +183,18 @@ phvar.default <- function(object){
 phvar.discphasetype <- function(object){
 
   initDist = object$initDist
-  P.mat = object$P.mat
+  P_Mat = object$P_Mat
   defect <- 1 - sum(initDist)
 
   if(length(initDist)==1){
 
-    secondMoment <- 2*initDist*P.mat*(1-P.mat)^(-2)
-    firstmoment <- initDist*(1-P.mat)^(-1) + defect
+    secondMoment <- 2*initDist*P_Mat*(1-P_Mat)^(-2)
+    firstmoment <- initDist*(1-P_Mat)^(-1) + defect
     return(secondMoment + firstmoment - firstmoment^2)
   }else{
 
-    secondMoment <- 2*sum(initDist%*%P.mat%*%solve((diag(x=1, nrow = nrow(P.mat))-P.mat)%^%2))
-    firstmoment <- sum(initDist%*%solve(diag(x=1, nrow = nrow(P.mat))-P.mat)) + defect
+    secondMoment <- 2*sum(initDist%*%P_Mat%*%solve((diag(x=1, nrow = nrow(P_Mat))-P_Mat)%^%2))
+    firstmoment <- sum(initDist%*%solve(diag(x=1, nrow = nrow(P_Mat))-P_Mat)) + defect
     return(secondMoment + firstmoment - firstmoment^2)
   }
 }
@@ -204,18 +204,18 @@ phvar.discphasetype <- function(object){
 phvar.contphasetype <- function(object){
 
   initDist = object$initDist
-  T.mat = object$T.mat
+  T_Mat = object$T_Mat
 
   if(length(initDist)==1){
 
-    secondMoment <- 2*initDist*T.mat^(-2)
-    firstmoment <- initDist*(-T.mat)^(-1)
+    secondMoment <- 2*initDist*T_Mat^(-2)
+    firstmoment <- initDist*(-T_Mat)^(-1)
 
     return(secondMoment-firstmoment^2)
   }else{
 
-    secondMoment <- 2*sum(initDist%*%solve(T.mat%^%2))
-    firstmoment <- sum(initDist%*%solve(-T.mat))
+    secondMoment <- 2*sum(initDist%*%solve(T_Mat%^%2))
+    firstmoment <- sum(initDist%*%solve(-T_Mat))
 
     return(secondMoment-firstmoment^2)
   }

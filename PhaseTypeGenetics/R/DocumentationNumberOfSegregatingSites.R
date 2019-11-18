@@ -90,7 +90,7 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
     res <- BlockCountProcess(n)
 
     ## The rate matrix
-    Tmat <- res$Rate.mat
+    Tmat <- res$Rate_Mat
 
     ## and the corresponding inital distribution
     pi.vec <- c(1,replicate(nrow(Tmat)-1,0))
@@ -98,7 +98,7 @@ dSegregatingSites <- function(n, theta, k, plot =FALSE){
     ## In order to find the distribution for the number
     ## of segregating sites, we need a reward vector that
     ## correpsonds to xi_1+...+_xi_n-1. Hence
-    r.vec <- rowSums(res$StateSpace.mat)
+    r.vec <- rowSums(res$StateSpace_Mat)
 
     ## As all enties in the reward vector are positive, we
     ## can define the reward-transformed sub-intensity matrix

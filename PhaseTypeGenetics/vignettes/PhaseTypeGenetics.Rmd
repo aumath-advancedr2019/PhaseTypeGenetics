@@ -500,7 +500,7 @@ BlockCountProcess(n=4)
 
 ### Objects of type `discphasetype` and `contphasetype`
 
-In order to be able to use the functions in this package, it is necessary to define objects of S3 class `discphasetype` and `contphasetype`. An object of class `discphasetype` represents a discrete phase-type distributed object with initial distribution `initDist` and sub-transition probability matrix `P.mat`. An object of class `contphasetype` represents a continuous phase-type distributed object with initial distribution `initDist` and sub-intensity rate matrix `T.mat`.
+In order to be able to use the functions in this package, it is necessary to define objects of S3 class `discphasetype` and `contphasetype`. An object of class `discphasetype` represents a discrete phase-type distributed object with initial distribution `initDist` and sub-transition probability matrix `P_Mat`. An object of class `contphasetype` represents a continuous phase-type distributed object with initial distribution `initDist` and sub-intensity rate matrix `T_Mat`.
 
 #### Example 6
 
@@ -516,11 +516,11 @@ An object of class `contphasetype` is then obtained in the following way.
 ```{r}
 initDist <- c(1,0,0)
 
-Tmat <- matrix(c(-6,6,0,
+T_Mat <- matrix(c(-6,6,0,
                   0,-3,3,
                   0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 
-obj <- contphasetype(initDist, Tmat)
+obj <- contphasetype(initDist, T_Mat)
 
 summary(obj)
 ```
@@ -537,12 +537,12 @@ An object of class `discphasetype` is then obtained in the following way.
 ```{r}
 initDist <- c(1,0,0,0)
 
-P.mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+P_Mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
                   0, 0.5, 2/9, 1/9,
                   0, 0, 2/3, 0,
                   0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 
-S_Total <- discphasetype(initDist, P.mat)
+S_Total <- discphasetype(initDist, P_Mat)
 
 summary(S_Total)
 ```
@@ -585,7 +585,7 @@ It is also possible to give both an `a` and a `lambda`. `discretization(object =
 
 ```{r}
 x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
-                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4))
+                                 T_Mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4))
 
 discretization(x_1, a = 12, lambda = 2)
 
@@ -735,7 +735,7 @@ dist.mat[5,] <- dphasetype(T_MRCA$n50, t.vec)
 dist.mat[6,] <- dphasetype(T_MRCA$n100, t.vec)
 
 ## For n=2, the initial distribution is equal to 1 and 
-## the sub-intensity rate matrix is T.mat = -1. Hence,
+## the sub-intensity rate matrix is T_Mat = -1. Hence,
 ## the distribution is given by
 dist.mat[1,] <- exp(-t.vec)
 
@@ -775,7 +775,7 @@ dist.mat[5,] <- dphasetype(T_Total$n50, t.vec)
 dist.mat[6,] <- dphasetype(T_Total$n100, t.vec)
 
 ## For n=2, the initial distribution is equal to 1 and 
-## the sub-intensity rate matrix is T.mat = -1/2. Hence,
+## the sub-intensity rate matrix is T_Mat = -1/2. Hence,
 ## the distribution is given by
 dist.mat[1,] <- exp(-t.vec/2)/2
 
@@ -808,7 +808,7 @@ The function `dSegregatingSites` is another example of a function intended for t
 \mathbb{P}(S_{\text{Total}} + 1 = k) = \mathbb{P}(S_{\text{Total}} = k-1) = \pi T^{k-1} t.
 \end{equation*}
 
-The function `dSegregatingSites` provides a special feature. If `plot=TRUE`, the function plots the density of the total number of segregating sites $S_{\text{Total}}$ for the given values of $k$.
+The function `dSegregatingSites` provides a special feature. If `plot=TRUE`, the function plots the density of the total number of segregating sites $S_{\text{Total}}$ for the given values of $k$.\
 
 Note that this function is based on the package `partitions`. Make sure to install that package to be able to use `dSegregatingSites`.
 
@@ -819,16 +819,16 @@ We want to reproduce Figure 4.1 in John Wakeley (2009): "Coalescent Theory: An I
 ```{r}
 ## We apply the function dSegregatingSites for 
 ## different quantiles and theta=2
-k.vec <- 0:15
+k_vec <- 0:15
 theta <- 2
 
 ## Defining a matrix holding all densities
-Res.mat <- dSegregatingSites(n = 1, theta = theta, k = k.vec)
+Res_Mat <- dSegregatingSites(n = 1, theta = theta, k = k_vec)
 
 ## and Applying the function for all n in {2,...,20}
 for(n in 2:20){
 
-  Res.mat <- cbind(Res.mat, dSegregatingSites(n = n, theta = theta, k = k.vec))
+  Res_Mat <- cbind(Res_Mat, dSegregatingSites(n = n, theta = theta, k = k_vec))
 }
 
 ```
@@ -838,7 +838,7 @@ Now that we have calculated all prbabilities $\mathbb{P}(S_{\text{Total}} = k)$,
 ```{r}
 
 ## We reproduce the plot by using the package plot3D.
-plot3D::hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+plot3D::hist3D(x=k_vec, y=1:20, z=Res_Mat, col = "grey", border = "black",
        xlab = "k", ylab = "n", zlab = "P(S=k)",
        main = "The probability function of the number of segregating sites",
        sub = expression(paste("The mutation parameter is ", theta,"= 2")),
@@ -916,10 +916,10 @@ Let's run the functions on pair of discrete phase-type distributions
 
 ```{r}
  tau1 <- discphasetype(initDist = c(.5,.2,.3),
-                                P.mat = matrix(c(.1,.3,.2,.3,.2,.1,.2,.1,.3), 
+                                P_Mat = matrix(c(.1,.3,.2,.3,.2,.1,.2,.1,.3), 
                                                nrow = 3))
 tau2 = discphasetype(initDist = c(.2,.7), 
-                                  P.mat = matrix(c(.5,0,.3,.2), nrow = 2))
+                                  P_Mat = matrix(c(.5,0,.3,.2), nrow = 2))
 ```
 Plugging these into `minima` and `maxima` we get
 ```{r}
@@ -984,9 +984,9 @@ Let's run the functions on a pair of continuous phase-type distributions
 
 ```{r}
 x_1 <- contphasetype(initDist = c(.12,.53,.24),
-                                 T.mat = matrix(c(-6,1,1,2,-8,0,2,3,-5), nrow = 3))
+                                 T_Mat = matrix(c(-6,1,1,2,-8,0,2,3,-5), nrow = 3))
 x_2 <- contphasetype(initDist = c(.7,.3),
-                                T.mat = matrix(c(-2,1,2,-4), nrow = 2))
+                                T_Mat = matrix(c(-2,1,2,-4), nrow = 2))
 ```
 Plugging these into `minima` and `maxima` we get
 ```{r}
@@ -1076,12 +1076,12 @@ VecOfVarsTotal[2] <- 4
 ## For n=3,
 initDist = c(1,0)
 ## and 
-TmatMRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
-TmatTotal = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
+T_Mat_MRCA = matrix(c(-3,3,0,-1), nrow = 2, byrow = TRUE)
+T_Mat_Total = matrix(c(-2,2,0,-1), nrow = 2, byrow = TRUE)/2
 
 ## Defining two objects of class "contphasetype"
-TMRCA <- contphasetype(initDist, TmatMRCA)
-TTotal <- contphasetype(initDist, TmatTotal)
+TMRCA <- contphasetype(initDist, T_Mat_MRCA)
+TTotal <- contphasetype(initDist, T_Mat_Total)
 ## Hence the means are given by
 VecOfMeansMRCA[3] <- phmean(TMRCA)
 VecOfMeansTotal[3] <- phmean(TTotal)
@@ -1096,25 +1096,25 @@ for (n in 4:20) {
   ## The initial distribution
   initDist <- c(1,replicate(n-2,0))
   ## The subi-ntensity rate matrix
-  Tmat <- diag(choose(n:3,2))
-  Tmat <- cbind(replicate(n-2,0),Tmat)
-  Tmat <- rbind(Tmat, replicate(n-1,0))
-  diag(Tmat) <- -choose(n:2,2)
+  T_Mat <- diag(choose(n:3,2))
+  T_Mat <- cbind(replicate(n-2,0),T_Mat)
+  T_Mat <- rbind(T_Mat, replicate(n-1,0))
+  diag(T_Mat) <- -choose(n:2,2)
   ## Define an object of class "contphasetype"
-  obj <- contphasetype(initDist,Tmat)
+  obj <- contphasetype(initDist,T_Mat)
   ## Compute the mean and variance
   VecOfMeansMRCA[n] <- phmean(obj)
   VecOfVarsMRCA[n] <- phvar(obj)
 
   ## For T_total,
   ## the sub-intensity rate matrix is
-  Tmat <- diag((n-1):2)
-  Tmat <- cbind(replicate(n-2,0),Tmat)
-  Tmat <- rbind(Tmat, replicate(n-1,0))
-  diag(Tmat) <- -((n-1):1)
-  Tmat <- 1/2*Tmat
+  T_Mat <- diag((n-1):2)
+  T_Mat <- cbind(replicate(n-2,0),T_Mat)
+  T_Mat <- rbind(T_Mat, replicate(n-1,0))
+  diag(T_Mat) <- -((n-1):1)
+  T_Mat <- 1/2*T_Mat
   ## Define an object of class "contphasetype"
-  obj <- contphasetype(initDist,Tmat)
+  obj <- contphasetype(initDist,T_Mat)
   ## Compute the mean and variance
   VecOfMeansTotal[n] <- phmean(obj)
   VecOfVarsTotal[n] <- phvar(obj)
@@ -1246,12 +1246,12 @@ and that
 ```{r}
 initDist <- c(1,0,0)
 
-Tmat <- matrix(c(-6,6,0,
+T_Mat <- matrix(c(-6,6,0,
                   0,-3,3,
                   0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 
 ## Defining an object of type "contphasetype"
-TMRCA <- contphasetype(initDist, Tmat)
+TMRCA <- contphasetype(initDist, T_Mat)
 ## Computing all moments up to order 2
 m <- moments(TMRCA, i=2, all = TRUE)
 ## We get the desired numbers
@@ -1411,12 +1411,12 @@ In the `PhaseTypeGenetics` we have implemented the function `RewTransDistributio
 ```{r}
 
 (x_2 <-  contphasetype(initDist = c(.2,.7), 
-                                T.mat = matrix(c(-7,3,2,-4), nrow = 2)))
+                                T_Mat = matrix(c(-7,3,2,-4), nrow = 2)))
 
 RewTransDistribution(x_2, c(2,3))
 
 (x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
-                                 T.mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
+                                 T_Mat = matrix(c(-6,1,1,0,2,-8,0,0,2,3,-5,0,0,3,2,-4), nrow = 4)))
 
 RewTransDistribution(x_1, c(0,2,1,0))
 
@@ -1426,7 +1426,20 @@ RewTransDistribution(x_1, c(0,2,1,0))
 \center __SiteFrequencies__ \center
 
 ***
-h
+
+### The site frequency spectrum
+
+The function `SiteFrequencies` is another example of a function that is intended for the use in population genetics. It can be used to find the discrete phase-type representation (i.e. the initial distribution and sub-transition probability matrix) of the site frequencies $\xi_i + 1$, the number of segregating sites $S_{\text{Total}} +1$ and the tail statistics $S_{i+} + 1$ for all $i \in \{1,...,n-1\}$, where $n$ is the desired samle size.\
+The reason for adding one to all of the three waiting times is that the support for discrete phase-type distributions is on the natural numbers excluding zero, which implies that immediate absorbtion would not be possible. By adding one to the waiting times, the waiting time itself can attain the value 0.\
+A more detailed explanation of what the function computes is given in the following.\
+For `nSegSites = TRUE`, the function computes the discrete phase-type representation of the number of segregating sites $S_{\text{Total}} +1 = \xi_1 + \cdots + \xi_{n-1}+1$ for a given sample size $n$ and a nonnegative mutation rate $\lambda$. In order to obtain the representation, the function uses the the block counting process together with the reward transformation and the discretization. All of these three topics are discussed in other sections. In short, we obtain the distribution for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ from the block counting process. Then we use the reward transformation to find the distribution of the total branch length $\tau_{\text{Total}}$. Afterwards, the distribution of the total number of segregating sites $S_{\text{Total}}$ is computed by the aid of the discretization with $\lambda$ being equal to the mutation rate.\
+For `tailStat = TRUE`, the function finds the discrete phase-type representations of the tail statistic $S_{i+} +1= \xi_i + \cdots + \xi_{n-1} +1$ for a given sample size $n$, a value of $1 \leq i \leq n-1$ and a nonnegative mutation rate $\lambda$. Note that $i$ detemines the first term of the tail statistic. As for the number of segregating sites, the function uses the the block counting process together with the reward transformation and the discretization in order to obtain the representation; The distribution for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ is obtained from the block counting process. Then the reward transformation is used to find the distribution of the total length of all branches having $i$ or more descendants, $\tau_{i+}$. Afterwards, the distribution of the tail statistic $S_{i+}$ is computed by the aid of the discretization with $\lambda$ being equal to the mutation rate.\
+Finally, if `nSegSites = FALSE` and `tailStat= FALSE`, the function returns the discrete phase-type reresentation of the $i$'th site frequency $\xi_i$ for a given sample size $n$, a value of $1 \leq i \leq n-1$ and a nonnegative mutation rate $\lambda$. Here $i$ detemines the number of the site frequency that should be considered. As for the number of segregating sites and the tail ststistic $S_{i+}$, the function uses the the block counting process together with the reward transformation and the discretization in order to obtain the representation; The distribution for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ is obtained from the block counting process. Then the reward transformation is used to find the distribution of the total length of all branches having $i$ desendants, $\tau_{i}$. Finally, the distribution of the site frequency $\xi_i$ is computed by the aid of the discretization with $\lambda$ being equal to the mutation rate.\
+\
+Note that the package does also include the function `dSegregatingSites`, which computes the density of the total number of segregating sites $S_{\text{Total}}$ for a given sample size $n$ and a mutation parameter $\theta$, directly. Note also that `SiteFrequencies` uses the package `partitions`. Make sure to install this package to be able to use the function.
+
+#### Example 17
+
 
 ***
 \center __summary__ \center

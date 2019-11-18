@@ -8,15 +8,15 @@
 #' and the tail statistic \eqn{S_{i+} + 1}.
 #' The reason for adding one to the site frequency is that the support for
 #' discrete phase-type distributions is on the natural numbers excluding zero.
-#' Hence, immediate absorbtion would not be possible. By adding one, we allow
+#' Hence, immediate absorption would not be possible. By adding one, we allow
 #' the site frequency to be zero.
 #' Note that the package does also include the function \code{\link{dSegregatingSites}},
 #' which computes the density function of the number of segregating sites
 #' for a given sample size \eqn{n}, a mutation parameter \eqn{\theta} and
-#' a nonnegative vector of quantiles \eqn{k}.
+#' a non-negative vector of quantiles \eqn{k}.
 #'
 #' @param n the sample size (>=3)
-#' @param lambda the nonnegative mutation rate
+#' @param lambda the non-negative mutation rate
 #' @param i either the number of the site frequency that should be considered
 #' or the number of the first term of the tail statistic. In both cases \eqn{1 <= i <= n-1}.
 #' @param nSegSites a logical value indicating whether the function should compute
@@ -27,9 +27,9 @@
 #' If TRUE, \eqn{i} will determine the first term of this statistic. Defaults to FALSE.
 #'
 #' @return If \code{nSegSites = FALSE} and \code{tailStat= FALSE}, the function
-#' returns the distribution of the \eqn{i}'th site frequency \eqn{(\xi_i)} plus one. If \code{nSegSites = TRUE},
-#' the function returns the distribution of the total number of segregating sites plus one, and if
-#' \code{tailStat= TRUE}, the distribution of the tail statistic (which first term
+#' returns the phase-type representation of the \eqn{i}'th site frequency \eqn{(\xi_i)} plus one. If \code{nSegSites = TRUE},
+#' the function returns the phase-type representation of the total number of segregating sites plus one, and if
+#' \code{tailStat= TRUE}, the representation of the tail statistic (which first term
 #' is determined by \eqn{i}) plus one is returned.
 #' In all three cases, the returned object is of type \code{discphasetype}.
 #'
@@ -58,7 +58,7 @@ SiteFrequencies <- function(n,lambda, i=NULL, nSegSites=FALSE, tailStat = FALSE)
   res <- BlockCountProcess(n)
 
   ## The rate matrix
-  Tmat <- res$Rate.mat
+  Tmat <- res$Rate_Mat
   ## and the corresponding inital distribution
   pi.vec <- c(1,replicate(nrow(Tmat)-1,0))
 
@@ -70,7 +70,7 @@ SiteFrequencies <- function(n,lambda, i=NULL, nSegSites=FALSE, tailStat = FALSE)
     ## In order to find the distribution for the number
     ## of segregating sites, we need a reward vector that
     ## correpsonds to xi_1+...+_xi_n-1. Hence
-    r.vec <- rowSums(res$StateSpace.mat)
+    r.vec <- rowSums(res$StateSpace_Mat)
 
     ## As all enties in the reward vector are positive, we
     ## can define the reward-transformed sub-intensity matrix
@@ -92,13 +92,13 @@ SiteFrequencies <- function(n,lambda, i=NULL, nSegSites=FALSE, tailStat = FALSE)
     ## statistic, we need a reward vector that
     ## correpsonds to xi_i+...+_xi_n-1. Hence
     if(length(i:(n-1))==1){
-      r.vec <- res$StateSpace.mat[,(n-1)]
+      r.vec <- res$StateSpace_Mat[,(n-1)]
 
     }else{
 
       if(i < 1 | i > n-1) stop("i must be between 1 and n-1")
 
-      r.vec <- rowSums(res$StateSpace.mat[,i:(n-1)])
+      r.vec <- rowSums(res$StateSpace_Mat[,i:(n-1)])
     }
 
     ## In this case, some of the enties in the reward vector
@@ -118,7 +118,7 @@ SiteFrequencies <- function(n,lambda, i=NULL, nSegSites=FALSE, tailStat = FALSE)
     ## In order to find the distribution for the site
     ## frequency xi_i, we need a reward vector that
     ## correpsonds to xi_i. Hence
-    r.vec <- res$StateSpace.mat[,i]
+    r.vec <- res$StateSpace_Mat[,i]
 
     ## In this case, some of the enties in the reward vector
     ## are zero. Therefore, we have to use the function

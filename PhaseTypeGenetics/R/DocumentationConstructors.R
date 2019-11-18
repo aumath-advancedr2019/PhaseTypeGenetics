@@ -35,23 +35,23 @@
 #' ## initial distribution
 #' initDist <- c(1,0,0)
 #' ## and sub-intensity rate matrix
-#' Tmat <- matrix(c(-6,6,0,
+#' T_Mat <- matrix(c(-6,6,0,
 #'                    0,-3,3,
 #'                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 #'
-#' TMRCA <- contphasetype(initDist, Tmat)
+#' TMRCA <- contphasetype(initDist, T_Mat)
 #'
 #' ## For theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with
 #' ## initial distribution
 #' initDist <- c(1,0,0,0)
 #' ## and sub-transition probability matrix
-#' Pmat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+#' P_Mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
 #'                    0, 0.5, 2/9, 1/9,
 #'                    0, 0, 2/3, 0,
 #'                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 #'
-#' S_Total <- discphasetype(initDist, Pmat)
+#' S_Total <- discphasetype(initDist, P_Mat)
 #'
 #' @describeIn discphasetype Creating an object of type discphasetype
 #' @export

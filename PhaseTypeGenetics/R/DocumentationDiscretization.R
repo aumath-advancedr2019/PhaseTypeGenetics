@@ -42,17 +42,17 @@
 #' ## distributed with initial distribution
 #' initDist <- c(1,0,0,0)
 #' ## and sub-intensity rate matrix
-#' Tmat <- matrix(c(-1.5, 1.5, 0, 0,
+#' T_Mat <- matrix(c(-1.5, 1.5, 0, 0,
 #'                   0, -1, 2/3, 1/3,
 #'                   0, 0, -0.5, 0,
 #'                   0, 0, 0, -0.5), nrow = 4, byrow = TRUE)
 #'
-#' TTotal <- contphasetype(initDist,Tmat)
+#' TTotal <- contphasetype(initDist,T_Mat)
 #'
 #' ## Hence, for theta=2, the number of segregating sites plus one is
 #' ## discrete phase-type distributed with the same initial
 #' ## distribution and sub-transition probability matrix
-#' discretization(TTotal, lambda=1)$P.mat
+#' discretization(TTotal, lambda=1)$P_Mat
 #'
 #' @export
 discretization <- function(object, a=NULL, lambda=NULL){
@@ -61,28 +61,28 @@ discretization <- function(object, a=NULL, lambda=NULL){
 
   if(is.null(lambda)){
 
-    if(is.null(a) | a < max(diag(object$T.mat)) ){stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")}
+    if(is.null(a) | a < max(diag(object$T_Mat)) ){stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")}
 
     res <- discphasetype(initDist = object$initDist,
-                  P.mat = diag(nrow = nrow(object$T.mat))+1/a*object$T.mat)
+                  P_Mat = diag(nrow = nrow(object$T_Mat))+1/a*object$T_Mat)
 
   }else if(is.null(a)){
 
     if(is.null(lambda) | lambda <= 0){stop("Not a valid mutation rate. lambda has to be positive.")}
 
     res <- discphasetype(initDist = object$initDist,
-                         P.mat = solve(diag(nrow = nrow(object$T.mat))-lambda^(-1)*object$T.mat))
+                         P_Mat = solve(diag(nrow = nrow(object$T_Mat))-lambda^(-1)*object$T_Mat))
 
 
   }else{
 
     if(lambda <= 0){stop("Not a valid mutation rate. lambda has to be positive.")}
-    if(a < max(diag(object$T.mat)) )stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")
+    if(a < max(diag(object$T_Mat)) )stop("Not a valid constant a! a has to be bigger than the maximum of all diagonal entries of the subintensity rate matrix.")
 
     res <- list(a = discphasetype(initDist = object$initDist,
-                                  P.mat = diag(nrow = nrow(object$T.mat))+1/a*object$T.mat),
+                                  P_Mat = diag(nrow = nrow(object$T_Mat))+1/a*object$T_Mat),
                 lambda = discphasetype(initDist = object$initDist,
-                                       P.mat = solve(diag(nrow = nrow(object$T.mat))-lambda^(-1)*object$T.mat)))
+                                       P_Mat = solve(diag(nrow = nrow(object$T_Mat))-lambda^(-1)*object$T_Mat)))
   }
   return(res)
 }

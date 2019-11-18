@@ -73,16 +73,16 @@ phsum.discphasetype <- function(object1,object2){
   if(class(object1) != "discphasetype"| class(object2) != "discphasetype") stop("Invalid objects! object1 and object2 must be of class 'discphasetype'.")
 
   initDist1 = object1$initDist
-  P_Mat1 = object1$P.mat
+  P_Mat1 = object1$P_Mat
   initDist2 = object2$initDist
-  P_Mat2 = object2$P.mat
+  P_Mat2 = object2$P_Mat
 
   newInitDist <- c(initDist1,rep(0,length(initDist2)))
-  newP.mat <- rbind(
+  newP_Mat <- rbind(
     cbind(P_Mat1,(1-rowSums(P_Mat1))%*%t(initDist2)),
     cbind(matrix(0, nrow = length(initDist2), ncol = length(initDist1)), P_Mat2))
 
-  return(discphasetype(initDist = newInitDist, P.mat = newP.mat))
+  return(discphasetype(initDist = newInitDist, P_Mat = newP_Mat))
 
 }
 
@@ -91,14 +91,14 @@ phsum.contphasetype <- function(object1,object2){
 
   if(class(object1) != "contphasetype"| class(object2) != "contphasetype") stop("Invalid objects! object1 and object2 must be of class 'contphasetype'.")
   initDist1 = object1$initDist
-  T.mat1 = object1$T.mat
+  T_Mat1 = object1$T_Mat
   initDist2 = object2$initDist
-  T.mat2 = object2$T.mat
+  T_Mat2 = object2$T_Mat
 
   newInitDist <- c(initDist1,rep(0,length(initDist2)))
-  newT.mat <- rbind(
-    cbind(T.mat1, rowSums(-T.mat1) %*% t(initDist2)),
-    cbind(matrix(0, nrow = length(initDist2), ncol = length(initDist1)), T.mat2))
+  newT_Mat <- rbind(
+    cbind(T_Mat1, rowSums(-T_Mat1) %*% t(initDist2)),
+    cbind(matrix(0, nrow = length(initDist2), ncol = length(initDist1)), T_Mat2))
 
-  return(contphasetype(initDist = newInitDist, T.mat = newT.mat))
+  return(contphasetype(initDist = newInitDist, T_Mat = newT_Mat))
 }

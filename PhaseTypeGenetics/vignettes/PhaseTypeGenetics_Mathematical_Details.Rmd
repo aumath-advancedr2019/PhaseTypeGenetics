@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{PhaseTypeGenetics}
+  %\VignetteIndexEntry{PhaseTypeGenetics - With mathematical details}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   \usepackage{dsfont}

@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{PhaseTypeGenetics}
+  %\VignetteIndexEntry{PhaseTypeGenetics - An overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   \usepackage{dsfont}
@@ -563,9 +563,7 @@ Then the density for $\tau$ is given by
 \begin{align*}
 \mathbb{P}(\tau= n) = \pi T^{n-1} t.
 \end{align*}
-for $n \geq 1$, where $t=(I-T)\boldsymbol{e}$.
-\begin{align*}
-
+for $n \geq 1$, where $t=(I-T)\boldsymbol{e}$.\
 
 We also need to take possible defect sizes into account. So let $\tau \sim DPH_{p}(\pi,T)$ with defect size $\pi_{p+1}$, i.e.
 \begin{equation*}
@@ -1000,54 +998,7 @@ where $k\geq 1$. The proof of this equality is quite long and can be seen in [BN
 
 #### - in the continuous case
 
-The Laplace transform can be useful when computing the mean and variance of different types of distributions. Especially in phase-type theory it simplifies these types of computations.\
-In general, the Laplace transform of a non-negative random variable $\tau$ is defined as 
-\begin{equation*}
-L_{\tau}(s) = \mathbb{E}[e^{-s\tau}] = \int_{0}^{\infty} e^{-su} f_{\tau}(u) du,
-\end{equation*}
-where $f_{\tau}(u)$ is the density of the random variable $\tau$.
-Furthermore, the $n$'th derivative of the Laplace transform is given by
-\begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(s) = \int_{0}^{\infty} (-u)^n e^{-su} f_{\tau}(u) du.
-\end{align*}
-When evaluating this derivative at $s=0$, we see that
-\begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du.
-\end{align*}
-We recognize this last integral as the definition of the $n$'th moment of $\tau$, i.e.
-\begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n\int_{0}^{\infty} u^n f_{\tau}(u) du = (-1)^n\mathbb{E}[\tau^n].
-\end{align*}
-Now we can apply this theory on continuous phase-type distributions.\
-As $f_{\tau}(u) = \pi e^{Tu} t$ when $\tau \sim \text{PH}(\pi, T)$, we have that
-\begin{align*}
-L_{\tau}(s) = \pi (sI-T)^{-1}   t.
-\end{align*}
-Now that we have found the Laplace transform, we can compute the derivative
-\begin{align*}
-\frac{\partial}{\partial s} L_{\tau}(s) &= \frac{\partial}{\partial s} \pi (sI-T)^{-1}t\\
-&= -\pi (sI-T)^{-2}t,\\
-\end{align*}
-the second derivative 
-\begin{align*}
-\frac{\partial^2}{\partial s^2} L_{\tau}(s) &= \frac{\partial^2}{\partial s^2} \pi (sI-T)^{-1}t\\
-&= 2\pi (sI-T)^{-3}t,\\
-\end{align*}
-or in general the $n$'th derivative
-\begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(s) &= \frac{\partial^n}{\partial s^n} \pi (sI-T)^{-1}t\\
-&= (-1)^n n! \pi (sI-T)^{-n-1}t,\\
-\end{align*}
-where $n \geq 1$.\
-By evaluating the $n$'th derivative of the Laplace transform at $s=0$, we get that
-\begin{align*}
-\frac{\partial^n}{\partial s^n} L_{\tau}(0) = (-1)^n n! \pi (-T)^{-n}e.
-\end{align*}
-By combining this equality with the fact that $\frac{\partial^n}{\partial s^n} L_{\tau}(0) = (-1)^n\mathbb{E}[\tau^n]$ in general, we have that 
-\begin{align*}
-(-1)^n\mathbb{E}[\tau^n] = \frac{\partial^n}{\partial s^n} L_{\tau}(0) =(-1)^n n! \pi (-T)^{-n}e,
-\end{align*}
-which shows that the $n$'th moment of $\tau$ is given as 
+Now we consider continuous phase-type distributions. Hence, let $\tau \sim \text{PH}(\pi, T)$. Then the $n$'th order moment of $\tau$ is given as 
 \begin{align*}
 \mathbb{E}[\tau^n] =  n! \pi (-T)^{-n}e.
 \end{align*}

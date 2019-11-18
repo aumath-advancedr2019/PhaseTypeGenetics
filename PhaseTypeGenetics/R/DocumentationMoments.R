@@ -89,18 +89,18 @@ moments.discphasetype <- function(object, i, all = FALSE){
   if(!is.logical(all)) stop(" 'all' must be a logical value")
 
   initDist = object$initDist
-  P.mat = object$P.mat
+  P_Mat = object$P_Mat
 
   res <- NULL
   if(all == FALSE){
 
-    res <- factorial(i)*sum(initDist%*%(P.mat%^%(i-1)%*%
-           (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(i))))
+    res <- factorial(i)*sum(initDist%*%(P_Mat%^%(i-1)%*%
+           (solve(diag(1, nrow = nrow(P_Mat))-P_Mat)%^%(i))))
   }else{
     for (k in 1:i){
 
-      res[k] <- factorial(k)*sum(initDist%*%(P.mat%^%(k-1)%*%
-                (solve(diag(1, nrow = nrow(P.mat))-P.mat)%^%(k))))
+      res[k] <- factorial(k)*sum(initDist%*%(P_Mat%^%(k-1)%*%
+                (solve(diag(1, nrow = nrow(P_Mat))-P_Mat)%^%(k))))
     }
     names(res) <- 1:i
   }
@@ -115,16 +115,16 @@ moments.contphasetype <- function(object, i, all = FALSE){
   if(!is.logical(all)) stop(" 'all' must be a logical value")
 
   initDist = object$initDist
-  T.mat = object$T.mat
+  T_Mat = object$T_Mat
 
   res <- NULL
   if(all == FALSE){
 
-    res <- factorial(i)*sum(initDist%*%(solve(-T.mat)%^%(i)))
+    res <- factorial(i)*sum(initDist%*%(solve(-T_Mat)%^%(i)))
   }else{
     for (k in 1:i) {
 
-      res[k] <- factorial(k)*sum(initDist%*%(solve(-T.mat)%^%(k)))
+      res[k] <- factorial(k)*sum(initDist%*%(solve(-T_Mat)%^%(k)))
     }
     names(res) <- 1:i
   }

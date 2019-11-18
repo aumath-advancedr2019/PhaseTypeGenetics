@@ -16,11 +16,11 @@ Theoretical Population Biology, 127, pp. 16-32.
 dSegregatingSites(n, theta, k, plot = FALSE)
 }
 \arguments{
-\item{n}{the sample size (n >= 1)}
+\item{n}{the sample size (n >= 1).}
 
-\item{theta}{the mutation parameter (theta > 0)}
+\item{theta}{the mutation parameter (theta > 0).}
 
-\item{k}{a nonnegative number or a nonnegative vector}
+\item{k}{a non-negative number or a non-negative vector.}
 
 \item{plot}{a logical value indicating whether the function should
 plot the density of the total number of segregating sites for the
@@ -38,7 +38,7 @@ The density function of the total number of segregating sites
 \details{
 The density of the total number of segregating sites can be obtained
 by the aid of the block counting process together with the reward
-transformation and the discretization. For more information on this topic see
+transformation and the discretization. For more information on this topic see \code{vignette("PhaseTypeGenetics")} or
 Hobolth et al. (2019): \emph{Phase-type distributions in population genetics}.
 }
 \examples{
@@ -49,21 +49,21 @@ dSegregatingSites(n=5,theta=2,k=1:20, plot=TRUE)
 
 ## We apply the function for different sample sizes
 ## and theta=2
-k.vec <- 0:15
+k_vec <- 0:15
 theta <- 2
 ## Defining a matrix of results
-Res.mat <- dSegregatingSites(n = 1, theta = theta, k = k.vec)
+Res_Mat <- dSegregatingSites(n = 1, theta = theta, k = k_vec)
 ## And Applying the function for all n in {2,...,20}
 for(n in 2:20){
 
-Res.mat <- cbind(Res.mat, dSegregatingSites(n = n, theta = theta, k = k.vec))
+Res_Mat <- cbind(Res_Mat, dSegregatingSites(n = n, theta = theta, k = k_vec))
 }
 
 ## We reproduce Figure 4.1 in John Wakeley (2009):
 ## "Coalescent Theory: An Introduction",
 ## Roberts and Company Publishers, Colorado.
 ## by using the package plot3D.
-plot3D::hist3D(x=k.vec, y=1:20, z=Res.mat, col = "grey", border = "black",
+plot3D::hist3D(x=k_vec, y=1:20, z=Res_Mat, col = "grey", border = "black",
        xlab = "k", ylab = "n", zlab = "P(S=k)",
        main = "The probability function of the number of segregating sites",
        sub = expression(paste("The mutation parameter is ", theta,"= 2")),

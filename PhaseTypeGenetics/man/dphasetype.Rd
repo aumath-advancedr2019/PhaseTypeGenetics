@@ -27,7 +27,7 @@ quantile function or random generation should be computed. To be able to use
 these function,the object has to be of
 class \code{discphasetype} or \code{contphasetype}.}
 
-\item{x}{a single nonnegative quantile or a vector of nonnegative quantiles.}
+\item{x}{a single non-negative quantile or a vector of non-negative quantiles.}
 
 \item{p}{a single probability or a vector of probabilities.}
 
@@ -46,25 +46,25 @@ an output of length \eqn{n}.
 \description{
 Density, distribution function, quantile function and simulations for
 the phase-type distribution with initial distribution equal to
-\code{initDist} and subtransition/subintensity matrix equal to
-\code{P.mat}/\code{T.mat}.
+\code{initDist} and sub-transition/sub-intensity matrix equal to
+\code{P_Mat}/\code{T_Mat}.
 }
 \details{
 In the discrete case, the phase-type distribution has density
-\deqn{f(x) = initDist (P.mat ^ (x-1))t + (x=1)(1-sum(initDist)), }
-for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P.mat} is the subtransition
+\deqn{f(x) = initDist (P_Mat ^ (x-1))t + (x=1)(1-sum(initDist)), }
+for integers \eqn{x \ge 1}, where \code{initDist} is the initial distribution, \code{P_Mat} is the sub-transition
 probability matrix and \code{t = (I-P)e}. Furthermore, the distribution function
 is given by
-\deqn{F(x) = 1- initDist (P.mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
+\deqn{F(x) = 1- initDist (P_Mat ^ x) e + (x \ge 1)(1-sum(initDist)). }
 If the quantile \eqn{x} is a
 real number, the function will round the number down in order to obtain a
 natural number.
 In the continuous case, the phase-type distribution has density
-\deqn{f(x) = initDist expm(x T.mat) t, for x \ge 0 , }
-where \code{initDist} is the initial distribution, \code{T.mat} is the subintensity
+\deqn{f(x) = initDist expm(x T_Mat) t, for x \ge 0 , }
+where \code{initDist} is the initial distribution, \code{T_Mat} is the sub-intensity
 rate matrix and \code{t = -Te}. Furthermore, the distribution function
 is given by
-\deqn{F(x) = 1- initDist expm(x T.mat) e, for x \ge 0. }
+\deqn{F(x) = 1- initDist expm(x T_Mat) e, for x \ge 0. }
 }
 \examples{
 
@@ -81,8 +81,8 @@ dist[4,] <- dphasetype(T_MRCA$n20, x)
 dist[5,] <- dphasetype(T_MRCA$n50, x)
 dist[6,] <- dphasetype(T_MRCA$n100, x)
 
-## For n=2, the initial distribution is initDist = 1 and the transition probability
-## matrix is T.mat = -1, hence the distribution is given by
+## For n=2, the initial distribution is initDist = 1 and the sub-transition probability
+## matrix is T_Mat = -1, hence the distribution is given by
 dist[1,] <- exp(-x)
 
 plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["MRCA"],
@@ -104,8 +104,8 @@ dist[4,] <- dphasetype(T_Total$n20,x)
 dist[5,] <- dphasetype(T_Total$n50,x)
 dist[6,] <- dphasetype(T_Total$n100,x)
 
-## For n=2, the initial distribution is initDist = 1 and the transition probability
-## matrix is T.mat = -1/2, hence the distribution is given by
+## For n=2, the initial distribution is initDist = 1 and the sub-transition probability
+## matrix is T_Mat = -1/2, hence the distribution is given by
 dist[1,] <- exp(-x/2)/2
 
 plot(x, dist[1,], type = "l", main = expression(paste("The distribution of ", T["Total"],

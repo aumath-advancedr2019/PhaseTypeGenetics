@@ -15,23 +15,23 @@ RewTransDistribution(object, rewards)
 \item{object}{a continuous phase-type distributed object of class \code{contphasetype}.}
 
 \item{rewards}{a non-negative reward vector. The length of the reward vector
-should be equal to the number of rows of the subintensity rate matrix \code{T.mat}.}
+should be equal to the number of rows of the sub-intensity rate matrix \code{T_Mat}.}
 }
 \value{
 The function returns the reward transformed phase-type distribution,
 which is again an object of type \code{contphasetype}.
 }
 \description{
-Reward transforming a continuous phase-type disctribution with initial distribution
-\code{initDist} and sub-intensity rate matrix \code{T.mat}.
+Reward transforming a continuous phase-type distribution with initial distribution
+\code{initDist} and sub-intensity rate matrix \code{T_Mat}.
 }
 \details{
-It is possible to assign a linear (nonnegative) reward to each of the transient states
+It is possible to assign a linear (non-negative) reward to each of the transient states
 of the Markov jump process underlying the phase-type distribution under consideration.
 More precisely, a reward is earned in each transient state and that reward is
 proportional to the time spent in the state. By assigning rewards, the original
 phase-type distribution is transformed into another continuous phase-type distribution.
-The details of the reward transformation can be found in Mogens Bladt and Bo Friis Nielsen (2017):
+More details on the reward transformation can be found in \code{vignette("PhaseTypeGenetics")} or in Mogens Bladt and Bo Friis Nielsen (2017):
 \emph{ Matrix-Exponential Distributions in Applied Probability}.
 }
 \examples{
@@ -39,15 +39,15 @@ The details of the reward transformation can be found in Mogens Bladt and Bo Fri
 ## The time to the most recent common ancestor (T_MRCA)
 ## is phase-type distributed with initial distribution
 initDist <- c(1,0,0,0)
-## and subintensity rate matrix
-Tmat <- matrix(c(-6,6,0,0,
+## and sub-intensity rate matrix
+T_Mat <- matrix(c(-6,6,0,0,
                   0,-3,2,1,
                   0,0,-1,0,
                   0,0,0,-1), nrow = 4, byrow = TRUE)
 ## Defining an object of type "contphasetype"
-TMRCA <- contphasetype(initDist, Tmat)
+TMRCA <- contphasetype(initDist, T_Mat)
 ## In order to obtain the distribution of the total
-## length of all branches giving rise to singeltons,
+## length of all branches giving rise to singletons,
 ## we have to give the following rewards to the
 ## different states
 r.vec <- c(4,2,1,0)

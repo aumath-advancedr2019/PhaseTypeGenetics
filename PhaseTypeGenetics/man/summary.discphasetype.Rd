@@ -15,16 +15,15 @@ the summaries for phase-type distributed objects,the object has to be of
 class \code{discphasetype} or \code{contphasetype}.}
 }
 \value{
-\code{summary} prints
-the initial distribution and the subtransition/subintensity matrix of the
-phase-type distribution. If the sum of all entries in the initial distribution
+\code{summary} prints the initial distribution and the sub-transition/sub-intensity matrix of the
+phase-type representation. If the sum of all entries in the initial distribution
 is less than one, it also prints the defect size \code{(1-sum(initDist))}.
 }
 \description{
 This \code{summary} function is a method that depends on the \code{\link{class}} of the argument.
 For objects of class \code{discphasetype} or \code{contphasetype},
-\code{summary} prints the inital distribution and the
-subtransition/subintensity matrix of the phase-type distribution.
+\code{summary} prints the initial distribution and the
+sub-transition/sub-intensity matrix of the phase-type representation.
 }
 \examples{
 ## Summarising the distribution for the total branch length

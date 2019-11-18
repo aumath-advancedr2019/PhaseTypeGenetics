@@ -7,11 +7,11 @@
 BlockCountProcess(n)
 }
 \arguments{
-\item{n}{the sample size (>=3)}
+\item{n}{the sample size (>=1)}
 }
 \value{
-The function returns a list containing the subintensity
-rate matrix \code{Rate.mat} and the state space matrix \code{StateSpace.mat}.
+The function returns a list containing the sub-intensity
+rate matrix \code{Rate_Mat} and the state space matrix \code{StateSpace_Mat}.
 In the latter, each row corresponds to a state and each state is a
 \eqn{(n-1)}-dimensional row vector.
 }
@@ -26,12 +26,12 @@ coalescent trees. Each coalescent event in these trees correspond
 to a state of the block counting process. Furthermore, each state is
 represented by a \eqn{(n-1)}- dimensional row vector, where each entry \eqn{i}
 corresponds to the number of branches giving rise to \eqn{i}
-descendents. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
-and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)}.
+descendants. Hence, state 1 is always a vector of the form \eqn{(n,0,0,...,0)},
+and state 2 is always given by the vector \eqn{(n-2,1,0,...,0)} eqn{(n >= 3)}.
 }
 \examples{
 a <- BlockCountProcess(4)
-a$Rate.mat
-a$StateSpace.mat
+a$Rate_Mat
+a$StateSpace_Mat
 
 }

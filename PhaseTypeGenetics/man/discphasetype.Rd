@@ -5,38 +5,38 @@
 \alias{contphasetype}
 \title{Phase-type distributed objects}
 \usage{
-discphasetype(initDist, P.mat)
+discphasetype(initDist, P_Mat)
 
-contphasetype(initDist, T.mat)
+contphasetype(initDist, T_Mat)
 }
 \arguments{
 \item{initDist}{a vector holding the initial distribution of the phase-type
 distribution. Hence \code{initDist} should satisfy that all entries are non-negative
 and the sum of the vector must be less than or equal to 1.}
 
-\item{P.mat}{A subtransition probability matrix satisfying that all entries
-are non-negative. Furthermore, \code{P.mat} should be a square matrix, which
-determinant is different from zero. All rows in \code{P.mat} should sum to a
+\item{P_Mat}{A sub-transition probability matrix satisfying that all entries
+are non-negative. Furthermore, \code{P_Mat} should be a square matrix, which
+determinant is different from zero. All rows in \code{P_Mat} should sum to a
 number less than or equal to one, and the length of the initial distribution has to be
-equal to the number of rows of \code{P.mat}.}
+equal to the number of rows of \code{P_Mat}.}
 
-\item{T.mat}{A subintensity rate matrix. The matrix must be invertible, all diagonal
+\item{T_Mat}{A sub-intensity rate matrix. The matrix must be invertible, all diagonal
 entries must be negative and all non-diagonal entries must be non-negative. Also for each
 row the sum of the entries must be non-positive.
 Furthermore, the length of the initial distribution has to be
-equal to the number of rows and number of columns of \code{T.mat}.}
+equal to the number of rows and number of columns of \code{T_Mat}.}
 }
 \value{
 \code{discphasetype} returns a list of class \emph{"discphasetype"}, while
-\code{contcphasetype} returns a list of class \emph{"contphasetype"}. Both lists
+\code{contphasetype} returns a list of class \emph{"contphasetype"}. Both lists
 hold
 \itemize{
-  \item \code{initDist} : The inital distribution
-  \item \code{P.mat}/\code{T.mat} : The subtransition/subintensity matrix
+  \item \code{initDist} : The initial distribution
+  \item \code{P_Mat}/\code{T_Mat} : The sub-transition/sub-intensity matrix
 }
 }
 \description{
-Constructing phase-type distributions
+Constructing phase-type representations
 }
 \details{
 \code{discphasetype} creates an object of class \emph{"discphasetype"}, i.e. the
@@ -54,25 +54,25 @@ object represents a continuous phase-type distribution.
 \examples{
 ## For n=4, the time to the most recent common ancestor is
 ## phase-type distributed with
-## initital distribution
+## initial distribution
 initDist <- c(1,0,0)
 ## and sub-intensity rate matrix
-Tmat <- matrix(c(-6,6,0,
+T_Mat <- matrix(c(-6,6,0,
                    0,-3,3,
                    0,0,-1), nrow = 3, ncol = 3, byrow = TRUE)
 
-TMRCA <- contphasetype(initDist, Tmat)
+TMRCA <- contphasetype(initDist, T_Mat)
 
 ## For theta=2, the number of segregating sites plus one is
 ## discrete phase-type distributed with
-## initital distribution
+## initial distribution
 initDist <- c(1,0,0,0)
 ## and sub-transition probability matrix
-Pmat <- matrix(c(0.4, 0.3, 4/30, 2/30,
+P_Mat <- matrix(c(0.4, 0.3, 4/30, 2/30,
                    0, 0.5, 2/9, 1/9,
                    0, 0, 2/3, 0,
                    0, 0, 0, 2/3), nrow = 4, ncol = 4, byrow = TRUE)
 
-S_Total <- discphasetype(initDist, Pmat)
+S_Total <- discphasetype(initDist, P_Mat)
 
 }

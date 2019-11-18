@@ -15,7 +15,7 @@ SiteFrequencies(n, lambda, i = NULL, nSegSites = FALSE,
 \arguments{
 \item{n}{the sample size (>=3)}
 
-\item{lambda}{the nonnegative mutation rate}
+\item{lambda}{the non-negative mutation rate}
 
 \item{i}{either the number of the site frequency that should be considered
 or the number of the first term of the tail statistic. In both cases \eqn{1 <= i <= n-1}.}
@@ -30,9 +30,9 @@ If TRUE, \eqn{i} will determine the first term of this statistic. Defaults to FA
 }
 \value{
 If \code{nSegSites = FALSE} and \code{tailStat= FALSE}, the function
-returns the distribution of the \eqn{i}'th site frequency \eqn{(\xi_i)} plus one. If \code{nSegSites = TRUE},
-the function returns the distribution of the total number of segregating sites plus one, and if
-\code{tailStat= TRUE}, the distribution of the tail statistic (which first term
+returns the phase-type representation of the \eqn{i}'th site frequency \eqn{(\xi_i)} plus one. If \code{nSegSites = TRUE},
+the function returns the phase-type representation of the total number of segregating sites plus one, and if
+\code{tailStat= TRUE}, the representation of the tail statistic (which first term
 is determined by \eqn{i}) plus one is returned.
 In all three cases, the returned object is of type \code{discphasetype}.
 }
@@ -41,17 +41,17 @@ Finding the distribution of the site frequencies, the number of
 segregating sites and the tail statistics using phase-type distributions.
 }
 \details{
-This function can be used to compute the distribution of the site frequencies
+This function can be used to compute the discrete phase-type representation of the site frequencies
 \eqn{\xi_i + 1}, for all \eqn{i} in eqn{{1,...,n-1}}, the total number of segregating sites \eqn{S_{Total} + 1}
 and the tail statistic \eqn{S_{i+} + 1}.
 The reason for adding one to the site frequency is that the support for
 discrete phase-type distributions is on the natural numbers excluding zero.
-Hence, immediate absorbtion would not be possible. By adding one, we allow
+Hence, immediate absorption would not be possible. By adding one, we allow
 the site frequency to be zero.
 Note that the package does also include the function \code{\link{dSegregatingSites}},
 which computes the density function of the number of segregating sites
 for a given sample size \eqn{n}, a mutation parameter \eqn{\theta} and
-a nonnegative vector of quantiles \eqn{k}.
+a non-negative vector of quantiles \eqn{k}.
 }
 \examples{
 SiteFrequencies(n=4, lambda=1, i=2)

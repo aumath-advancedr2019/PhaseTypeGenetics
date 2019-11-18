@@ -20,16 +20,16 @@ or \code{contphasetype} for which the maximum or minimum should be computed.}
 }
 \value{
 The function \code{minima} returns an object of type \code{discphasetype}
-or \code{contphasetype} (depending on the input) holding the ditribution
+or \code{contphasetype} (depending on the input) holding the phase-type representation
 of the minimum of the input objects, while \code{maxima} returns an object of type \code{discphasetype}
-or \code{contphasetype} that holds the ditribution
+or \code{contphasetype} that holds the phase-type representation
 of the maximum of the input objects.
 }
 \description{
 Computes the minima and maxima of two independent discrete or continuous
 phase-type distributed variables with initial distributions
-\code{initDist1} and \code{initDist2} as well as subtransition/subintensity
-matrices equal to \code{P.mat1}/\code{T.mat1} and  \code{P.mat2}/\code{T.mat2}.
+\code{initDist1} and \code{initDist2} as well as sub-transition/sub-intensity
+matrices equal to \code{P_Mat1}/\code{T_Mat1} and  \code{P_Mat2}/\code{T_Mat2}.
 }
 \details{
 In the discrete case, the minimum and maximum of two phase-type distributed
@@ -37,21 +37,21 @@ variables \eqn{tau1 ~ DPH_p(\alpha,S)} and \eqn{tau2 ~ DPH_q(\beta,T)} are defin
 as follows
 \deqn{min(tau1, tau2) ~ DPH_{pq}( kronecker(\alpha,\beta), kronecker(S,T) ),}
 and
-\deqn{max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(\alpha,\beta),0.vec), K ),}
+\deqn{max(tau1, tau2) ~ DPH_{pq + p + q}( c(kronecker(\alpha,\beta),0_vec), K ),}
 where
-\code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and
+\code{0_vec} is a vector of length \eqn{p+q} with zero in each entry and
 \deqn{K= rbind( cbind(kronecker(S,T), kronecker(S,t),kronecker(s,T) ),
           cbind(matrix(0, ncol = p*q, nrow = p), S , matrix(0, ncol = q, nrow = p)),
           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T)).}
 
-In the continous case, the minima and maxima of two phase-type distributed
+In the continuous case, the minima and maxima of two phase-type distributed
 variables \eqn{X ~ PH_p(\alpha,S)} and \eqn{Y ~ PH_q(\beta,T)} is
 given in the following way
 \deqn{min(X, Y) ~ PH( kronecker(\alpha,\beta), kronecker(S,T) ),}
 and
-\deqn{max(X, Y) ~ PH( c(kronecker(alpha,beta),0.vec), K ),}
+\deqn{max(X, Y) ~ PH( c(kronecker(alpha,beta),0_vec), K ),}
 where
-\code{0.vec} is a vector of length \eqn{p+q} with zero in each entry and
+\code{0_vec} is a vector of length \eqn{p+q} with zero in each entry and
 \deqn{K= rbind( cbind(kronecker(S,T), kronecker(I,t),kronecker(s,I) ),
           cbind(matrix(0, ncol = p*q, nrow = p), S , matrix(0, ncol = q, nrow = p)),
           cbind(matrix(0, ncol = p*q, nrow = q), matrix(0, ncol = p, nrow = q), T)).}

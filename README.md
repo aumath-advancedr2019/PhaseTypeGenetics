@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/aumath-advancedr2019/PhaseTypeGenetics?branch=master&svg=true)](https://ci.appveyor.com/project/JetteS/phasetypegenetics)
+[![Travis-CI build status](https://travis-ci.org/aumath-advancedr2019/PhaseTypeGenetics.svg?branch=master)](https://travis-ci.com/aumath-advancedr2019/PhaseTypeGenetics)
 <!-- badges: end -->
 
 # PhaseTypeGenetics

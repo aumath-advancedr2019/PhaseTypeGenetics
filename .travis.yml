@@ -11,6 +11,8 @@ warnings_are_errors: false
 
 sudo: false
 cache: packages
+apt_packages: 
+ - libpartitions-dev
 
 matrix:
   include:

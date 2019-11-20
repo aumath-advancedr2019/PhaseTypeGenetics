@@ -22,7 +22,7 @@ To learn more about phase-type distributions and their applications in populatio
 ```{r, eval=FALSE}
 ## Installing version from GitHub
 
-devtools::install_github("aumath-advancedr2019/phastypdist/tree/master/PhaseTypeGenetics", build_vignettes = TRUE)
+devtools::install_github("aumath-advancedr2019/PhaseTypeGenetics", build_vignettes = TRUE, dependencies = TRUE)
 
 ```
 

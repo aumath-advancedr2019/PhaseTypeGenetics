@@ -11,12 +11,13 @@ matrix:
   - r: devel
     env: TRAVIS_R_VERSION_STRING=3.6.0
   - r: release
+  - r: release
     pandoc: false
     env: PANDOC='none'
   - r: release
     os: osx
     pandoc: false
+    env: PANDOC='mac-cran'
     latex: false
-  - r: oldrel
   - r: 3.6
 

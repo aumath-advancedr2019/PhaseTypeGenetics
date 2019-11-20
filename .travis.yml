@@ -6,12 +6,10 @@ warnings_are_errors: false
 sudo: false
 cache: packages
 
-r_packages:
- - partitions
-
 matrix:
   include:
   - r: devel
+    env: TRAVIS_R_VERSION_STRING=3.6.0
   - r: release
     pandoc: false
     env: PANDOC='none'
@@ -20,6 +18,5 @@ matrix:
     pandoc: false
     latex: false
   - r: oldrel
-  - r: 3.3
-  - r: 3.2
+  - r: 3.6
 

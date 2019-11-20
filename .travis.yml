@@ -2,22 +2,16 @@
 
 language: r
 
-r:
- - oldrel
- - release
- - devel
-
 warnings_are_errors: false
-
 sudo: false
 cache: packages
+
 r_packages:
  - partitions
 
 matrix:
   include:
   - r: devel
-  - r: release
   - r: release
     pandoc: false
     env: PANDOC='none'

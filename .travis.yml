@@ -1,0 +1,32 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+
+before_install:
+ -cd PhaseTypeGenetics
+
+r:
+ - oldrel
+ - release
+ - devel
+
+warnings_are_errors: false
+
+sudo: false
+cache: packages
+
+matrix:
+  include:
+  - r: devel
+  - r: release
+  - r: release
+    pandoc: false
+    env: PANDOC='none'
+  - r: release
+    os: osx
+    pandoc: false
+    latex: false
+  - r: oldrel
+  - r: 3.3
+  - r: 3.2
+

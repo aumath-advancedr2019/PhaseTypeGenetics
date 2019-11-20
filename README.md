@@ -1,6 +1,6 @@
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/JetteS/phasetypegenetics?branch=master&svg=true)](https://ci.appveyor.com/project/JetteS/phasetypegenetics)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/aumath-advancedr2019/PhaseTypeGenetics?branch=master&svg=true)](https://ci.appveyor.com/project/JetteS/phasetypegenetics)
 <!-- badges: end -->
 
 # PhaseTypeGenetics

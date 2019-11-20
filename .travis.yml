@@ -2,9 +2,6 @@
 
 language: r
 
-before_install:
- -cd PhaseTypeGenetics
-
 r:
  - oldrel
  - release

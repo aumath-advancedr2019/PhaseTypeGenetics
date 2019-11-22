@@ -12,6 +12,8 @@ Description: This package provides several
   includes several functions that are useful 
   in connection to population genetics.
 License: Unlimited
+URL: https://PhaseTypeGenetics.r-lib.org, https://github.com/aumath-advancedr2019/PhaseTypeGenetics
+BugReports: https://github.com/aumath-advancedr2019/PhaseTypeGenetics/issues
 Date: 2019-11-16
 Encoding: UTF-8
 Depends: 

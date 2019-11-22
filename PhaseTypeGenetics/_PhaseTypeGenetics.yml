@@ -1,0 +1,42 @@
+url: https://PhaseTypeGenetics.r-lib.org
+
+home:
+  title: Phase-Type Distributions with Applications in Population Genetics
+  links:
+  - text: Ask a question about PhaseTypeGenetics
+    href: https://github.com/aumath-advancedr2019/PhaseTypeGenetics/issues
+
+template:
+  params:
+    bootswatch: sandstone
+
+development:
+  mode: auto
+
+reference:
+  - title: Phase-type distributions
+    desc:  Analysing phase-type distributions
+    contents:
+    - contphasetype
+    - discphasetype
+    - dphasetype
+    - maxima
+    - phmean
+    - minima
+    - moments
+    - pphasetype
+    - qphasetype
+    - rphasetype
+    - phsum
+    - summary
+    - phvar
+  - title: Applications in population genetics
+    contents:
+    - BlockCountProcess
+    - discretization
+    - dSegregatingSites
+    - RewTransDistribution
+    - SiteFrequencies,
+
+toc:
+  depth: 2

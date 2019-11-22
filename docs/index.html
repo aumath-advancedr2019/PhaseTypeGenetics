@@ -89,36 +89,30 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-
 <div id="phasetypegenetics" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#phasetypegenetics" class="anchor"></a>PhaseTypeGenetics</h1></div>
+<!-- badges: start -->
+
 <p>The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.</p>
 <p>All functions and applications are based on the theory developed in</p>
 <ul>
 <li>[BN] Mogens Bladt and Bo Friis Nielsen (2017): <em>Matrix-Exponential Distributions in Applied Probability</em>. Probability Theory and Stochastic Modelling (Springer), Volume 81</li>
-<li>and [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): <em>Phase-type distributions in population genetics</em>. Theoretical Population Biology, 127, pp. 16-32.</li>
+<li>[HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): <em>Phase-type distributions in population genetics</em>. Theoretical Population Biology, 127, pp. 16-32.</li>
 </ul>
-<p>To learn more about phase-type distributions and their applications in population genetics consider <code><a href="articles/PhaseTypeGenetics.html">vignette("PhaseTypeGenetics")</a></code>.</p>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
-<p>```{r, eval=FALSE}</p>
-</div>
-<div id="installing-version-from-github" class="section level2">
+<p>To learn more about phase-type distributions and their applications in population genetics visit the website <a href="https://aumath-advancedr2019.github.io/PhaseTypeGenetics/" class="uri">https://aumath-advancedr2019.github.io/PhaseTypeGenetics/</a> or consider <code><a href="articles/PhaseTypeGenetics.html">vignette("PhaseTypeGenetics")</a></code>.</p>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installing-version-from-github" class="anchor"></a>Installing version from GitHub</h2>
-<p>devtools::install_github(“aumath-advancedr2019/PhaseTypeGenetics”, build_vignettes = TRUE, dependencies = TRUE)</p>
-<p>```</p>
-<div id="usage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h3>
+<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Installing version from GitHub</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"aumath-advancedr2019/PhaseTypeGenetics"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
 <p>The package PhaseTypeGenetics can be used to analyse phase-type distributions in general, but it also includes some functions that are aimed at the application in population genetics. All of the provided functions can only be used on objects of class <code>discphasetype</code> and <code>contphasetype</code>, hence it is necessary to use the constructors provided with the package.</p>
 </div>
 </div>
-</div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -140,8 +134,8 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Krarup Peter <br><small class="roles"> Author </small>  </li>
-<li>Steinbach Jette <br><small class="roles"> Maintainer, author </small>  </li>
+<li>Peter Krarup <br><small class="roles"> Author </small>  </li>
+<li>Jette Steinbach <br><small class="roles"> Maintainer, author </small>  </li>
 </ul>
 </div>
 
@@ -158,7 +152,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Krarup Peter, Steinbach Jette.</p>
+  <p>Developed by Peter Krarup, Jette Steinbach.</p>
 </div>
 
 <div class="pkgdown">

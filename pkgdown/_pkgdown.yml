@@ -68,7 +68,7 @@ navbar:
       menu:
         - text: "Release notes"
         - text: "Version 0.5.1"
-          href: news/index.html
+          href: news/news-0.5.html
         - text: "------------------"
         - text: "Change log"
           href: news/index.html

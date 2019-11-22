@@ -4,4 +4,7 @@ pkgdown_sha: ~
 articles:
   PhaseTypeGenetics: PhaseTypeGenetics.html
   PhaseTypeGenetics_Mathematical_Details: PhaseTypeGenetics_Mathematical_Details.html
+urls:
+  reference: https://aumath-advancedr2019.github.io/PhaseTypeGenetics//reference
+  article: https://aumath-advancedr2019.github.io/PhaseTypeGenetics//articles
 

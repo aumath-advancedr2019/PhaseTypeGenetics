@@ -40,3 +40,25 @@ reference:
 
 toc:
   depth: 3
+
+news:
+  -one_page: false
+
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: 'An overview'
+        href: articles/PhaseTypeGenetics.html
+      - text: 'Mathematical details'
+        href: articles/PhaseTypeGenetics_Mathematical_Details.html
+    news:
+      text: News
+      menu:
+        - text: "Release notes"
+        - text: "Version 0.5.1"
+          href: news/index.html
+        - text: "------------------"
+        - text: "Change log"
+          href: news/index.html

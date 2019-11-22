@@ -537,7 +537,7 @@ If the given `a` is greater than the maximum of the absolute value of the diagon
 If `lambda` is given then `discretization(object = object,lambda = lambda)` performs the second transformation of the object.  
 It is also possible to give both an `a` and a `lambda`. `discretization(object = object, a = a,lambda = lambda)`, returns a list where the first entry is the first transformation of `object` with `a` and the second entry is the second transformation of `object` with `lambda`.
 
-##### Example 7
+#### Example 7
 
 ```{r}
 x_1 <-  contphasetype(initDist = c(.5,.2,.3,0),
@@ -625,7 +625,7 @@ For an object of type `contphasetype` with initial distribution $\pi$ and sub-tr
 * The initial state $X_1$ is sampled from all states according to the initial distribution $\pi$.
 * As long as $X_t$ is different from the absorbing state $p+1$, $t\geq1$, we add an exponential distributed variable to the waiting time $\tau$, i.e. $\tau = \tau + \lambda$, where $\lambda \sim \text{Exp}(-T[X_t,X_t])$. Furthermore, the current state $X_t$ is sampled among all states $1,...,p+1$ (except for the previous state $X_{t-1}$) according to the rates given in $T$ and the exit rates from $t$.
 
-### Example 8
+#### Example 8
 
 We want to reproduce Figure 3.4 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the distributions of $T_{\text{MRCA}}$ and $T_{\text{Total}}$ for $n \in \{2,5,10,20,50,100\}$. The initial distributions and sub-intensity rate matrices are stored in the datasets `T_MRCA` and `T_Total` that are provided in the package.
 First, we compute the distribution of $T_{\text{MRCA}}$ 
@@ -1177,7 +1177,7 @@ The transformation also impacts the initial distribution, because initializing i
 
 In the `PhaseTypeGenetics` we have implemented the function `RewTransDistribution`. It takes two parameters `object` and `rewards`. `object` is the `contphasetype` basis for the transformation ($\tau$ in the above), and `rewards` is the vector of rewards to transform `object` by($r$ in the above.) The function returns a `contphasetype` object with the parameters obtained from Theorem 3.1.33 in [BN].
 
-##### Example 16
+#### Example 16
 
 ```{r}
 

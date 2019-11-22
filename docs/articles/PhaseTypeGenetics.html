@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PhaseTypeGenetics - An overview • PhaseTypeGenetics</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -57,12 +57,29 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/PhaseTypeGenetics_Mathematical_Details.html">PhaseTypeGenetics - With mathematical details</a>
+      <a href="../articles/PhaseTypeGenetics.html">An overview</a>
+    </li>
+    <li>
+      <a href="../articles/PhaseTypeGenetics_Mathematical_Details.html">Mathematical details</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="../news/index.html">Version 0.5.1</a>
+    </li>
+    <li class="divider">
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -504,9 +521,10 @@ I+a^{-1}T
 <p>The function takes three parameters: <code>object</code>, <code>a</code> and <code>lambda</code>.<br><code>object</code> must be of the class <code>contphasetype</code> and <code>a</code> and <code>lambda</code> mus be numbers greater than 0. <code>a</code> and <code>lambda</code> are both <code>NULL</code> as default. You must give either an <code>a</code> parameter or a <code>lambda</code> parameter.<br>
 If the given <code>a</code> is greater than the maximum of the absolute value of the diagonal entries of the sub-intensity matrix of <code>object</code>, <code><a href="../reference/discretization.html">discretization(object = object,a = a)</a></code> performs the first transformation of the object. If <code>lambda</code> is given then <code><a href="../reference/discretization.html">discretization(object = object,lambda = lambda)</a></code> performs the second transformation of the object.<br>
 It is also possible to give both an <code>a</code> and a <code>lambda</code>. <code><a href="../reference/discretization.html">discretization(object = object, a = a,lambda = lambda)</a></code>, returns a list where the first entry is the first transformation of <code>object</code> with <code>a</code> and the second entry is the second transformation of <code>object</code> with <code>lambda</code>.</p>
-<div id="example-7" class="section level5">
-<h5 class="hasAnchor">
-<a href="#example-7" class="anchor"></a>Example 7</h5>
+</div>
+<div id="example-7" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-7" class="anchor"></a>Example 7</h4>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>x_<span class="dv">1</span> &lt;-<span class="st">  </span><span class="kw"><a href="../reference/discphasetype.html">contphasetype</a></span>(<span class="dt">initDist =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">5</span>,.<span class="dv">2</span>,.<span class="dv">3</span>,<span class="dv">0</span>),</span>
 <span id="cb5-2"><a href="#cb5-2"></a>                                 <span class="dt">T_Mat =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">8</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">4</span>))</span>
 <span id="cb5-3"><a href="#cb5-3"></a></span>
@@ -542,7 +560,6 @@ It is also possible to give both an <code>a</code> and a <code>lambda</code>. <c
 <p><strong>dphasetype, pphasetype, qphasetype &amp; rphasetype</strong> </p>
 <hr>
 <p>This package includes some functions that compute the basic properties of phase-type distributions, i.e. the density, distribution and quantile function as well as simulations.</p>
-</div>
 </div>
 </div>
 <div id="the-density" class="section level3">
@@ -624,10 +641,9 @@ Then the distribution function for <span class="math inline">\(\tau\)</span> is 
 <li>As long as <span class="math inline">\(X_t\)</span> is different from the absorbing state <span class="math inline">\(p+1\)</span>, <span class="math inline">\(t\geq1\)</span>, we add an exponential distributed variable to the waiting time <span class="math inline">\(\tau\)</span>, i.e. <span class="math inline">\(\tau = \tau + \lambda\)</span>, where <span class="math inline">\(\lambda \sim \text{Exp}(-T[X_t,X_t])\)</span>. Furthermore, the current state <span class="math inline">\(X_t\)</span> is sampled among all states <span class="math inline">\(1,...,p+1\)</span> (except for the previous state <span class="math inline">\(X_{t-1}\)</span>) according to the rates given in <span class="math inline">\(T\)</span> and the exit rates from <span class="math inline">\(t\)</span>.</li>
 </ul>
 </div>
-</div>
-<div id="example-8" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-8" class="anchor"></a>Example 8</h3>
+<div id="example-8" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-8" class="anchor"></a>Example 8</h4>
 <p>We want to reproduce Figure 3.4 in John Wakeley (2009): “Coalescent Theory: An Introduction”, Roberts and Company Publishers, Colorado, which displays the distributions of <span class="math inline">\(T_{\text{MRCA}}\)</span> and <span class="math inline">\(T_{\text{Total}}\)</span> for <span class="math inline">\(n \in \{2,5,10,20,50,100\}\)</span>. The initial distributions and sub-intensity rate matrices are stored in the datasets <code>T_MRCA</code> and <code>T_Total</code> that are provided in the package. First, we compute the distribution of <span class="math inline">\(T_{\text{MRCA}}\)</span></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="co">## Defining the vector of quantiles</span></span>
@@ -695,6 +711,7 @@ Then the distribution function for <span class="math inline">\(\tau\)</span> is 
 <hr>
 <p><strong>dSegregatingSites</strong> </p>
 <hr>
+</div>
 </div>
 <div id="the-number-of-segregating-sites-s_texttotal" class="section level3">
 <h3 class="hasAnchor">
@@ -1156,9 +1173,10 @@ The transformation also impacts the initial distribution, because initializing i
 <h4 class="hasAnchor">
 <a href="#the-function" class="anchor"></a>The function</h4>
 <p>In the <code>PhaseTypeGenetics</code> we have implemented the function <code>RewTransDistribution</code>. It takes two parameters <code>object</code> and <code>rewards</code>. <code>object</code> is the <code>contphasetype</code> basis for the transformation (<span class="math inline">\(\tau\)</span> in the above), and <code>rewards</code> is the vector of rewards to transform <code>object</code> by(<span class="math inline">\(r\)</span> in the above.) The function returns a <code>contphasetype</code> object with the parameters obtained from Theorem 3.1.33 in [BN].</p>
-<div id="example-16" class="section level5">
-<h5 class="hasAnchor">
-<a href="#example-16" class="anchor"></a>Example 16</h5>
+</div>
+<div id="example-16" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-16" class="anchor"></a>Example 16</h4>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a></span>
 <span id="cb20-2"><a href="#cb20-2"></a>(x_<span class="dv">2</span> &lt;-<span class="st">  </span><span class="kw"><a href="../reference/discphasetype.html">contphasetype</a></span>(<span class="dt">initDist =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">2</span>,.<span class="dv">7</span>), </span>
 <span id="cb20-3"><a href="#cb20-3"></a>                                <span class="dt">T_Mat =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)))</span>
@@ -1215,7 +1233,6 @@ The transformation also impacts the initial distribution, because initializing i
 <hr>
 <p><strong>SiteFrequencies</strong> </p>
 <hr>
-</div>
 </div>
 </div>
 <div id="the-site-frequency-spectrum" class="section level3">
@@ -1310,8 +1327,34 @@ Note that the package does also include the function <code>dSegregatingSites</co
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction-to-phasetypegenetics">Introduction to PhaseTypeGenetics</a></li>
-      <li><a href="#applications-in-population-genetics">Applications in Population Genetics</a></li>
-      <li><a href="#the-functions">The functions</a></li>
+      <li>
+<a href="#applications-in-population-genetics">Applications in Population Genetics</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#the-wright-fisher-model">The Wright-Fisher model</a></li>
+      <li><a href="#the-phase-type-distribution">The phase-type distribution</a></li>
+      <li><a href="#transformation-via-rewards">Transformation via rewards</a></li>
+      <li><a href="#the-total-branch-length">The total branch length</a></li>
+      <li><a href="#the-site-frequencies">The site frequencies</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#the-functions">The functions</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#the-block-counting-process">The block counting process</a></li>
+      <li><a href="#objects-of-type-discphasetype-and-contphasetype">Objects of type <code>discphasetype</code> and <code>contphasetype</code></a></li>
+      <li><a href="#discretization-of-continuous-phase-type-distributions">Discretization of continuous phase-type distributions</a></li>
+      <li><a href="#the-density">The density</a></li>
+      <li><a href="#the-distribution-function">The distribution function</a></li>
+      <li><a href="#the-quantile-function">The quantile function</a></li>
+      <li><a href="#simulations">Simulations</a></li>
+      <li><a href="#the-number-of-segregating-sites-s_texttotal">The number of segregating sites <span class="math inline">\(S_{\text{Total}}\)</span></a></li>
+      <li><a href="#extrema-of-two-independent-phase-type-distributions">Extrema of two independent phase-type distributions</a></li>
+      <li><a href="#mean-and-variance">Mean and variance</a></li>
+      <li><a href="#moments-and-factorial-moments">Moments and factorial moments</a></li>
+      <li><a href="#sums-of-independent-phase-type-distributions">Sums of independent phase-type distributions</a></li>
+      <li><a href="#transformation-via-rewards-1">Transformation via rewards</a></li>
+      <li><a href="#the-site-frequency-spectrum">The site frequency spectrum</a></li>
+      <li><a href="#summaries">Summaries</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

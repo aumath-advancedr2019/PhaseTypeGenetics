@@ -14,6 +14,10 @@ development:
   mode: auto
 
 reference:
+  - title: PhaseTypeGenetics
+    desc: The package documentation
+    contents:
+    - PhaseTypeGenetics
   - title: Phase-type distributions
     desc:  Analysing phase-type distributions
     contents:
@@ -28,21 +32,27 @@ reference:
     - qphasetype
     - rphasetype
     - phsum
-    - summary
+    - starts_with("summary")
     - phvar
   - title: Applications in population genetics
+    desc: The package includes some functions that are useful in connection to population genetics
     contents:
     - BlockCountProcess
     - discretization
     - dSegregatingSites
     - RewTransDistribution
-    - SiteFrequencies,
+    - SiteFrequencies
+  - title: Data
+    contents: 
+    - T_MRCA
+    - T_Total
 
 toc:
   depth: 3
 
+
 news:
-  -one_page: false
+  - one_page: false
 
 navbar:
   components:

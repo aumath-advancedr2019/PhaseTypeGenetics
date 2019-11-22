@@ -1,4 +1,4 @@
-url: https://phasetypegenetics.r-lib.org
+url: https://aumath-advancedr2019.github.io/PhaseTypeGenetics/ 
 
 home:
   title: Phase-Type Distributions with Applications in Population Genetics
@@ -39,4 +39,4 @@ reference:
     - SiteFrequencies,
 
 toc:
-  depth: 2
+  depth: 3

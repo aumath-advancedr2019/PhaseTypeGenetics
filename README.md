@@ -6,15 +6,15 @@
 [![Travis-CI build status](https://travis-ci.org/aumath-advancedr2019/PhaseTypeGenetics.svg?branch=master)](https://travis-ci.com/aumath-advancedr2019/PhaseTypeGenetics)
 <!-- badges: end -->
 
-The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.\
+The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.
 
 All functions and applications are based on the theory developed in 
 
 * [BN] Mogens Bladt and Bo Friis Nielsen (2017): 
-  \emph{ Matrix-Exponential Distributions in Applied Probability}. 
+  *Matrix-Exponential Distributions in Applied Probability*. 
   Probability Theory and Stochastic Modelling (Springer), Volume 81 
-* and [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
-  \emph{Phase-type distributions in population genetics}. 
+* [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
+  *Phase-type distributions in population genetics*. 
   Theoretical Population Biology, 127, pp. 16-32.
 
 To learn more about phase-type distributions and their applications in population genetics visit the website <https://aumath-advancedr2019.github.io/PhaseTypeGenetics/> or consider `vignette("PhaseTypeGenetics")`.

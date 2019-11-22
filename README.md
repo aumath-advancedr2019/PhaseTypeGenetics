@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/aumath-advancedr2019/PhaseTypeGenetics?branch=master&svg=true)](https://ci.appveyor.com/project/JetteS/phasetypegenetics)
-[![Travis-CI build status](https://travis-ci.org/aumath-advancedr2019/PhaseTypeGenetics.svg?branch=master)](https://travis-ci.com/aumath-advancedr2019/PhaseTypeGenetics)
+[![Travis-CI build status](https://travis-ci.com/aumath-advancedr2019/PhaseTypeGenetics.svg?branch=master)](https://travis-ci.com/aumath-advancedr2019/PhaseTypeGenetics)
 <!-- badges: end -->
 
 The aim of this package is to provide the user with some comprehensive tools to analyse discrete and continuous phase-type distributions. As recent research confirms the applicability of phase-type theory in population genetics, most of the examples provided in the package are based on coalescent theory. In addition, the package provides some function that are intended for the use in population genetics only.

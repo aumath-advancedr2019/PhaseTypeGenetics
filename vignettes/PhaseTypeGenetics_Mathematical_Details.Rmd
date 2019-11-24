@@ -31,7 +31,7 @@ All functions and applications are based on the theory developed in
 * [BN] Mogens Bladt and Bo Friis Nielsen (2017): 
   \emph{ Matrix-Exponential Distributions in Applied Probability}. 
   Probability Theory and Stochastic Modelling (Springer), Volume 81 
-* and [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
+* [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): 
   \emph{Phase-type distributions in population genetics}. 
   Theoretical Population Biology, 127, pp. 16-32.
 
@@ -962,11 +962,11 @@ We can write
 \end{equation*}
 meaning that $\max(X,Y)$ is exactly the stopping time for absorption of $\{Z(t)\}_{t\geq0}$ which shows the sub-intensity matrix for $\max(X,Y)$.
 From $\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}$ we can make yet another Markov Jump Process $\{W(t)\}_{t\geq0}$ by setting
-\begin{equation*W(t)=\begin{cases}Y(t),& \text{ if } X_1(t)\leq p \text{ and } Y_1(t)\leq q,\\
+\begin{equation*}W(t)=\begin{cases}Y(t),& \text{ if } X_1(t)\leq p \text{ and } Y_1(t)\leq q,\\
                     (p+1,1),& \text{otherwise}\end{cases}.
 \end{equation*}
 Then $\{W(t)\}_{t\geq0}$ is a Markov Jump Process with rate matrix
-\begin{equation*\begin{pmatrix}S\oplus T & r\\
+\begin{equation*}\begin{pmatrix}S\oplus T & r\\
                  0 & 1\end{pmatrix},
 \end{equation*}
 where $r=e-(S\oplus T)e$. We can write 
@@ -1040,7 +1040,7 @@ and that
 
 We want to reproduce Figure 3.3 in John Wakeley (2009): "Coalescent Theory: An Introduction", Roberts and Company Publishers, Colorado, which displays the
 dependence of $\mathbb{E}[\tau_{\text{MRCA}}]$ and $\mathbb{E}[\tau_{\text{Total}}]$ on the sample size $n$.\
-We begin with a sample size of $n=2$. In that case, the initial distribution is $\pi=1$ and the sub-transition probability matrix is equal to -1 for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ and $-\tfrac{1}{2}$ for the total branch length $\tau_{\text{Total}}$. Therefore, the means are given as
+We begin with a sample size of $n=2$. In that case, the initial distribution is $\pi=1$ and the subintensity rate matrix is equal to -1 for the waiting time to the most recent common ancestor $\tau_{\text{MRCA}}$ and $-\tfrac{1}{2}$ for the total branch length $\tau_{\text{Total}}$. Therefore, the means are given as
 \begin{equation*}
 \mathbb{E}[\tau_{\text{MRCA}}] =  \pi (-T)^{-1}e = 1 (-(-1))^{-1} 1 = 1
 \end{equation*}

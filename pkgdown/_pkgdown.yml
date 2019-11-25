@@ -1,14 +1,15 @@
 url: https://aumath-advancedr2019.github.io/PhaseTypeGenetics/ 
 
+template:
+  params:
+    bootswatch: sandstone
+
 home:
   title: Phase-Type Distributions with Applications in Population Genetics
   links:
   - text: Ask a question about PhaseTypeGenetics
     href: https://github.com/aumath-advancedr2019/PhaseTypeGenetics/issues
 
-template:
-  params:
-    bootswatch: sandstone
 
 development:
   mode: auto
@@ -49,7 +50,6 @@ reference:
 
 toc:
   depth: 3
-
 
 news:
   - one_page: false

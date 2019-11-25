@@ -133,7 +133,7 @@
 <p>All functions and applications are based on the theory developed in</p>
 <ul>
 <li>[BN] Mogens Bladt and Bo Friis Nielsen (2017): . Probability Theory and Stochastic Modelling (Springer), Volume 81</li>
-<li>and [HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): . Theoretical Population Biology, 127, pp. 16-32.</li>
+<li>[HSB] Asger Hobolth, Arno Siri-Jégousse, Mogens Bladt (2019): . Theoretical Population Biology, 127, pp. 16-32.</li>
 </ul>
 </div>
 <div id="defining-phase-type-distributions" class="section level2">
@@ -917,7 +917,7 @@ This theorem is implemented in the <code>minima</code>- and <code>maxima</code>-
 <div id="in-the-continuous-case-3" class="section level4">
 <h4 class="hasAnchor">
 <a href="#in-the-continuous-case-3" class="anchor"></a>- in the continuous case</h4>
-Consider <span class="math inline">\(X\sim PH_{p}(\alpha,S)\)</span> and <span class="math inline">\(Y\sim PH_{q}(\beta,T)\)</span> independent. Then by Corollary 3.1.32 in [BN] <span class="math display">\[\begin{equation*}
+<p>Consider <span class="math inline">\(X\sim PH_{p}(\alpha,S)\)</span> and <span class="math inline">\(Y\sim PH_{q}(\beta,T)\)</span> independent. Then by Corollary 3.1.32 in [BN] <span class="math display">\[\begin{equation*}
 \min(X,Y)\sim PH_{pq}(\alpha\otimes\beta,S\oplus T),
 \end{equation*}\]</span> and <span class="math display">\[\begin{equation*}
 \max(X,Y)\sim PH_{pq+p+q}(\begin{pmatrix}\alpha\otimes\beta &amp; 0 &amp; 0\end{pmatrix},K).
@@ -935,10 +935,11 @@ Q_2=\begin{pmatrix}T &amp; t\\ 0 &amp; 0\end{pmatrix}.
                                 0 &amp; 0 &amp; 0 &amp; 0
                 \end{pmatrix}.
 \end{equation*}\]</span> We can write <span class="math display">\[\begin{equation*}\max(X,Y)=\inf\{t\geq0\in\mathbb{N}:X_1(t)=p+1\text{ and } Y_1(t)=q+1\}=\inf\{t\geq0:Z(t)=(p+1,q+1)\},
-\end{equation*}\]</span> meaning that <span class="math inline">\(\max(X,Y)\)</span> is exactly the stopping time for absorption of <span class="math inline">\(\{Z(t)\}_{t\geq0}\)</span> which shows the sub-intensity matrix for <span class="math inline">\(\max(X,Y)\)</span>. From <span class="math inline">\(\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}\)</span> we can make yet another Markov Jump Process <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> by setting \begin{equation<em>W(t)=\begin{cases}Y(t),&amp;  X_1(t)p  Y_1(t)q,\ (p+1,1),&amp; \end{cases}. \end{equation</em>} Then <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> is a Markov Jump Process with rate matrix \begin{equation*
-<span class="math display">\[\begin{pmatrix}S\oplus T &amp; r\\
-                 0 &amp; 1\end{pmatrix}\]</span>
-<p>, \end{equation*} where <span class="math inline">\(r=e-(S\oplus T)e\)</span>. We can write <span class="math display">\[\begin{equation*}\min(X,Y)=\inf\{t\geq0:X_1(t)&gt;p\text{ and } Y_1(t)&gt;q\}=\inf\{t\geq0:W(t)=(p+1,1)\},
+\end{equation*}\]</span> meaning that <span class="math inline">\(\max(X,Y)\)</span> is exactly the stopping time for absorption of <span class="math inline">\(\{Z(t)\}_{t\geq0}\)</span> which shows the sub-intensity matrix for <span class="math inline">\(\max(X,Y)\)</span>. From <span class="math inline">\(\{Z(t)\}_{t\geq0}=\{(X_1(t),Y_1(t))\}_{t\geq0}\)</span> we can make yet another Markov Jump Process <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> by setting <span class="math display">\[\begin{equation*}W(t)=\begin{cases}Y(t),&amp; \text{ if } X_1(t)\leq p \text{ and } Y_1(t)\leq q,\\
+                    (p+1,1),&amp; \text{otherwise}\end{cases}.
+\end{equation*}\]</span> Then <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> is a Markov Jump Process with rate matrix <span class="math display">\[\begin{equation*}\begin{pmatrix}S\oplus T &amp; r\\
+                 0 &amp; 1\end{pmatrix},
+\end{equation*}\]</span> where <span class="math inline">\(r=e-(S\oplus T)e\)</span>. We can write <span class="math display">\[\begin{equation*}\min(X,Y)=\inf\{t\geq0:X_1(t)&gt;p\text{ and } Y_1(t)&gt;q\}=\inf\{t\geq0:W(t)=(p+1,1)\},
 \end{equation*}\]</span> meaning that <span class="math inline">\(\min(X,Y)\)</span> is exactly the stopping time for absorption of <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> which shows the sub-intensity matrix for <span class="math inline">\(\min(X,Y)\)</span>.<br>
 Initializing <span class="math inline">\(\{Z(t)\}_{t\geq0}\)</span> with <span class="math inline">\(\begin{pmatrix}\alpha\otimes\beta &amp; 0 &amp; 0 &amp; 0\end{pmatrix}\)</span> and <span class="math inline">\(\{W(t)\}_{t\geq0}\)</span> with <span class="math inline">\(\begin{pmatrix}\alpha\otimes\beta &amp; 0\end{pmatrix}\)</span>, is precisely the way to initialize the underlying <span class="math inline">\(\{X_1(t)\}_{t\geq0}\)</span> and <span class="math inline">\(\{Y_1(t)\}_{t\geq0}\)</span> with <span class="math inline">\(\begin{pmatrix}\alpha &amp; 0\end{pmatrix}\)</span> and <span class="math inline">\(\begin{pmatrix}\beta &amp; 0\end{pmatrix}\)</span> respectively.<br>
 This result is implemented in the <code>phasemin</code> and <code>phasemax</code> functions. They take two phase-type objects as input and if both of these are of the <code>contphasetype</code>class, then they each output an object of the <code>contphasetype</code>class with parameters calculated from the parameters of the given objects in accordance with the above theorem.</p>
@@ -1026,7 +1027,7 @@ This result is implemented in the <code>phasemin</code> and <code>phasemax</code
 <h4 class="hasAnchor">
 <a href="#example-12" class="anchor"></a>Example 12</h4>
 <p>We want to reproduce Figure 3.3 in John Wakeley (2009): “Coalescent Theory: An Introduction”, Roberts and Company Publishers, Colorado, which displays the dependence of <span class="math inline">\(\mathbb{E}[\tau_{\text{MRCA}}]\)</span> and <span class="math inline">\(\mathbb{E}[\tau_{\text{Total}}]\)</span> on the sample size <span class="math inline">\(n\)</span>.<br>
-We begin with a sample size of <span class="math inline">\(n=2\)</span>. In that case, the initial distribution is <span class="math inline">\(\pi=1\)</span> and the sub-transition probability matrix is equal to -1 for the waiting time to the most recent common ancestor <span class="math inline">\(\tau_{\text{MRCA}}\)</span> and <span class="math inline">\(-\tfrac{1}{2}\)</span> for the total branch length <span class="math inline">\(\tau_{\text{Total}}\)</span>. Therefore, the means are given as <span class="math display">\[\begin{equation*}
+We begin with a sample size of <span class="math inline">\(n=2\)</span>. In that case, the initial distribution is <span class="math inline">\(\pi=1\)</span> and the subintensity rate matrix is equal to -1 for the waiting time to the most recent common ancestor <span class="math inline">\(\tau_{\text{MRCA}}\)</span> and <span class="math inline">\(-\tfrac{1}{2}\)</span> for the total branch length <span class="math inline">\(\tau_{\text{Total}}\)</span>. Therefore, the means are given as <span class="math display">\[\begin{equation*}
 \mathbb{E}[\tau_{\text{MRCA}}] =  \pi (-T)^{-1}e = 1 (-(-1))^{-1} 1 = 1
 \end{equation*}\]</span> and <span class="math display">\[\begin{equation*}
 \mathbb{E}[\tau_{\text{Total}}] =  \pi (-T)^{-1}e = 1 (-(-\tfrac{1}{2}))^{-1} 1 = 2

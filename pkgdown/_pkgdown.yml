@@ -3,6 +3,9 @@ url: https://aumath-advancedr2019.github.io/PhaseTypeGenetics/
 template:
   params:
     bootswatch: sandstone
+    docsearch:
+      api_key: 7f428bb25bb97053c64a4de846250800
+      index_name: phasetypegenetics
 
 home:
   title: Phase-Type Distributions with Applications in Population Genetics
